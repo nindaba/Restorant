@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/item-service/item")
+//Todo to be configured in security
 @CrossOrigin
 public class ItemController {
     @Autowired
