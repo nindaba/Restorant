@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("item-service/category")
+//To be configured in Security
 @CrossOrigin
 public class CategoryController {
     @Autowired
