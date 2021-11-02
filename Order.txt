@@ -1,0 +1,13 @@
+#This service will manage order
+#Main Jobs
+
+*Store Orders according with a schema of:{
+	userId,
+	List OrderedItems:{
+		ItemId,
+		NumberOfItems	
+	}
+	dateTime,
+	status,
+*Give State to orders: New,inProcess,Served;
+*save Performance of Restorant and client topic
