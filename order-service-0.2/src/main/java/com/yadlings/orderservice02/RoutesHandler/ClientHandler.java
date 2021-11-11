@@ -22,30 +22,17 @@ public class ClientHandler {
                         .ok()
                         .body(orderId,String.class));
     }
-
-    public Mono<ServerResponse> getOrder(ServerRequest serverRequest) {
-        var clientId = serverRequest.pathVariable("clientId");
-        return ServerResponse
-                .ok()
-                .contentType(MediaType.TEXT_EVENT_STREAM)
-                .body(orderService.getAll(clientId),Order.class);
-    }
-    public Mono<ServerResponse> getOrderById(ServerRequest serverRequest) {
-        return null;
-    }
-
     public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
         return null;
     }
 
-    public Mono<ServerResponse> deleteAll(ServerRequest serverRequest) {
-        return null;
-    }
-
-    public Mono<ServerResponse> deleteById(ServerRequest serverRequest) {
-        return null;
-    }
-
-    public Mono<ServerResponse> getAllOrder(ServerRequest serverRequest) {
+    public Mono<ServerResponse> getClientOrder(ServerRequest serverRequest) {
+        var clientId = serverRequest.pathVariable("clientId");
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(orderService.getAll()
+                        .filter(order -> clientId.equals(order.getClientId())),
+                        Order.class);
     }
 }

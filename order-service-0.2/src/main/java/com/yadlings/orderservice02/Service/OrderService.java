@@ -28,11 +28,10 @@ public class OrderService {
                 .flatMap(kafkaService::sendToTopics)
                 .map(Order::getOrderId);
     }
-    public Flux<Order> getAll(String clientId){
+    public Flux<Order> getAll(){
         return Flux.merge(orderRepository.findAll(), kafkaService.receive()
                 .map(ReceiverRecord::value)
-                .map(Order::deserialize))
-                .filter(order -> clientId.equals(order.getClientId()));
+                .map(Order::deserialize));
     }
 //    public ResponseEntity<Order> getByOrderId(String orderId){
 //        return orderRepository
