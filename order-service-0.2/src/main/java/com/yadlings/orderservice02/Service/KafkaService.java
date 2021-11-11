@@ -102,6 +102,13 @@ public class KafkaService {
                 .then()
                 .map(voidValue -> order);
     }
+    public Mono<Order> sendToClient(Mono<Order> order){
+        return kafkaSender
+                .createOutbound()
+                .send(order.map(record -> new ProducerRecord<>(CLIENT_TOPIC, record.getOrderId(), record.serialize())))
+                .then()
+                .flatMap(voidValue -> order);
+    }
     public Mono<Order> sendToTopics(Order order) {
         return kafkaSender
                 .createOutbound()

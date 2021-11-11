@@ -1,11 +1,13 @@
 package com.yadlings.orderservice02.RoutesHandler;
 
 import com.yadlings.orderservice02.Documents.Order;
+import com.yadlings.orderservice02.Models.UpdateResponse;
 import com.yadlings.orderservice02.Service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -22,9 +24,9 @@ public class EmployeeHandler {
     public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(Order.class)
-                .map(orderService::update)
-                .flatMap(orderId -> ServerResponse
-                        .ok()
-                        .body(orderId,String.class));
+                .flatMap(orderService::update)
+                .flatMap(response -> ServerResponse
+                        .status(response.getStatus())
+                        .body(Flux.just(response), UpdateResponse.class));
     }
 }

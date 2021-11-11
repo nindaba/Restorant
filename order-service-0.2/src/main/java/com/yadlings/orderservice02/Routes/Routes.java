@@ -21,7 +21,6 @@ public class Routes {
                 .route()
                 .POST("/client-order",clientHandler::saveOrder)
                 .GET("/client-order/{clientId}",clientHandler::getClientOrder)
-                .PUT(clientHandler::updateOrder)
                 .build();
     }
     @Bean
