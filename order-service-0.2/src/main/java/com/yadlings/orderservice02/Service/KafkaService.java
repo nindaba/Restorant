@@ -92,6 +92,11 @@ public class KafkaService {
                 .then()
                 .map(voidValue -> order);
     }
+    /**
+     * This method will send the record to client topic
+     * @param order
+     * @return Mono of Order
+     */
     public Mono<Order> sendToClient(Order order){
         return kafkaSender
                 .createOutbound()

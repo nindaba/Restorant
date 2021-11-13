@@ -50,28 +50,12 @@ public class OrderService {
      * @param order
      * @return Mono<UpdateResponse>
      */
-    public Mono<UpdateResponse> update(Order order) {
+    public Mono<Order> update(Order order) {
         return orderRepository
                 .findById(order.getOrderId())
-                .map(foundOrder-> orderRepository.save(order))
-                .flatMap(kafkaService::sendToClient)
-                .map(this::transformToUpdateResponse);
+                .flatMap(foundOrder-> orderRepository.save(order))
+                .flatMap(kafkaService::sendToClient);
     }
-    private UpdateResponse transformToUpdateResponse(Order order){
-        return new UpdateResponse(
-                "Order with Id "+order.getOrderId()+" Was Updated",
-                "UPDATE",
-                HttpStatus.OK,
-                LocalDateTime.now().toString());
-    }
-    private UpdateResponse notFoundResponse(){ 
-        return new UpdateResponse(
-                "Order to update was not found",
-                "UPDATE",
-                HttpStatus.NOT_FOUND,
-                LocalDateTime.now().toString());
-    }
-
 
 
 
