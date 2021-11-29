@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,6 +20,6 @@ public class Category {
     @Indexed(unique = true)
     private String name;
     private String image;
-    private List<String> items;
+    private List<String> items = new ArrayList();
     private String Description;
 }

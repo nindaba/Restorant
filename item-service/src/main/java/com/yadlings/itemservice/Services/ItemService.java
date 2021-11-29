@@ -3,6 +3,7 @@ package com.yadlings.itemservice.Services;
 import com.yadlings.itemservice.Documents.Item;
 import com.yadlings.itemservice.Repositories.CategoryRepository;
 import com.yadlings.itemservice.Repositories.ItemRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,12 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Service
+@AllArgsConstructor
 public class ItemService implements ItemServiceInterface{
-    @Autowired
     private ItemRepository repository;
-    @Autowired
     private CategoryRepository categoryRepository;
+
     @Override
+    /**
+     * We will have only one get Method becaouse:
+     * we can not just get alllllll the database items , instead we get the requested one
+     * and bunch of the Items will be called by the owner category item "If you recall each category has items"
+     */
     public ResponseEntity<Item> getItem(String id) {
         return repository
                 .findById(id)

@@ -8,10 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
+import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @AllArgsConstructor
@@ -23,12 +25,12 @@ public class Order {
     private String orderId;
     private String clientId;
     private List<OrderedItem> orderItems = new ArrayList<>();
-    private OrderStatus status = OrderStatus.ORDERED;
+    private OrderStatus status = new OrderStatus();
     private Double totalPrice = 0.0;
     private Long timeCreated = new Date().getTime();
     private Long timeUpdated = new Date().getTime();
 
-    public Order(String clientId){this.clientId = clientId;}
+//    public Order(String clientId){this.clientId = clientId;}
 
     /**
      * @return The Total price of All Ordered Items

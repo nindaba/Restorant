@@ -1,22 +1,16 @@
 package com.yadlings.orderservice02.Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yadlings.orderservice02.Common.OrderResponseTransformer;
 import com.yadlings.orderservice02.Documents.Order;
 import com.yadlings.orderservice02.Models.UpdateResponse;
 import com.yadlings.orderservice02.Repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.kafka.receiver.ReceiverRecord;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +21,7 @@ public class OrderService {
     /**
      * This will save an Order and return its new Id
      * @param order
-     * @return Mono<String>
+     * @return Mono <String>
      */
     public Mono<String> save(Order order){
         return orderRepository.save(order)
@@ -40,9 +34,11 @@ public class OrderService {
      * @return Flux<Order>
      */
     public Flux<Order> getAll(){
-        return Flux.merge(orderRepository.findAll(), kafkaService.receive()
-                .map(ReceiverRecord::value)
-                .map(Order::deserialize));
+        return Flux.merge(
+                orderRepository.findAll(),
+                kafkaService.receive()
+                        .map(ReceiverRecord::value)
+                        .map(Order::deserialize));
     }
     /**
      * This will update the record in the database if it is present
@@ -64,18 +60,13 @@ public class OrderService {
                 HttpStatus.OK,
                 LocalDateTime.now().toString());
     }
-    private UpdateResponse notFoundResponse(){ 
+    private UpdateResponse notFoundResponse(){
         return new UpdateResponse(
                 "Order to update was not found",
                 "UPDATE",
                 HttpStatus.NOT_FOUND,
                 LocalDateTime.now().toString());
     }
-
-
-
-
-
 //    public ResponseEntity<Order> getByOrderId(String orderId){
 //        return orderRepository
 //                .findById(orderId)

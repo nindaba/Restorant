@@ -1,19 +1,21 @@
 package com.yadlings.orderservice02;
 
-import com.yadlings.orderservice02.Service.KafkaService;
-import lombok.extern.log4j.Log4j2;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.config.EnableWebFlux;
-import reactor.core.publisher.Flux;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-import java.util.UUID;
-
+import java.util.Arrays;
 @SpringBootApplication
-@EnableWebFlux
-@Log4j2
 public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

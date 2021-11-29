@@ -1,0 +1,8 @@
+
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: payment_route
+#          uri: lb://PAYMENTAPP
+#          predicates:
+#            - path=/Payment/**

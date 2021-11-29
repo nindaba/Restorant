@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class Item {
     private String id;
     @Indexed(unique = true)
     private String name;
-    private List<String> images;
+    private List<String> images = new ArrayList();
     private String category;
     private double price = 0.0;
     private String Description;

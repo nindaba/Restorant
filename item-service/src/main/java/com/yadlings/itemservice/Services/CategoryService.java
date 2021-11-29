@@ -5,6 +5,7 @@ import com.yadlings.itemservice.Documents.Item;
 import com.yadlings.itemservice.Models.CategoryItemModel;
 import com.yadlings.itemservice.Repositories.CategoryRepository;
 import com.yadlings.itemservice.Repositories.ItemRepository;
+import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,15 +16,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
-    @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
     private ItemRepository itemRepository;
 
     /**
@@ -100,6 +103,13 @@ public class CategoryService {
 
 
     }
+
+    /**
+     * This will get all the items.Id in the category and use the item repository to retrieve them
+     * therefore ty will all be mapped to Category Item Model
+     * @param category
+     * @return CategoryItemModel
+     */
     private CategoryItemModel transformToCategoryItem(Category category) {
         List<Item> items = category
                 .getItems()
