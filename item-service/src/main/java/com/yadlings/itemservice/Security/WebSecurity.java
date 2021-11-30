@@ -33,7 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/item-service/*", HttpMethod.GET.name()).permitAll()
-//                .anyRequest().hasAnyAuthority(UserType.EMPLOYEE.toString())
+                .antMatchers("/item-service/*").hasAnyAuthority(UserType.EMPLOYEE.toString())
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new AuthFilter(secret), UsernamePasswordAuthenticationFilter.class);

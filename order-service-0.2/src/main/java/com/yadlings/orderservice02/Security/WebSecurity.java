@@ -26,7 +26,7 @@ public class WebSecurity{
     @Value("${allowed.origins}")
     private String origins;
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) throws Exception{
+    public SecurityWebFilterChain webFilterChain(ServerHttpSecurity httpSecurity) throws Exception{
         return httpSecurity
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -67,15 +67,5 @@ public class WebSecurity{
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-    public CorsWebFilter corsWebFilter(){
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(origins));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setMaxAge(100000L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return new CorsWebFilter(source);
     }
 }

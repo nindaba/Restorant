@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
+
 @RestController
 @AllArgsConstructor
-@RequestMapping(value="/user-service")
+@RequestMapping(SERVICE_END_POINT)
 public class UserController {
     private UserService userService;
     @PostMapping(value = "/register-client")

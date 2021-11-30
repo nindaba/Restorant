@@ -1,11 +1,15 @@
 package com.yadlings.orderservice02.Service;
 
 import com.yadlings.orderservice02.Documents.Order;
+import org.apache.kafka.clients.admin.Admin;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.config.TopicBuilder;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
@@ -24,7 +28,7 @@ import java.util.Map;
 public class KafkaService {
 
     @Value("${kafka.bootstrap}")
-    private String BROKER;
+    private String BROKERS;
     @Value("${kafka.topic.employee}")
     private String EMPLOYEE_TOPIC;
     @Value("${kafka.topic.client}")
@@ -35,7 +39,7 @@ public class KafkaService {
     public void init(){
         //Sender Initialization
         Map<String, Object> config = Map.of(
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER,
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS,
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer",
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer"
         );
@@ -45,7 +49,7 @@ public class KafkaService {
 
         //Receiver Initialization
         config = Map.of(
-                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER,
+                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
                 ConsumerConfig.GROUP_ID_CONFIG,"Reactive-group-1"
@@ -59,8 +63,28 @@ public class KafkaService {
                 .receive()
                 .publish();
         connectableFlux.connect();
-    }
 
+    }
+    @Bean
+    public KafkaAdmin admin(){
+        return new KafkaAdmin(Map.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS));
+    }
+    @Bean
+    public NewTopic clientTopic(){
+        return TopicBuilder
+                .name(CLIENT_TOPIC)
+                .partitions(3)
+                .replicas(3)
+                .build();
+    }
+    @Bean
+    public NewTopic employeeTopic(){
+        return TopicBuilder
+                .name(EMPLOYEE_TOPIC)
+                .partitions(3)
+                .replicas(3)
+                .build();
+    }
     /**
      * This is a custom kafka receiver
      * @return ConnectableFlux<ReceiverRecord<Integer, String>>
@@ -86,8 +110,8 @@ public class KafkaService {
         return kafkaSender
                 .createOutbound()
                 .send(Flux
-                    .just(order)
-                    .map(record -> new ProducerRecord<>(EMPLOYEE_TOPIC, record.getOrderId(), record.serialize()))
+                .just(order)
+                .map(record -> new ProducerRecord<>(EMPLOYEE_TOPIC, record.getOrderId(), record.serialize()))
                 )
                 .then()
                 .map(voidValue -> order);
@@ -113,11 +137,11 @@ public class KafkaService {
         return kafkaSender
                 .createOutbound()
                 .send(Flux
-                        .just(order)
-                        .map(record -> new ProducerRecord<>(CLIENT_TOPIC, record.getOrderId(), record.serialize())))
+                .just(order)
+                .map(record -> new ProducerRecord<>(CLIENT_TOPIC, record.getOrderId(), record.serialize())))
                 .send(Flux
-                        .just(order)
-                        .map(record -> new ProducerRecord<>(EMPLOYEE_TOPIC, record.getOrderId(), record.serialize())))
+                .just(order)
+                .map(record -> new ProducerRecord<>(EMPLOYEE_TOPIC, record.getOrderId(), record.serialize())))
                 .then()
                 .map(voidValue -> order);
     }

@@ -19,6 +19,7 @@ public class GatewayServiceApplication {
 		return routeLocatorBuilder.routes()
 				.route("item-service", r -> r.path("/item-service/**").uri("lb://ITEM-SERVICE"))
 				.route("user-service", r -> r.path("/user-service/**").uri("lb://USER-SERVICE"))
+				.route("order-service", r -> r.path("/order-service/**").uri("lb://ORDER-SERVICE"))
 				.build();
 	}
 	//todo after the project try bringing the security here RIGHT?

@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<azure.version>3.10.0</azure.version>
+		<spring.cloud.version>2020.0.3</spring.cloud.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -50,6 +52,10 @@
 			<version>3.18.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -71,6 +77,13 @@
 				<groupId>com.azure.spring</groupId>
 				<artifactId>azure-spring-boot-bom</artifactId>
 				<version>${azure.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring.cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

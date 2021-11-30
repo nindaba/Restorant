@@ -21,6 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -43,7 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         AuthFilter authFilter = new AuthFilter(secret, authenticationManager());
-        authFilter.setFilterProcessesUrl("/user/login");
+        authFilter.setFilterProcessesUrl(SERVICE_END_POINT+"/login");
         http.
                 csrf().disable()
                 .cors()
@@ -51,8 +53,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/register-client","/user/login").permitAll()
-                .antMatchers("/user/register-employee").hasAuthority(UserType.EMPLOYEE.toString())
+                .antMatchers(SERVICE_END_POINT+"/register-client",SERVICE_END_POINT+"/login").permitAll()
+                .antMatchers(SERVICE_END_POINT+"/register-employee").hasAuthority(UserType.EMPLOYEE.toString())
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new VerifyFilter(secret), UsernamePasswordAuthenticationFilter.class)
@@ -61,6 +63,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
+        //todo put origins in properties file
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));

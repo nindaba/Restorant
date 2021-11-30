@@ -19,14 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
+
 @AllArgsConstructor
 @Log4j2
 public class VerifyFilter extends OncePerRequestFilter {
     private String secret;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getServletPath().matches("/user/login") &&
-                !request.getServletPath().matches("/user/register-client")) {
+        if (!request.getServletPath().matches(SERVICE_END_POINT+"/login") &&
+                !request.getServletPath().matches(SERVICE_END_POINT+"/register-client")) {
             try {
                 String token = request.getHeader("token")
                         .substring("bearer ".length());
@@ -43,7 +45,6 @@ public class VerifyFilter extends OncePerRequestFilter {
                 exception.printStackTrace();
             }
         }
-//        response.setHeader("Access-Control-Allow-Origin","http://localhost:4200");
         filterChain.doFilter(request,response);
     }
 }

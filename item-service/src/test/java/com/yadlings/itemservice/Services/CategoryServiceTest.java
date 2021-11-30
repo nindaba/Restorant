@@ -39,6 +39,7 @@ class CategoryServiceTest {
     @Test
     void saveCategory(){
         when(repository.save(CATEGORY_D)).thenReturn(CATEGORY_D);
+        when(repository.findByName(CATEGORY_D.getName())).thenReturn(Optional.empty());
         ResponseEntity<HttpHeaders> response = service.saveCategory(CATEGORY_D);
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(
@@ -46,7 +47,7 @@ class CategoryServiceTest {
                 String.format("/%s/%s",REQUEST_END_POINT ,CATEGORY_D.getId())
         );
         /**This will must fail since category c already exist */
-        when(repository.findById(CATEGORY_C.getId())).thenReturn(Optional.of(CATEGORY_C));
+        when(repository.findByName(CATEGORY_C.getName())).thenReturn(Optional.of(CATEGORY_C));
         HttpStatus statusCode = service.saveCategory(CATEGORY_C).getStatusCode();
         assertEquals(HttpStatus.CONFLICT,statusCode);
     }
@@ -117,7 +118,8 @@ class CategoryServiceTest {
         assertEquals(HttpStatus.NOT_FOUND,actual.getStatusCode());
     }
 
-//todo    @Test
+//todo
+//    @Test
     void getCategoryItem() {
         /**
          * Note That I am returning a List of size 1

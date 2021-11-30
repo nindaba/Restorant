@@ -26,26 +26,29 @@ public class AuthFilter extends OncePerRequestFilter {
     private String secret;
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        try{
-            String token = httpServletRequest
-                    .getHeader(HttpHeaders.AUTHORIZATION)
-                    .substring("bearer ".length());
-            SecurityContextHolder.getContext().setAuthentication(authenticate(token));
-        }
-        catch (Exception x){
-            x.printStackTrace();
-            httpServletResponse.sendError(HttpStatus.FORBIDDEN.value());
-        }
+        String token = httpServletRequest
+        .getHeader(HttpHeaders.AUTHORIZATION);
+        token = token.startsWith("bearer ") && token !=null? httpServletRequest
+                .getHeader(HttpHeaders.AUTHORIZATION)
+                .substring("bearer ".length()): "NO_TOKEN";
+        if(!token.endsWith("NO_TOKEN")) SecurityContextHolder.getContext().setAuthentication(authenticate(token));
         filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
-    public Authentication authenticate(String token) throws Exception {
-        Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT verified = verifier.verify(token);
-        Map<String, Object> payload = verified.getClaim("payload").asMap();
-        return new UsernamePasswordAuthenticationToken(
-                payload.get("userId"),
-                null,
-                AuthorityUtils.createAuthorityList((String) payload.get("userType")));
+    public Authentication authenticate(String token){
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT verified = verifier.verify(token);
+            Map<String, Object> payload = verified.getClaim("payload").asMap();
+            return new UsernamePasswordAuthenticationToken(
+                    payload.get("userId"),
+                    null,
+                    AuthorityUtils.createAuthorityList((String) payload.get("userType")));
+        }
+        catch(Exception x){
+            //todo handle fail to auth
+            x.printStackTrace();
+        }
+        return null;
     }
 }
