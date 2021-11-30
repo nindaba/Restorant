@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderedItem {
     private String itemId;
-    private Integer number;
-    private Double price;
+    private Integer number=0;
+    private Double price=.0;
 }

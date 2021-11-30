@@ -4,6 +4,7 @@ import com.yadlings.orderservice02.Documents.Order;
 import com.yadlings.orderservice02.Models.UpdateResponse;
 import com.yadlings.orderservice02.Service.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -20,13 +21,22 @@ public class EmployeeHandler {
                 .ok()
                 .body(orderService.getAll(), Order.class);
     }
-
-    public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
-        return serverRequest
-                .bodyToMono(Order.class)
-                .flatMap(orderService::update)
-                .flatMap(response -> ServerResponse
-                        .status(response.getStatus())
-                        .body(Flux.just(response), UpdateResponse.class));
-    }
+//    public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
+//        return serverRequest
+//                .bodyToMono(Order.class)
+//                .map(orderService::update)
+//                .flatMap(response -> ServerResponse
+//                        .status(200)
+//                        .contentType(MediaType.TEXT_EVENT_STREAM)
+//                        .body(response.log("RESPONSE"), UpdateResponse.class));
+//    }
+public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
+    return serverRequest
+            .bodyToMono(Order.class)
+            .map(orderService::update)
+            .flatMap(response -> ServerResponse
+                    .status(200)
+                    .contentType(MediaType.TEXT_EVENT_STREAM)
+                    .body(response, Order.class));
+}
 }

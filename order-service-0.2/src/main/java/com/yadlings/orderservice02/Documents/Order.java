@@ -25,12 +25,19 @@ public class Order {
     private String orderId;
     private String clientId;
     private List<OrderedItem> orderItems = new ArrayList<>();
+<<<<<<< HEAD
     private OrderStatus status = new OrderStatus();
     private Double totalPrice = 0.0;
     private Long timeCreated = new Date().getTime();
     private Long timeUpdated = new Date().getTime();
 
 //    public Order(String clientId){this.clientId = clientId;}
+=======
+    private OrderStatus status = OrderStatus.ORDERED;
+    private Long timeCreated = new Date().getTime();
+    private Long timeUpdated = new Date().getTime();
+    public Order(String clientId){this.clientId = clientId;}
+>>>>>>> 5b34d9a49d984a013348f6bc54bb5daa28ffa5e5
 
     /**
      * @return The Total price of All Ordered Items
@@ -41,6 +48,7 @@ public class Order {
                 .map(item -> item.getPrice() * item.getNumber())
                 .reduce(.0, Double::sum);
     }
+    public void setTotalPrice(Double totalPrice){}
     public String serialize(){
         ObjectMapper objectMapper = new ObjectMapper();
         try {
