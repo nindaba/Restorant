@@ -1,0 +1,18 @@
+<div class="content">
+    <div class="title">
+        <label class="order-name">#Client Name/ 11:11</label>
+        <span class="space"></span>
+    </div>
+    <div style="display:flex;flex-direction:row">
+        
+        <div class="orders">
+            <order-item *ngFor="let item of getItems()" [item]="item"></order-item>
+        </div>
+        <div class="status">
+            <order-status></order-status>
+        </div>
+    </div>
+    <div class="messages">
+
+    </div>
+</div>

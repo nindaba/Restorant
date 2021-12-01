@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/item-service/item")
+@RequestMapping("item")
 @AllArgsConstructor
 public class ItemController {
     private ItemService itemService;
@@ -31,21 +31,21 @@ public class ItemController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> putItem(@PathVariable String id,@RequestBody PostPutRequest<Item> request) throws  Exception{
-        var item = request.getT();
+        var item = request.getData();
         //upload the image to azure and get the link in the item image
         MultipartFile image = request.getImage();
 //todo      if(image.getContentType() != null && == image) throw new Exception("Content-Type Not supported");
-        if(!image.isEmpty()) item.getImages().add(0,cloudStorageService.uploadToAzureStorage(image));
+        if(!image.isEmpty()) item.setImage(cloudStorageService.uploadToAzureStorage(image));
         return itemService.saveItem(id,item);
     }
     @PostMapping
     public ResponseEntity<HttpHeaders> saveItem(@RequestBody PostPutRequest<Item> request) throws  Exception{
-        var item = request.getT();
+        var item = request.getData();
         //upload the image to azure and get the link in the item image
         MultipartFile image = request.getImage();
         if(image.isEmpty()) throw new Exception("Image can not be empty");
 // todo       if(image.getContentType() != != null && == image) throw new Exception("Content-Type Not supported");
-        item.getImages().add(0,cloudStorageService.uploadToAzureStorage(image));
+        item.setImage(cloudStorageService.uploadToAzureStorage(image));
         return itemService.saveItem(item);
     }
 

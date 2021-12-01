@@ -21,9 +21,9 @@ public class TestData {
     public final static String NO_EXISTING_ITEM_ID = "10";
     public final static HttpStatus OK_STATUS = HttpStatus.OK;
 
-    public final static Item ITEM_A = new Item("1","capucino",new ArrayList(),"1",0.3,"tasty");
+    public final static Item ITEM_A = new Item("1","capucino","image","1",0.3,"tasty");
     /** This is can also be used as an update of A that is why i am setting the Id to 1 */
-    public final static Item ITEM_B = new Item("1","mexcan-coffe",new ArrayList(),"2",1.3,"hard");
+    public final static Item ITEM_B = new Item("1","mexcan-coffe","image","2",1.3,"hard");
 
     public final static CategoryItemModel EXPECTED_CATEGORY_ITEM = new CategoryItemModel("4","D","category4", Arrays.asList(ITEM_A,ITEM_B),"category four");
 

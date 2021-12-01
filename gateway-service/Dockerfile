@@ -1,5 +1,5 @@
 FROM openjdk:11
-COPY . ./restorant/gateway-service
-WORKDIR ./restorant/gateway-service
+COPY ./target/gateway-service-0.0.1.jar ./restorant/gateway-service-0.0.1.jar
+WORKDIR ./restorant
 EXPOSE 4999
-CMD ./mvnw spring-boot:run
+CMD java -jar gateway-service-0.0.1.jar

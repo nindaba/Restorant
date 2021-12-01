@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("item-service/category")
+@RequestMapping("category")
 @AllArgsConstructor
 @Log4j2
 public class CategoryController {
@@ -50,7 +50,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     //todo change the exception to custom image exception
     public ResponseEntity<Category> putCategory(@PathVariable("id") String id,@RequestBody PostPutRequest<Category> request) throws Exception{
-        var category = request.getT();
+        var category = request.getData();
         //upload the image to azure and get the link in the category image
         MultipartFile image = request.getImage();
 // todo       if(image.getContentType() != null && ==image) throw new Exception("Content-Type Not supported");
@@ -59,7 +59,7 @@ public class CategoryController {
     }
     @PostMapping
     public ResponseEntity<?> getCategory(@RequestBody PostPutRequest<Category> request) throws Exception{
-        var category = request.getT();
+        var category = request.getData();
         //upload the image to azure and get the link in the category image
         MultipartFile image = request.getImage();
         if(image.isEmpty()) throw new Exception("Image can not be empty");

@@ -19,7 +19,7 @@ public class Item {
     private String id;
     @Indexed(unique = true)
     private String name;
-    private List<String> images = new ArrayList();
+    private String image;
     private String category;
     private double price = 0.0;
     private String Description;

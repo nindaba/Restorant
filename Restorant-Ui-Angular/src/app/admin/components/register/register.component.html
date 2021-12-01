@@ -1,0 +1,25 @@
+<div class="content">
+    <h2 for="form">{{title}}</h2>
+    <div>
+        <form [formGroup]="registerForm" (submit)="register()">
+            <img class="image" [src]="image">
+            <input type="file"  hidden="true" (change)="imagePicked($event)" accept="image/jpeg,image/png" #picker>
+            <button mat-button (click)="picker.click()" type="button" color="primary" style="width: 200px;">Choose Image</button>
+            <custom-input 
+            formControlName="name" 
+            [properties]="{name:'Name'}"
+            ></custom-input>
+            <label>Description</label>
+            <textarea rows="5" class="description" formControlName="description" ></textarea>
+            <custom-input 
+            *ngIf="!isCategory"
+            formControlName="price" 
+            [properties]="{name:'Price'}"
+            ></custom-input>
+            <div class="buttons">
+                <button mat-button color="primary" (click)="login()" type="button">Cancel</button>
+                <button mat-flat-button color="primary" type="submit">Done</button>
+            </div>
+        </form>
+    </div>
+</div>

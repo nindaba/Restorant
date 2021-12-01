@@ -1,0 +1,35 @@
+.content{
+    /* margin-top: 30px; */
+    color: rgb(24, 23, 23);
+    background-color: white;
+    /* width: 500px; */
+    border-radius: .5em;
+    padding: 1em;
+    border : 2px;
+    box-shadow: red;
+    margin-bottom: .5em;
+}
+.image{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: .5em;
+}
+.title{
+    width: 250px;
+    margin-bottom: 5px;
+}
+b{
+    color: rgb(43, 170, 117);
+}
+/* .details{
+    display: flex;
+    flex-direction: column;
+} */
+.image-description{
+    display: flex;
+    flex-direction: row;
+}
+/* .items{
+    align-items: center;
+} */

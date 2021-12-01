@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 import java.util.Arrays;
 @EnableWebFluxSecurity
@@ -46,8 +47,10 @@ public class WebSecurity{
                  * Against pretenders to be them
                  * and for the service to keep their Ids and use them on their requests
                  */
-                .pathMatchers("/employee-order").hasAuthority(UserType.EMPLOYEE.toString())
-                .pathMatchers("/client-order").hasAuthority(UserType.CLIENT.toString())
+                .pathMatchers(HttpMethod.GET,"/order/all").hasAuthority(UserType.EMPLOYEE.toString())
+                .pathMatchers(HttpMethod.PUT,"/order").hasAuthority(UserType.EMPLOYEE.toString())
+                .pathMatchers(HttpMethod.GET,"/order").hasAuthority(UserType.CLIENT.toString())
+                .pathMatchers(HttpMethod.POST,"/order").hasAuthority(UserType.CLIENT.toString())
                 .anyExchange().authenticated()
                 .and()
                 /**

@@ -28,7 +28,7 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = httpServletRequest
         .getHeader(HttpHeaders.AUTHORIZATION);
-        token = token.startsWith("bearer ") && token !=null? httpServletRequest
+        token = token !=null && token.startsWith("bearer ") ? httpServletRequest
                 .getHeader(HttpHeaders.AUTHORIZATION)
                 .substring("bearer ".length()): "NO_TOKEN";
         if(!token.endsWith("NO_TOKEN")) SecurityContextHolder.getContext().setAuthentication(authenticate(token));

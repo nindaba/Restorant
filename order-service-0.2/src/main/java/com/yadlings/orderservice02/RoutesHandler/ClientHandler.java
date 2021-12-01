@@ -29,16 +29,12 @@ public class ClientHandler {
         return null;
     }
 
-    //todo have to change the way we get the orders
-    //AND WE GET ALL THE ORDERS BY ID BUT FILTER FOR KAFKA
-    //as we can use a lot of power to do this
+
     public Mono<ServerResponse> getClientOrder(ServerRequest serverRequest) {
         var clientId = serverRequest.headers().firstHeader(Constants.AUTHORISED_USER_ID);
         return ServerResponse
                 .ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
-                .body(orderService.getAll()
-                        .filter(order -> clientId.equals(order.getClientId())),
-                        Order.class);
+                .body(orderService.getOrders(clientId),Order.class);
     }
 }

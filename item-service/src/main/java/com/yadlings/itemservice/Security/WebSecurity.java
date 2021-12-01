@@ -23,6 +23,8 @@ import java.util.Arrays;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Value("{token.secret}")
     private String secret;
+    @Value("{allowed.origins}")
+    private String origins;	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -31,9 +33,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/item-service/*", HttpMethod.GET.name()).permitAll()
-                .antMatchers("/item-service/*").hasAnyAuthority(UserType.EMPLOYEE.toString())
+                 .authorizeRequests()
+                 .antMatchers(HttpMethod.GET,"/*").permitAll()
+                 .antMatchers(HttpMethod.PUT,"/*").hasAnyAuthority(UserType.EMPLOYEE.toString())
+                 .antMatchers(HttpMethod.POST,"/*").hasAnyAuthority(UserType.EMPLOYEE.toString())
+                 .antMatchers(HttpMethod.DELETE,"/*").hasAnyAuthority(UserType.EMPLOYEE.toString())
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new AuthFilter(secret), UsernamePasswordAuthenticationFilter.class);
@@ -41,7 +45,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+//todo to be configured and try adding the gateway only
+        corsConfiguration.setAllowedOrigins(Arrays.asList(origins));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));
         corsConfiguration.setMaxAge(172800L);

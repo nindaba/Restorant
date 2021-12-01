@@ -21,42 +21,13 @@ public class Routes {
     private ClientHandler clientHandler;
     private EmployeeHandler employeeHandler;
     @Bean
-    public RouterFunction<ServerResponse> clientsRoutes(){
-
+    public RouterFunction<ServerResponse> RouterFunctions(){
         return RouterFunctions
                 .route()
-                .POST("/client-order",clientHandler::saveOrder)
-                .GET("/client-order",clientHandler::getClientOrder)
+                .POST("/order",clientHandler::saveOrder)
+                .GET("/order",clientHandler::getClientOrder)
+                .GET("/order/all",employeeHandler::getAllOrder)
+                .PUT("/order",employeeHandler::updateOrder)
                 .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> employeeRoutes(){
-        return RouterFunctions
-                .route()
-                .GET("/employee-order",employeeHandler::getAllOrder)
-                .PUT("/employee-order",employeeHandler::updateOrder)
-                .GET("/a",serverRequest->{
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    System.out.println("###################");
-                    return ServerResponse
-                            .ok()
-                            .body(
-                                    //Mono.just(serverRequest.headers().firstHeader(Constants.AUTHORISED_USER_ID)),
-                                    Mono.just("HELLO"),
-                                    String.class);
-                })
-                .build();
-//        serverRequest
-//                .headers()
-//                .header(Constants.AUTHORISED_USER_ID),
     }
 }

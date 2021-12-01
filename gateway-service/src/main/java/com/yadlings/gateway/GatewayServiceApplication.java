@@ -17,10 +17,11 @@ public class GatewayServiceApplication {
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder routeLocatorBuilder){
 		return routeLocatorBuilder.routes()
-				.route("item-service", r -> r.path("/item-service/**").uri("lb://ITEM-SERVICE"))
+				.route("item-service", r -> r.path("/item/**").uri("lb://ITEM-SERVICE"))
+                                .route("item-service", r -> r.path("/category/**").uri("lb://ITEM-SERVICE"))
 				.route("user-service", r -> r.path("/user-service/**").uri("lb://USER-SERVICE"))
-				.route("order-service", r -> r.path("/order-service/**").uri("lb://ORDER-SERVICE"))
+				.route("order-service", r -> r.path("/order/**").uri("lb://ORDER-SERVICE"))
 				.build();
 	}
-	//todo after the project try bringing the security here RIGHT?
+	//todo after the project is finished try to shift the security here in the gate RIGHT?
 }

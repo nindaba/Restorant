@@ -8,6 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Data
 public class PostPutRequest <T>{
-    T t;
+    T data;
     MultipartFile image;
 }
