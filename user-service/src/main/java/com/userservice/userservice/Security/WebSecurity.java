@@ -28,6 +28,8 @@ import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Value("${token.secret}")
     private String secret;
+    @Value("${token.origins}")
+    private String origins;
     @Autowired
     private UserService service;
     @Bean
@@ -48,8 +50,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         authFilter.setFilterProcessesUrl(SERVICE_END_POINT+"/login");
         http.
                 csrf().disable()
-                .cors()
-                .and()
+                .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -60,11 +61,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new VerifyFilter(secret), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(authFilter);
     }
-    @Bean
+//    @Bean //Nolonger needed since the gateway has
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        //todo put origins in properties file
-        configuration.setAllowedOrigins(Arrays.asList(origins));
+        configuration.setAllowedOrigins(Arrays.asList(origins.split(",")));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setMaxAge(1000000L);

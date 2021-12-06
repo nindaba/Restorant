@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,8 +13,19 @@ import { CategoryServiceService } from 'src/app/services/category-service.servic
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit,OnDestroy {
+
   categories: Category[];
+  categoriesDisplay: Category[];
   subscription: Subscription;
+  _search:string='';
+  @Input()
+  set search(search:string){
+    this.categoriesDisplay = this.categories.filter(category=> category.name.includes(search));
+    this._search = search;
+  }
+  get search():string{
+    return this._search;
+  }
   //the selected category
   categoryItem: CategoryItem;
   padding:string = 'pd-category';
@@ -30,6 +41,7 @@ export class CategoryComponent implements OnInit,OnDestroy {
       description: '',
       items: []
     };
+    this.categoriesDisplay = [];
     this.subscription = new Subscription();
    }
   ngOnDestroy(): void {
