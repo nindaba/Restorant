@@ -14,28 +14,15 @@ import java.util.Arrays;
 public class WebSecurity{
     @Value("${allowed.origins}")
     private String origins;
-   @Bean
+    @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        // TODO: configure in the properties file for allowed origins
-        corsConfiguration.setAllowedOrigins(Arrays.asList(origins));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("AUTHORIZATION"));
-        corsConfiguration.setAllowedMethods(Arrays.asList("POST"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList(origins.split(",")));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
         corsConfiguration.setMaxAge(173000L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",corsConfiguration);
         return source;
     }
-//    @Bean
-//    public CorsFilter corsFilter(){
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        // TODO: configure in the properties file for allowed origins
-//        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-//        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-//        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-//        corsConfiguration.setMaxAge(173000L);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**",corsConfiguration);
-//        return new CorsFilter((org.springframework.web.cors.CorsConfigurationSource) source);
-//    }
 }

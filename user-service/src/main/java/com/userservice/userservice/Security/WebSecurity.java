@@ -28,7 +28,7 @@ import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Value("${token.secret}")
     private String secret;
-    @Value("${token.origins}")
+    @Value("${allowed.origins}")
     private String origins;
     @Autowired
     private UserService service;
