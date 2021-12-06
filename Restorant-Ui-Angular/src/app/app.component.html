@@ -1,6 +1,6 @@
 <div class="header">
     <mat-toolbar class="toolbar">
-        <span class="logo" [routerLink]="['category']" >
+        <span class="logo" [routerLink]="['']" >
             <mat-icon>local_dining</mat-icon>
             <h1>Yadlings</h1>
         </span>
@@ -9,8 +9,8 @@
         <nav class="navigations">
             <a class="nav-button" mat-icon-button   matBadgeSize="small" [routerLink]="['orders']"><mat-icon>local_mall</mat-icon></a>
             <div class="guest-user" *ngIf="!userService.isLoggedIn">
-                <span class="nav-button" mat-flat-button [routerLink]="['login']">Login</span>
-                <span class="nav-button" mat-flat-button>Sign-up</span>
+                <span class="nav-button" mat-flat-button [routerLink]="['login']">Login / Sign-up</span>
+                <!-- <span class="nav-button" mat-flat-button [routerLink]="['login']">Sign-up</span> -->
             </div>
             <div class="user" *ngIf="userService.isLoggedIn">
                 <span class="nav-button">{{userService.username}}</span>

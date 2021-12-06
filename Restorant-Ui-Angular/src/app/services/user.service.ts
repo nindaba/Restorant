@@ -61,7 +61,7 @@ export class UserService {
   }
 
   get username():string{
-    return this.userInfo?.payload?.username||'';
+    return this.userInfo.sub ||'';
   }
 
 

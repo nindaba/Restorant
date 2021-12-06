@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
 import { BasketServiceService } from 'src/app/services/basket-service.service';
+import { ItemServiceService } from 'src/app/services/item-service.service';
 
 @Component({
   selector: 'item-card',
@@ -16,6 +17,7 @@ export class ItemCardComponent implements OnInit {
   constructor(
     private router:Router,
     private basketService:BasketServiceService,
+    private itemService:ItemServiceService,
     private snack: MatSnackBar) {
     this.item = {
       id: '',
@@ -34,6 +36,13 @@ export class ItemCardComponent implements OnInit {
     this.snack.open(`Item ${this.item.name} was added to Cart`,'X',{duration:3000});
   }
   get isAdmin():Boolean{
-    return this.router.url.startsWith("/admin");
+    return this.url.startsWith("/admin");
+  }
+  edit(){
+    this.itemService.selected = this.item;
+    this.router.navigate([this.url,'edit',this.item.id]);
+  }
+  get url() :string{
+    return this.router.url;
   }
 }

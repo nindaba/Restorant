@@ -53,8 +53,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(SERVICE_END_POINT+"/register-client",SERVICE_END_POINT+"/login").permitAll()
-                .antMatchers(SERVICE_END_POINT+"/register-employee").hasAuthority(UserType.EMPLOYEE.toString())
+                .antMatchers(SERVICE_END_POINT+"/client",SERVICE_END_POINT+"/login").permitAll()
+                .antMatchers(SERVICE_END_POINT+"/employee").hasAuthority(UserType.EMPLOYEE.toString())
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new VerifyFilter(secret), UsernamePasswordAuthenticationFilter.class)
@@ -64,7 +64,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         //todo put origins in properties file
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList(origins));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setMaxAge(1000000L);

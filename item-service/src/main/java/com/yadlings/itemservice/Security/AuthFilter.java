@@ -36,7 +36,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
     public Authentication authenticate(String token){
         try{
-            Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT verified = verifier.verify(token);
             Map<String, Object> payload = verified.getClaim("payload").asMap();

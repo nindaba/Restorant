@@ -15,15 +15,14 @@ import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
 @RequestMapping(SERVICE_END_POINT)
 public class UserController {
     private UserService userService;
-    @PostMapping(value = "/register-client")
-    public ResponseEntity<String> registerClient(@RequestBody User user){
+    @PostMapping(value = "/client")
+    public ResponseEntity<HttpStatus> registerClient(@RequestBody User user){
 	user.setType(UserType.CLIENT);
 	userService.save(user);
-	return new ResponseEntity<String>(" {\"hello\":\"itIsMe\"}",HttpStatus.OK);
-//        return userService.save(user);
+        return userService.save(user);
     }
     
-    @PostMapping(value = "/register-employee")
+    @PostMapping(value = "/employee")
     public ResponseEntity<HttpStatus> registerEmployee(@RequestBody User user){
         user.setType(UserType.EMPLOYEE);
         return userService.save(user);

@@ -9,8 +9,8 @@
             </span>
             <label for="mat-icon">3.2</label>
         </div>
-        <button mat-flat-button [routerLink]="[category.id]"  color="primary">View Items</button>
-        <button *ngIf="isAdmin" mat-icon-button [routerLink]="['edit',category.id]"  color="primary" class="edit">
+        <button mat-flat-button (click)="viewItems()"  color="primary">{{category.items.length}} Items</button>
+        <button *ngIf="isAdmin" mat-icon-button (click)="edit()"  color="primary" class="edit">
             <mat-icon>edit</mat-icon>
             Edit
         </button>

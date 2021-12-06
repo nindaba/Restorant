@@ -19,7 +19,9 @@ export class CustomInputComponent implements ControlValueAccessor{
     this.onChange(value);
   }
   get value():string{return this._value;}
-  writeValue(obj: any): void {}
+  writeValue(obj: any): void {
+    this.value = obj;
+  }
   onChange = (val:any)=>{};
   registerOnChange(fn: any): void {this.onChange = fn;}
   registerOnTouched(fn: any): void {}

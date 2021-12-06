@@ -28,7 +28,7 @@ public class VerifyFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (!request.getServletPath().matches(SERVICE_END_POINT+"/login") &&
-                !request.getServletPath().matches(SERVICE_END_POINT+"/register-client")) {
+                !request.getServletPath().matches(SERVICE_END_POINT+"/client")) {
             try {
                 String token = request.getHeader("token")
                         .substring("bearer ".length());

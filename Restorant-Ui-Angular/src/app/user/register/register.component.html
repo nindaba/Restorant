@@ -26,7 +26,10 @@
             <div class="buttons">
                 <button mat-button color="primary" (click)="login()" type="button">Login</button>
                 <div style="flex-grow: 1;"></div>
-                <button mat-flat-button color="primary" type="submit">register</button>
+                <button mat-flat-button color="{{hasSubmitted}}" type="submit" style="display: flex;flex-direction:row;align-items:center">
+                    <mat-spinner *ngIf="!hasSubmitted" color="primary" diameter="20"></mat-spinner>
+                    <span *ngIf="hasSubmitted" >register</span>
+                </button>
             </div>
         </form>
     </div>

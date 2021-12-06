@@ -36,3 +36,6 @@ form{
     border: none;
     outline-style: none;
 }
+.buttons button{
+    margin-right: 1em;
+}

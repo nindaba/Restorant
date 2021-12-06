@@ -21,9 +21,9 @@ import java.util.Arrays;
 
 @Configuration
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    @Value("{token.secret}")
+    @Value("${token.secret}")
     private String secret;
-    @Value("{allowed.origins}")
+    @Value("${allowed.origins}")
     private String origins;	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,6 +46,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 //todo to be configured and try adding the gateway only
+//todo use the origins variable from the properties file
         corsConfiguration.setAllowedOrigins(Arrays.asList(origins));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));

@@ -1,10 +1,10 @@
 <div class="content">
-    <h2 for="form">{{title}}</h2>
+    <span for="form">{{title}}</span>
     <div>
         <form [formGroup]="registerForm" (submit)="register()">
-            <img class="image" [src]="image">
+            <img class="image" [src]="displayImage">
             <input type="file"  hidden="true" (change)="imagePicked($event)" accept="image/jpeg,image/png" #picker>
-            <button mat-button (click)="picker.click()" type="button" color="primary" style="width: 200px;">Choose Image</button>
+            <button *ngIf="hasSubmitted && uploadImage.length ==0" mat-button (click)="picker.click()" type="button" color="primary" style="width: 200px;">Choose Image</button>
             <custom-input 
             formControlName="name" 
             [properties]="{name:'Name'}"
@@ -14,11 +14,18 @@
             <custom-input 
             *ngIf="!isCategory"
             formControlName="price" 
-            [properties]="{name:'Price'}"
+            [properties]="{name:'Price',type:'number'}"
             ></custom-input>
             <div class="buttons">
-                <button mat-button color="primary" (click)="login()" type="button">Cancel</button>
-                <button mat-flat-button color="primary" type="submit">Done</button>
+                <button mat-button color="primary" (click)="back()" type="button">Cancel</button>
+                <button (click)="delete()" *ngIf="isEdit" mat-flat-button color="{{hasDeleted}}" type="button" style="display: flex;flex-direction:row;align-items:center">
+                    <mat-spinner *ngIf="!hasDeleted" color="primary" diameter="20"></mat-spinner>
+                    <span *ngIf="hasDeleted" >Delete</span>
+                </button>
+                <button mat-flat-button color="{{hasSubmitted}}" type="submit" style="display: flex;flex-direction:row;align-items:center">
+                    <mat-spinner *ngIf="!hasSubmitted" color="primary" diameter="20"></mat-spinner>
+                    <span *ngIf="hasSubmitted" >Done</span>
+                </button>
             </div>
         </form>
     </div>

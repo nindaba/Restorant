@@ -2,7 +2,6 @@ package com.yadlings.itemservice.Controllers;
 
 import com.yadlings.itemservice.Documents.Category;
 import com.yadlings.itemservice.Documents.Item;
-import com.yadlings.itemservice.Models.PostPutRequest;
 import com.yadlings.itemservice.Services.CloudStorageService;
 import com.yadlings.itemservice.Services.ItemService;
 import lombok.AllArgsConstructor;
@@ -30,20 +29,18 @@ public class ItemController {
         return itemService.deleteItem(id);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> putItem(@PathVariable String id,@RequestBody PostPutRequest<Item> request) throws  Exception{
-        var item = request.getData();
+    public ResponseEntity<?> putItem(@PathVariable("id") String id,@RequestParam("item") String itemJson,@RequestParam(name="image",required=false) MultipartFile image) throws Exception{
+        var item = Item.deserialize(itemJson);
         //upload the image to azure and get the link in the item image
-        MultipartFile image = request.getImage();
 //todo      if(image.getContentType() != null && == image) throw new Exception("Content-Type Not supported");
-        if(!image.isEmpty()) item.setImage(cloudStorageService.uploadToAzureStorage(image));
+        if(image != null && !image.isEmpty()) item.setImage(cloudStorageService.uploadToAzureStorage(image));
         return itemService.saveItem(id,item);
     }
     @PostMapping
-    public ResponseEntity<HttpHeaders> saveItem(@RequestBody PostPutRequest<Item> request) throws  Exception{
-        var item = request.getData();
+    public ResponseEntity<HttpHeaders> saveItem(@RequestParam("item") String itemJson,@RequestParam("image") MultipartFile image) throws Exception{
+        var item = Item.deserialize(itemJson);
         //upload the image to azure and get the link in the item image
-        MultipartFile image = request.getImage();
-        if(image.isEmpty()) throw new Exception("Image can not be empty");
+        if(image == null) throw new Exception("Image can not be empty");
 // todo       if(image.getContentType() != != null && == image) throw new Exception("Content-Type Not supported");
         item.setImage(cloudStorageService.uploadToAzureStorage(image));
         return itemService.saveItem(item);

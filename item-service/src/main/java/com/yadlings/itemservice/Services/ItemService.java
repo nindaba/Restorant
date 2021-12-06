@@ -59,7 +59,10 @@ public class ItemService implements ItemServiceInterface{
         boolean category = isCategory(item.getCategory());
         validItem &= category;
         if(validItem){
+		//sometimes the id can come with empty "" this will cause a bug, where the id will not be set by mongo
+		item.setId(null);
             Item save = repository.save(item);
+		System.out.println(save);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(
                     ServletUriComponentsBuilder
@@ -67,7 +70,7 @@ public class ItemService implements ItemServiceInterface{
                             .path("/{id}")
                             .build(save.getId())
             );
-            addCategoryItem(item.getCategory(), item.getId());
+            addCategoryItem(item.getCategory(), save.getId());
             return new ResponseEntity<>(httpHeaders,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);

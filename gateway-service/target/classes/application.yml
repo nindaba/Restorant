@@ -1,4 +1,17 @@
-
+server:
+  port: 4999
+ing:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://service-registry.germanywestcentral.azurecontainer.io:4998"
+            allowedMethods:
+            - GET
+            - POST
+            allowedHeaders: "[*]"
+#            - AUTHORIZATION
 #  cloud:
 #    gateway:
 #      routes:

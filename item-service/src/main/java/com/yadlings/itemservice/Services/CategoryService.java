@@ -72,6 +72,8 @@ public class CategoryService {
                 .findByName(category.getName())
                 .isEmpty();
         if(empty){
+		//sometimes the id can come with empty "" this will cause a bug, where the id will not be set by mongo
+		category.setId(null);
             String id = categoryRepository.save(category).getId();
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(

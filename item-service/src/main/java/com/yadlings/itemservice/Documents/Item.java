@@ -1,14 +1,12 @@
 package com.yadlings.itemservice.Documents;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +21,7 @@ public class Item {
     private String category;
     private double price = 0.0;
     private String Description;
+    public static Item deserialize(String itemJson) throws Exception{
+        return new ObjectMapper().readValue(itemJson,Item.class);
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscriber } from 'rxjs';
@@ -10,9 +10,10 @@ import { inputTextValidator } from 'src/app/validators/validators';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit ,OnDestroy{
   @Output('login') loginEvent : EventEmitter<any> = new EventEmitter();
   registerForm: FormGroup;
+  hasSubmitted:string='primary'
   constructor(
     formBuilder:FormBuilder,
     private userService:UserService,
@@ -26,6 +27,9 @@ export class RegisterComponent implements OnInit {
       confirm:['',inputTextValidator]
     });
    }
+  ngOnDestroy(): void {
+    this.hasSubmitted='primary'
+  }
 
   ngOnInit(): void {
     
@@ -34,6 +38,7 @@ export class RegisterComponent implements OnInit {
     this.loginEvent.emit();
   }
   register(){
+    this.hasSubmitted=''
     this.userService
     .register(this.registerForm.value)
     .subscribe({

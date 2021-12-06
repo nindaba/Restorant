@@ -1,20 +1,19 @@
 <div class="card">
     <img class="card-image" [src]="item.image">
-    <div class="title">
-        <h2 class="card-title">{{item.name}}</h2>
-        <div class="spacer"></div>
-        <a *ngIf="!isAdmin" class="nav-buttons" mat-button color="primary" (click)="addToCart()"><mat-icon>local_mall</mat-icon>Add</a>
-        <a *ngIf="isAdmin" class="nav-buttons" mat-button color="primary" [routerLink]="['edit',item.id]"><mat-icon>edit</mat-icon>Edit</a>
-    </div>
-    <div class="card-content">
-        <h2>
-            <!-- <mat-icon color="primary" *ngIf="item.description">sell</mat-icon>  -->
-            Price: {{item.price}} 
-        </h2>
-        <mat-icon color="primary" *ngIf="item.description">notes</mat-icon>
-        <p>{{item.description}}</p>
-    </div>
-    <div class="card-footer">
-        
+    <div style="padding: 1em;">
+        <div class="title">
+            <h2 class="card-title">{{item.name}}</h2>
+            <div class="spacer"></div>
+            <a *ngIf="!isAdmin" class="nav-buttons" mat-button color="primary" (click)="addToCart()"><mat-icon>local_mall</mat-icon>Add</a>
+            <a *ngIf="isAdmin" class="nav-buttons" mat-button color="primary" (click)="edit()"><mat-icon>edit</mat-icon>Edit</a>
+        </div>
+        <div class="card-content">
+            <h2>
+                <!-- <mat-icon color="primary" *ngIf="item.description">sell</mat-icon>  -->
+                Price: {{item.price}} 
+            </h2>
+            <mat-icon color="primary" *ngIf="item.description">notes</mat-icon>
+            <p>{{item.description}}</p>
+        </div>
     </div>
 </div>

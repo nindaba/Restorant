@@ -18,8 +18,8 @@ public class GatewayServiceApplication {
 	public RouteLocator routes(RouteLocatorBuilder routeLocatorBuilder){
 		return routeLocatorBuilder.routes()
 				.route("item-service", r -> r.path("/item/**").uri("lb://ITEM-SERVICE"))
-                                .route("item-service", r -> r.path("/category/**").uri("lb://ITEM-SERVICE"))
-				.route("user-service", r -> r.path("/user-service/**").uri("lb://USER-SERVICE"))
+				.route("item-service", r -> r.path("/category/**").uri("lb://ITEM-SERVICE"))
+				.route("user-service", r -> r.path("/user/**").uri("lb://USER-SERVICE"))
 				.route("order-service", r -> r.path("/order/**").uri("lb://ORDER-SERVICE"))
 				.build();
 	}

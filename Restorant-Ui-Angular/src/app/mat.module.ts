@@ -15,6 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CustomInputComponent } from "./components/custom-input/custom-input.component";
 import { FormControl, FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 @NgModule({
     imports:[
@@ -35,7 +36,8 @@ import { CommonModule } from "@angular/common";
         FlexLayoutModule,
         MatStepperModule,
         MatTabsModule, 
-        CustomInputComponent
+        CustomInputComponent,
+        MatProgressSpinnerModule,
     ],
     declarations: [
       CustomInputComponent
