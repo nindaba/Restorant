@@ -29,8 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors()
-                .and()
+                .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                  .authorizeRequests()
@@ -42,12 +41,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new AuthFilter(secret), UsernamePasswordAuthenticationFilter.class);
     }
-    @Bean
+//    @Bean //moved to the gate
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-//todo to be configured and try adding the gateway only
-//todo use the origins variable from the properties file
-        corsConfiguration.setAllowedOrigins(Arrays.asList(origins));
+        corsConfiguration.setAllowedOrigins(Arrays.asList(origins.split(",")));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));
         corsConfiguration.setMaxAge(172800L);
