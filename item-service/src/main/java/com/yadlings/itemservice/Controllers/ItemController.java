@@ -24,7 +24,7 @@ public class ItemController {
     public ResponseEntity<Item> getItem(@PathVariable String id){
         return itemService.getItem(id);
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable String id){
         return itemService.deleteItem(id);
     }
