@@ -1,2 +1,2 @@
-com/yadlings/gateway/Security/WebSecurity.class
-com/yadlings/gateway/GatewayServiceApplication.class
+com\yadlings\gateway\GatewayServiceApplication.class
+com\yadlings\gateway\Security\WebSecurity.class

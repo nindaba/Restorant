@@ -18,12 +18,12 @@ export class CategoryComponent implements OnInit,OnDestroy {
   categoriesDisplay: Category[];
   subscription: Subscription;
   _search:string='';
-  @Input()
-  set search(search:string){
+  @Input('search')
+  set search(search:any){
     this.categoriesDisplay = this.categories.filter(category=> category.name.includes(search));
     this._search = search;
   }
-  get search():string{
+  get search():any{
     return this._search;
   }
   //the selected category

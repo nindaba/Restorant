@@ -38,6 +38,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
         MatTabsModule, 
         CustomInputComponent,
         MatProgressSpinnerModule,
+        FormsModule
     ],
     declarations: [
       CustomInputComponent
