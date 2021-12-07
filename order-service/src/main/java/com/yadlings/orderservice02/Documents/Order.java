@@ -30,7 +30,7 @@ public class Order {
     private Long timeCreated = new Date().getTime();
     private Long timeUpdated = new Date().getTime();
 
-//    public Order(String clientId){this.clientId = clientId;}
+    public Order(String clientId){this.clientId = clientId;}
 
     /**
      * @return The Total price of All Ordered Items

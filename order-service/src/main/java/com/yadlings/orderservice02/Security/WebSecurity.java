@@ -32,7 +32,8 @@ public class WebSecurity{
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().disable()
+                .cors()//todo .disable()
+                .and()
                 /**
                  * Authentication manager is customized to fit the jwt token model of authentication
                  * Security Repository is customized to intercept the request and get the token,
@@ -46,29 +47,28 @@ public class WebSecurity{
                  * Against pretenders to be them
                  * and for the service to keep their Ids and use them on their requests
                  */
+                .pathMatchers(HttpMethod.GET,"/order").hasAuthority(UserType.CLIENT.toString())
                 .pathMatchers(HttpMethod.GET,"/order/all").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.PUT,"/order").hasAuthority(UserType.EMPLOYEE.toString())
-                .pathMatchers(HttpMethod.GET,"/order").hasAuthority(UserType.CLIENT.toString())
                 .pathMatchers(HttpMethod.POST,"/order").hasAuthority(UserType.CLIENT.toString())
                 .anyExchange().authenticated()
                 .and()
                 /**
-                 * Authorization ID Setter is for setting the Authentication header to the logged in Id
-                 * todo I don't know why it is causing trouble to the security Cors and routes, it is not working as expected
+                 * Filter for getting the authenticated user and set the id in the header
                  */
                 .addFilterAfter(new AuthorizedIdSetter(), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
 //    @Bean
-//    public CorsConfigurationSource corsConfigurationSource(){
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList(origins));
-//        configuration.setAllowedHeaders(Arrays.asList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("*"));
-//        configuration.setMaxAge(100000L);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-// 
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(origins.split(",")));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setMaxAge(100000L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }

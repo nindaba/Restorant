@@ -23,7 +23,7 @@ public class OrderService {
         //todo validate, check if the order has at least one item. if not return a mono of Exception Response
         //but later as we need empty order to save time in production
         return orderRepository.save(order)
-                .flatMap(kafkaService::sendToTopics)
+                .flatMap(kafkaService::sendToClient)
                 .map(Order::getOrderId);
     }
     /**
