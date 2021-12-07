@@ -17,6 +17,7 @@ public class EmployeeHandler {
     public Mono<ServerResponse> getAllOrder(ServerRequest serverRequest) {
         return ServerResponse
                 .ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(orderService.getOrders(), Order.class);
     }
     public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
