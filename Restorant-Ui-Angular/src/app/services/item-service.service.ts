@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Item } from '../models/item.model';
-import { RestorantApis } from './restorant.apis';
+import { RestorantApis } from '../common-data/restorant.apis';
+import { InitialModels } from '../common-data/initial-models.data';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemServiceService {
+export class ItemService {
   delete() {
-    if(this.selected) this.http.delete(RestorantApis.ITEM_UPDATE(this.selected.id))
+    if(this.selected) this.http.delete(RestorantApis.ITEM_ID(this.selected.id))
     .subscribe({
       next: response => this.router.navigate(this.url),
       //TODO: error handler eg pop up
@@ -23,15 +24,15 @@ export class ItemServiceService {
    * @param ItemId 
    * @returns Item from the Item-service api
    */
-  getItem(itemId:string):Item|undefined{
-    let item:Item|undefined;
-    this.http.get<Item>((itemId))
+  getItem(itemId:string):Item{
+    let item:Item = InitialModels.ITEM;
+    this.http.get<Item>(RestorantApis.ITEM_ID(itemId))
     .subscribe({
       next : response => item = response,
       //TODO: error Item not found or server not avilable errors to be handled
       error: errorResponse => console.log(errorResponse)
     });
-    return item; //TODO: I am gooing to give scaffording data but will change that laiter
+    return item;
   }
   saveItem(item:Item,image:File) :void{
     let form:FormData = new FormData();
@@ -50,7 +51,7 @@ export class ItemServiceService {
     form.append('item',JSON.stringify(item));
     form.append('image',image ||'');
     this.http
-    .put<HttpResponse<any>>(RestorantApis.ITEM_UPDATE(this.selected?.id||''),form)
+    .put<HttpResponse<any>>(RestorantApis.ITEM_ID(this.selected?.id||''),form)
     .subscribe({
       next: response => this.router.navigate(this.url),
       //TODO: error handler eg pop up

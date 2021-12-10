@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit ,OnDestroy{
     .register(this.registerForm.value)
     .subscribe({
       next: response => this.loginEvent.emit(),
-      error: response => console.log(response)
+      error: response => this.hasSubmitted='primary'
     })
     
   }

@@ -1,18 +1,35 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { EventSourcePolyfill } from 'ng-event-source';
+import { Observable, Subscription } from 'rxjs';
 import { OrderStatus } from '../models/order-status.model';
 import { OrderTitle } from '../models/order-title.model';
 import { Order } from '../models/order.model';
 import { ORDERS } from '../order-view/scaffording.data';
-import { RestorantApis } from './restorant.apis';
+import { RestorantApis } from '../common-data/restorant.apis';
+import { UserService } from './user.service';
+import { InitialModels } from '../common-data/initial-models.data';
+import { BasketItem } from '../models/basket-item.model';
+import { ItemService } from './item-service.service';
+import { Item } from '../models/item.model';
+import { Store } from '@ngrx/store';
+import * as OrderSelector from '../order-view/store/order.selector';
+import { map, take } from 'rxjs/operators';
+import { Count, SelectedOrder } from '../order-view/store/order.model';
 @Injectable({
   providedIn: 'root'
 })
-//TODO: implement the observable to update orders
 export class OrderService {
-  private orders: Order[] = ORDERS //[]; TODO: Emptie the orders once you connect to the spring services
-  constructor(private http:HttpClient) { 
+  sendOrder(order: SelectedOrder): Observable<HttpResponse<any>> {
+    return this.http.post<HttpResponse<any>>(RestorantApis.ORDER,order);
+  }
+  private orders: Order[] = []; //ORDERS  TODO: Emptie the orders once you connect to the spring services
+  public onLoaded:EventEmitter<boolean> = new EventEmitter()
+  constructor(
+    private http:HttpClient,
+    private userService:UserService,
+    private itemService:ItemService,
+    private store:Store) { 
   }
   /**
    * TODO: have to test it with real api
@@ -20,26 +37,16 @@ export class OrderService {
    * @returns Observable of Orders
    */
   loadOrders(): Observable<Order>{
-    let ordersEvent = new EventSource(RestorantApis.ORDER);
+    let ordersEvent = new EventSourcePolyfill(RestorantApis.ORDER,{
+      headers:{'Authorization': "bearer "+this.userService.token},
+      heartbeatTimeout: 2*60*60*1000 //2 hours
+    });
     return new Observable<Order>(
       subscriber=>{
-        ordersEvent.addEventListener(
-          'message',
-          event => subscriber.next(JSON.parse(event.data))
-        );
+        ordersEvent.onmessage = order => subscriber.next(JSON.parse(order.data));
         return ()=> ordersEvent.close();
       }
-    )
-  }
-  updateOrder(order: Order){
-    
-
-  }
-  /**
-   * @returns Array of Orders
-   */
-  getOrders():Order[]{
-    return this.orders;
+    );
   }
   /**
    * this will search through the orders and see if the order with an id is present
@@ -47,71 +54,50 @@ export class OrderService {
    * orderId has no item or it is null @returns Order the first order
    * if there is no order it will @returns undefined
    */
-  getOrder(orderId:string):Order|undefined{ 
+  getOrder(orderId:string):Order{ 
     return orderId ? 
     //Get the order with matching Id
     this.orders.find(order => order.orderId == orderId)? 
     //if not found sort and get the latest order 
-    this.orders.sort((a,b)=> a.timeUpdated >= b.timeUpdated ? 1:0)[0] :
+    this.orders.sort(this.compare)[0] :
     //if no orderId get the latest order or undefined
-    this.orders.sort((a,b)=> a.timeUpdated >= b.timeUpdated ? 1:0)[0] : undefined
+    this.orders.sort(this.compare)[0] : InitialModels.ORDER
+  }
+  getLatestItems() :(Item&{count:number})[]{
+    let latest = this.orders
+    .sort(this.compare)
+    .slice(0,1)
+    .map(order=> order
+      .orderItems
+      
+      .map(item => this.transformItem(item))
+      );
+    return Array.prototype.concat( ...latest);
+  }
+  getLatestItem(orderId:string) :(Item&{count:number})[]{
+    return this.getOrder(orderId)
+    .orderItems
+    .map(item => this.transformItem(item));
   }
   /**
-   * This will change the Orders into an object of OrderTitle
-   * by extacting the orderId,status,time it was created and totalPrice
-   * Note that the time is the time of update
-   * @returns Array of OrderTitle
+   * this will convert back the BasketItem of ItemId, price and coutnt to full item and count
+   * by fetching the data of the item using the Item id
+   * but we keep the price the item was bought on and the count
+   * @param orderItem 
+   * @returns Item&{count:number}
    */
-  getTitles():OrderTitle[]{
-    return this.orders
-    .map(order=> ({
-      status :this.extractLatestStatus(order.status),
-      date :this.extractTimestamp(order.timeCreated).date,
-      time :this.extractTimestamp(order.timeUpdated).time,
-      orderId : order.orderId,
-      totalPrice :order.totalPrice
-    }));
+  transformItem(orderItem:BasketItem):Item&Count{
+    let item = this.itemService.getItem(orderItem.itemId);
+    return {
+      id: orderItem.itemId,
+      name: item.name,
+      category: item.category,
+      image: item.image,
+      price: orderItem.price,
+      count: orderItem.number,
+      description: item.description
+    }
   }
-  /**
-   * This takes in timestamp and converts it to JS Date,
-   * remove the seconds part of the date 
-   * splits the date and time
-   * @param timestamp 
-   * @returns Object of {date:string,time:string}
-   */
-  extractTimestamp(timestamp:number):{date:string,time:string}{
-    let dateTime : {date:string,time:string} = {date:'',time:''};
-    [dateTime.date,dateTime.time] = new Date(timestamp)
-    .toISOString()
-    .substr(0,16)
-    .split("T");
-    return dateTime;
-  }
-
-  /**
-   * @param OrderStatus
-   * This follows the order of essential status and checks which one is true first,
-   * if the last is true and the first is true: of couse it will return the first
-   * The Order is as follow and it will return one if true
-   * 
-   * 0. cancelled
-   * 1. payed
-   * 2. served
-   * 3. ready
-   * 4. cooking 
-   * 5. accepted
-   * 6. New Order
-   * 
-   * @returns String of status
-  */
-  extractLatestStatus(status:OrderStatus):string{
-    return status.cancelMessage ? "canceled":
-            status.payed ? "Payed": 
-            status.served ? "Served":
-            status.ready ? "Ready":
-            status.cooking ? "Cooking":
-            status.accepted ? "Accepted":
-            "New Order";
-  }
+  compare = (a:any,b:any)=> a.timeUpdated-b.timeUpdated;
 }
 

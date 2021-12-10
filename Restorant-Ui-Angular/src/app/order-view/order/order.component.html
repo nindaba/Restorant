@@ -1,12 +1,14 @@
 <div class="content">
     <div class="title">
-        <label class="order-name">#Client Name/ 11:11</label>
+        <label class="order-name">#Client Name/</label>
         <span class="space"></span>
     </div>
     <div style="display:flex;flex-direction:row">
-        
         <div class="orders">
-            <order-item *ngFor="let item of getItems()" [item]="item"></order-item>
+            <order-item *ngFor="let item of (order|async)?.items; index as index" [item]="item" [index]="index"></order-item>
+            <!-- <order-item-skeleton *ngIf="!items" ></order-item-skeleton>
+            <order-item-skeleton *ngIf="!items" ></order-item-skeleton>
+            <order-item-skeleton *ngIf="!items" ></order-item-skeleton> -->
         </div>
         <div class="status">
             <order-status></order-status>

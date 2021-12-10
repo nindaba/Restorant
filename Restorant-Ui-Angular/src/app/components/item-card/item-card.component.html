@@ -13,7 +13,7 @@
                 Price: {{item.price}} 
             </h2>
             <mat-icon color="primary" *ngIf="item.description">notes</mat-icon>
-            <p>{{item.description}}</p>
+            <p>{{item.description|slice :0 :100}} ...</p>
         </div>
     </div>
 </div>

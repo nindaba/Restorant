@@ -10,6 +10,13 @@ import { OrderItemComponent } from './order-item/order-item.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
 import { OrderService } from '../services/order.service';
 import { HttpClientModule } from '@angular/common/http';
+import { OrderItemSkeletonComponent } from '../skeletons/order-item-skeleton/order-item.component';
+import { OrderListSkeletonComponent } from '../skeletons/order-list-skeleton/order-list.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { Common } from './store/order.initial';
+import { OrderReducer } from './store/order.reducer';
+import { OrderEffect } from './store/order.effect';
 
 
 
@@ -21,6 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     OrderComponent,
     OrderItemComponent,
     OrderStatusComponent,
+    OrderItemSkeletonComponent,
+    OrderListSkeletonComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http';
         {path:'',component:OrderComponent},
         {path:':orderId',component:OrderComponent}
       ]}
-    ])
+    ]),
+    // StoreModule.forFeature(Common.FREATUE_KEY,OrderRducer),
+    // EffectsModule.forFeature([OrderEffect]),
   ],
   providers:[OrderService]
 })

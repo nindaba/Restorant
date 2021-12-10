@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderTitle } from 'src/app/models/order-title.model';
+import { INITIAL_ORDER_TITLEL } from '../store/order.initial';
 
 @Component({
   selector: 'order-list-item',
@@ -11,13 +12,7 @@ export class OrderListItemComponent implements OnInit {
   @Input() 
   public title : OrderTitle;
   constructor(private router:Router) {
-    this.title = {
-      orderId: '',
-      date:'',
-      time:'',
-      totalPrice : 0,
-      status:''
-    }
+    this.title = INITIAL_ORDER_TITLEL
    }
 
   ngOnInit(): void {

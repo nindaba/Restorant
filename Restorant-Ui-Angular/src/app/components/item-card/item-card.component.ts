@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
 import { BasketServiceService } from 'src/app/services/basket-service.service';
-import { ItemServiceService } from 'src/app/services/item-service.service';
+import { ItemService } from 'src/app/services/item-service.service';
 
 @Component({
   selector: 'item-card',
@@ -17,7 +17,7 @@ export class ItemCardComponent implements OnInit {
   constructor(
     private router:Router,
     private basketService:BasketServiceService,
-    private itemService:ItemServiceService,
+    private itemService:ItemService,
     private snack: MatSnackBar) {
     this.item = {
       id: '',

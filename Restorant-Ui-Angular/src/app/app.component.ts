@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -6,13 +6,18 @@ import { UserService } from './services/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'restorant';
   constructor(public userService:UserService){}
+  ngOnInit(): void {
+    this.userService.load()
+  }
 
   //We need this for our template
 
   //userService.isLoggedIn;
   //userService.logout();
   //userService.username;
+
+
 }

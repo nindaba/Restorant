@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { CategoryItem } from 'src/app/models/category-item.model';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
-import { CategoryServiceService } from 'src/app/services/category-service.service';
+import { CategoryService } from 'src/app/services/category-service.service';
 
 @Component({
   selector: 'category',
@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit,OnDestroy {
   categoryItem: CategoryItem;
   padding:string = 'pd-category';
   constructor(
-    private categoryService: CategoryServiceService,
+    private categoryService: CategoryService,
     private activatedRoutes:ActivatedRoute,
     private router:Router) {
     this.categories = []

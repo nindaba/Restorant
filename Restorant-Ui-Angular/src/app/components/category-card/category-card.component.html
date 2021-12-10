@@ -9,6 +9,8 @@
             </span>
             <label for="mat-icon">3.2</label>
         </div>
+        <mat-icon color="primary" *ngIf="category.description">notes</mat-icon>
+        <p>{{category.description|slice :0 :100}} ...</p>
         <button mat-flat-button (click)="viewItems()"  color="primary">{{category.items.length}} Items</button>
         <button *ngIf="isAdmin" mat-icon-button (click)="edit()"  color="primary" class="edit">
             <mat-icon>edit</mat-icon>

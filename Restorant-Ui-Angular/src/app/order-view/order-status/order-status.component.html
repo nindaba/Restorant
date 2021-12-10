@@ -1,32 +1,62 @@
-<div class="content">
+<div class="content" >
     <div>
+        <h2>Status</h2>
         <div class="status">
-            <mat-stepper 
-            orientation="vertical" 
-            optionalLabel="Order Status"
-            [selectedIndex] = "status"
-            >
-                <mat-step editable="false" label="Order">
-                    <button mat-button matStepperNext (click)="send()">
-                        Order
-                        <mat-icon color="primary">send</mat-icon>
-                    </button>
-                </mat-step>
-                <mat-step editable="false" label="Accepted">
-                </mat-step>
-                <mat-step editable="false" label="Cooking">
-                </mat-step>
-                <mat-step editable="false" label="Ready To Serve">
-                </mat-step>
-                <mat-step editable="false" label="Served">
-                </mat-step>
-            </mat-stepper>
+            <table  class="status-taable">
+                <thead>
+                    <tr class="raw">
+                        <!-- <td><mat-icon color="primary">circle</mat-icon></td> -->
+                        <!-- <td *ngIf="index == 0"><mat-spinner color="primary" diameter="20"></mat-spinner></td> -->
+                        <td><h2>Order</h2></td>
+                        <td><div style="flex-grow: 1;"></div></td>
+                        <td><div style="flex-grow: 1;"></div></td>
+                        <td *ngIf="isBasket|async">
+                            <button  mat-button (click)="send()">
+                                Send
+                                <mat-icon color="primary">send</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td *ngIf="index == 0 && (isBasket|async)"><mat-icon color="primary" >circle</mat-icon></td>
+                        <td *ngIf="index >=1"><mat-icon color="primary" >check_circle</mat-icon></td>
+                        <td *ngIf="index == 0 && !(isBasket|async)"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                        <td>Accepted</td>
+                    </tr>
+                    <tr>
+                        <td *ngIf="index <1"><mat-icon color="primary">circle</mat-icon></td>
+                        <td *ngIf="index >= 2"><mat-icon color="primary" >check_circle</mat-icon></td>
+                        <td *ngIf="index ==1"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                        <td>Cooking </td>
+                    </tr>
+                    <tr>
+                        <td *ngIf="index < 2"><mat-icon color="primary">circle</mat-icon></td>
+                        <td *ngIf="index >= 3"><mat-icon color="primary" diameter="15">check_circle</mat-icon></td>
+                        <td *ngIf="index ==2"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                        <td>Ready to serve</td>
+                    </tr>
+                    <tr>
+                        <td *ngIf="index < 3"><mat-icon color="primary">circle</mat-icon></td>
+                        <td *ngIf="index >= 4"><mat-icon color="primary" >check_circle</mat-icon></td>
+                        <td *ngIf="index ==3"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                        <td>Served </td>
+                    </tr>
+                    <tr>
+                        <td *ngIf="index < 4"><mat-icon color="primary">circle</mat-icon></td>
+                        <td *ngIf="index >=5"><mat-icon color="primary" >check_circle</mat-icon></td>
+                        <td *ngIf="index ==4"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                        <td>Payed </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <p class="message" *ngIf="message">
-        {{message}}
+    <p class="message" *ngIf="status.cancelMessage">
+        {{status.cancelMessage}}
    </p>
    <span class="total">
-    Total: {{totalPrice}} Zloty
+    Total: {{totalPrice|async}} Zloty
    </span>
 </div>

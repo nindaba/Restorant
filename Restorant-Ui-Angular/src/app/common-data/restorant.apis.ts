@@ -5,7 +5,7 @@ export class RestorantApis{
     public static CATEGORY_UPDATE = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}category/${id}`;
     public static CATEGORY_ITEMS = (id:string):string=> `${RestorantApis.RESTORANT_GATEWAY}category/${id}/items`;
     public static ITEM =`${RestorantApis.RESTORANT_GATEWAY}item`;
-    public static ITEM_UPDATE = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}item/${id}`;
+    public static ITEM_ID = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}item/${id}`;
     public static ORDER = `${RestorantApis.RESTORANT_GATEWAY}order`
     /** Note from OrderAPi that only employees have access to all the records */
     public static ORDER_ALL = `${RestorantApis.RESTORANT_GATEWAY}order/all`

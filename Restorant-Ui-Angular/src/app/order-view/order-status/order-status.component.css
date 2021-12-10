@@ -1,12 +1,18 @@
 .content{
     width: 300px;
-    padding-left: 1em;
+    padding-left: 1.5em;
     display: flex;
     flex-direction: column;
     color: rgb(24, 23, 23);
 }
 b{
     color: rgb(43, 170, 117);
+}
+.status-table thead{
+    margin-bottom: 2em;
+    border-bottom: 2px;
+    border-color: black;
+    background-color: red;
 }
 .status,.total{
     width: 100%;
