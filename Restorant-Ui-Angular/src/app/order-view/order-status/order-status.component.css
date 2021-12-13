@@ -38,4 +38,9 @@ b{
     font-weight: 500;
     font-size: larger;
     margin-top: .5em;
+    width: 100%;
+}
+.button-content{
+    display: flex;
+    align-items: center;
 }

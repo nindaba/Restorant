@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,12 +77,7 @@ public class CategoryService {
 		category.setId(null);
             String id = categoryRepository.save(category).getId();
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setLocation(
-                    ServletUriComponentsBuilder
-                            .fromCurrentRequest()
-                            .path("/{id}")
-                            .build(id)
-            );
+            httpHeaders.setLocation(URI.create(id));
             return new ResponseEntity<>(httpHeaders,HttpStatus.OK);
         }
         //ToDo throw Custom Exception for already existing category name

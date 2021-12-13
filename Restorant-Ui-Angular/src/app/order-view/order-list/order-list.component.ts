@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { OrderTitle } from 'src/app/models/order-title.model';
 import { OrderService } from 'src/app/services/order.service';
+import { initSelectedOrder } from '../store/order.action';
 import { getTitles } from '../store/order.selector';
 
 @Component({
@@ -12,9 +13,11 @@ import { getTitles } from '../store/order.selector';
 })
 export class OrderListComponent implements OnInit {
   titles: Observable<OrderTitle[]> = new Observable();
+
   constructor(private store:Store) { }
   ngOnInit(): void {
     this.titles = this.store.select(getTitles());
+    this.store.dispatch(initSelectedOrder({id:'INITIAL'}));
   }
 
 }

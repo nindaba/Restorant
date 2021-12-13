@@ -1,27 +1,22 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Actions, createEffect, Effect, ofType } from "@ngrx/effects";
-import { createEffects } from "@ngrx/effects/src/effects_module";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { EMPTY, interval, Observable, of, zip } from "rxjs";
-import * as Rxjs from "rxjs";
-import { catchError, filter, flatMap, map, mergeMap, switchMap, take } from "rxjs/operators";
+import { of, zip } from "rxjs";
+import { catchError, filter, map, mergeMap, take, takeLast, withLatestFrom } from "rxjs/operators";
 import { RestorantApis } from "src/app/common-data/restorant.apis";
-import { BasketItem } from "src/app/models/basket-item.model";
 import { Item } from "src/app/models/item.model";
-import { Order } from "src/app/models/order.model";
-import { ItemService } from "src/app/services/item-service.service";
 import { OrderService } from "src/app/services/order.service";
 import * as OrderAction from "./order.action";
-import { Common } from "./order.initial";
-import { copy, Count, SelectedOrder } from "./order.model";
+import { Count} from "./order.model";
 import * as OrderSelector from "./order.selector";
-
+import { Caller,Response } from "src/app/models/response.module";
+import * as Messages from 'src/app/common-data/responses.messages'
+import { logger } from "src/app/common-data/utils";
 @Injectable()
 export class OrderEffect{
     constructor(
             private orderService:OrderService,
-            private itemService:ItemService,
             private actions:Actions,
             private store :Store,
             private http:HttpClient
@@ -31,7 +26,7 @@ export class OrderEffect{
         mergeMap(
             ()=> this.orderService.loadOrders().pipe(
                 map(order=> OrderAction.ordersLoadedSuccess({payload:order})),
-                catchError(()=> of(OrderAction.onError({message:'Failed to load orders'})))
+                catchError(()=> of(OrderAction.addResponse(Messages.LOADING_ORDER_FAILED)))
             )
         )
     ));
@@ -40,37 +35,50 @@ export class OrderEffect{
         mergeMap(()=> this.store.select(OrderSelector.getSelected()).pipe(
             take(1),
             mergeMap(order=> this.orderService.sendOrder(order).pipe(
-                mergeMap(response => [
+        mergeMap(response => [
                     OrderAction.orderSendSuccess({response:response}),
-                    OrderAction.initSelectedOrder({index:0}) // we choose 0 since it will be the with the latest time update
+                    OrderAction.initSelectedOrder({id:''}), // we choose 0 since it will be the with the latest time update
+                    OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS)
                 ]),
-                catchError(()=> of(OrderAction.onError({message:'Failed to send'})))
+                catchError(()=> [
+                    OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
+                    OrderAction.setBasket({isBasket:true})
+            ])
             )),
-           
         ))
     ));
 
     onLoadedItems = createEffect(()=> this.actions.pipe(
         ofType(OrderAction.initSelectedOrder),
-        mergeMap(props=> this.store.select(OrderSelector.getOrder(props.index)).pipe(
-            filter(o=> o.orderItems.length > 0),
+        mergeMap(props=> this.store.select(OrderSelector.getOrder(props.id)).pipe(
+            filter(o=> o.orderItems.length > 0),            
             take(1),
             mergeMap(order => 
                 zip(
                     ...[
-                        of(OrderAction.setSelected({order:{...order,isBasket:false,items:[]}})),
+                        of(OrderAction.setSelected({
+                            id: props.id,
+                            order:{...order,isBasket:false,items:[]}
+                        })),
                         ...order.orderItems
                         .map(item => this.http.get<Item>(RestorantApis.ITEM_ID(item.itemId)).pipe(
                                 map((completeItem:Item):Item&Count => ({...completeItem,count:item.number,price:item.price})),
-                                map(item => OrderAction.loadSelectedItems({item: item}),
-                                catchError(()=> of(OrderAction.onError({message:`Failed to load item :${item.itemId}`})))
+                                map(item => OrderAction.loadSelectedItems({id:props.id,item: item}),
+                                catchError(()=> of(OrderAction.addResponse(Messages.LOADING_ITEM_FAILED)))
                             )))
                         ]
                     )),
-            mergeMap(actions => [...actions]),
-            catchError(()=> of(OrderAction.onError({message:`Failed to load item :${props.index}`})))
+            mergeMap(actions => [
+                ...actions, 
+                OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS)
+            ]),
+            catchError(()=> [
+                OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
+            ]
         )
-    )));
+        )
+    ))
+    );
     // double = createEffect(()=> this.actions.pipe(
     //     ofType(OrderAction.onError),
     //     mergeMap(c =>

@@ -6,7 +6,6 @@
     border-radius: .5em;
     padding: 1em;
     border : 2px;
-    box-shadow: red;
     margin-bottom: .5em;
 }
 .image{
@@ -20,6 +19,7 @@
     margin-bottom: 5px;
 }
 b{
+    font-weight: 500;
     color: rgb(43, 170, 117);
 }
 /* .details{

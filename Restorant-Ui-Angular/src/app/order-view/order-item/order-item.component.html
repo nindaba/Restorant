@@ -17,6 +17,12 @@
                             <td style="padding-left:0.5em;">
                                 <label> {{item.price}} Zloty</label>
                             </td>
+                            <td>
+                                <b>Total Price</b>
+                            </td>
+                            <td style="padding-left:0.5em;">
+                                <label> {{item.price* item.count}} Zloty</label>
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -35,15 +41,7 @@
                                     </mat-icon>
                                 </button>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Total Price</b>
-                            </td>
-                            <td style="padding-left:0.5em;">
-                                <label> {{item.price* item.count}} Zloty</label>
-                            </td>
-                        </tr>            
+                        </tr>           
                     </table>
                 <div style="flex-grow: 1;"></div>
                 

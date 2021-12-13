@@ -1,7 +1,10 @@
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { InitialModels } from 'src/app/common-data/initial-models.data';
+import { RestorantApis } from 'src/app/common-data/restorant.apis';
 import { CategoryItem } from 'src/app/models/category-item.model';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
@@ -32,15 +35,10 @@ export class CategoryComponent implements OnInit,OnDestroy {
   constructor(
     private categoryService: CategoryService,
     private activatedRoutes:ActivatedRoute,
+    private http:HttpClient,
     private router:Router) {
     this.categories = []
-    this.categoryItem = {
-      id: '',
-      name: '',
-      image: '',
-      description: '',
-      items: []
-    };
+    this.categoryItem = InitialModels.CATEGORY_ITEM;
     this.categoriesDisplay = [];
     this.subscription = new Subscription();
    }
@@ -66,13 +64,13 @@ export class CategoryComponent implements OnInit,OnDestroy {
       .subscribe(categories=> this.categories = categories) 
       )
     }));
+
+    this.http.get("http://localhost:5001/1",{observe: 'response'}).subscribe(c=> console.log(c.headers.keys())); 
+
   }
   get isLoading():Boolean{
-    //checks if either the categories length == 0 has values
-    // or categoryitems length == 0 when category has values
-
+    //checks if the categories length == 0 has values
     return this.categories.length == 0 
-      // || this.categoryItem.items.length  == 0 && this.categories.length > 0
   }
   get isAdmin():Boolean{
     return this.router.url.startsWith("/admin");

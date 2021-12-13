@@ -2,6 +2,7 @@ package com.yadlings.gateway.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -34,6 +35,8 @@ public class WebSecurity{
         corsConfiguration.setAllowedOrigins(Arrays.asList(origins.split(",")));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+        corsConfiguration.addExposedHeader(HttpHeaders.AUTHORIZATION);
+        corsConfiguration.addExposedHeader(HttpHeaders.LOCATION);
         corsConfiguration.setMaxAge(173000L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",corsConfiguration);

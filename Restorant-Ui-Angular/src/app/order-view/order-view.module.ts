@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainViewComponent } from './main-view/main-view.component';
 import { RouterModule } from '@angular/router';
-import { OrderListItemComponent } from './order-list-item/order-list-item.component';
+import { OrderTitleComponent } from './order-title/order-title.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { OrderComponent } from './order/order.component';
 import { MatModule } from '../mat.module';
@@ -14,9 +14,9 @@ import { OrderItemSkeletonComponent } from '../skeletons/order-item-skeleton/ord
 import { OrderListSkeletonComponent } from '../skeletons/order-list-skeleton/order-list.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { Common } from './store/order.initial';
 import { OrderReducer } from './store/order.reducer';
 import { OrderEffect } from './store/order.effect';
+import { Common } from './store/order.model';
 
 
 
@@ -24,7 +24,7 @@ import { OrderEffect } from './store/order.effect';
   declarations: [
     MainViewComponent,
     OrderListComponent,
-    OrderListItemComponent,
+    OrderTitleComponent,
     OrderComponent,
     OrderItemComponent,
     OrderStatusComponent,
@@ -41,8 +41,8 @@ import { OrderEffect } from './store/order.effect';
         {path:':orderId',component:OrderComponent}
       ]}
     ]),
-    // StoreModule.forFeature(Common.FREATUE_KEY,OrderRducer),
-    // EffectsModule.forFeature([OrderEffect]),
+    StoreModule.forFeature(Common.FREATUE_KEY,OrderReducer),
+    EffectsModule.forFeature([OrderEffect]),
   ],
   providers:[OrderService]
 })

@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+
 @Service
 @AllArgsConstructor
 public class ItemService implements ItemServiceInterface{
@@ -62,14 +65,8 @@ public class ItemService implements ItemServiceInterface{
 		//sometimes the id can come with empty "" this will cause a bug, where the id will not be set by mongo
 		item.setId(null);
             Item save = repository.save(item);
-		System.out.println(save);
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setLocation(
-                    ServletUriComponentsBuilder
-                            .fromCurrentRequest()
-                            .path("/{id}")
-                            .build(save.getId())
-            );
+            httpHeaders.setLocation(URI.create(save.getId()));
             addCategoryItem(item.getCategory(), save.getId());
             return new ResponseEntity<>(httpHeaders,HttpStatus.OK);
         }

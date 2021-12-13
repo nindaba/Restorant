@@ -1,9 +1,6 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Item } from '../models/item.model';
-import {Order} from '../models/order.model'
-import {RestorantApis} from '../common-data/restorant.apis';
-import { INITIAL_ORDER, INITIAL_SELECTED_ORDER } from '../order-view/store/order.initial';
+import { INITIAL_SELECTED_ORDER } from '../order-view/store/order.initial';
 import { copy, Count, SelectedOrder } from '../order-view/store/order.model';
 
 @Injectable({
@@ -11,8 +8,7 @@ import { copy, Count, SelectedOrder } from '../order-view/store/order.model';
 }) 
 export class BasketServiceService {
   private basketItems: (Item&{count:number})[]=[];
-  constructor(private http:HttpClient) { 
-  }
+  constructor() {}
   remove(id: string) {
     this.basketItems.splice(this.basketItems.findIndex(item=> item.id===id),1)
   }
@@ -40,7 +36,6 @@ export class BasketServiceService {
     let order:SelectedOrder = copy(INITIAL_SELECTED_ORDER);
     order.items = this.basketItems; // copy because i dont want it to create a cooection with the state which will make it read only
     if(order.items.length > 0) order.isBasket = true;
-    if(order.items.length > 0) console.log(order.isBasket)
     return order;
   }
 }

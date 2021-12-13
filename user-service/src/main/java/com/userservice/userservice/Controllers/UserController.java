@@ -17,8 +17,7 @@ public class UserController {
     private UserService userService;
     @PostMapping(value = "/client")
     public ResponseEntity<HttpStatus> registerClient(@RequestBody User user){
-	user.setType(UserType.CLIENT);
-	userService.save(user);
+	    user.setType(UserType.CLIENT);
         return userService.save(user);
     }
     

@@ -1,7 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Item } from '../models/item.model';
 import { RestorantApis } from '../common-data/restorant.apis';
 import { InitialModels } from '../common-data/initial-models.data';

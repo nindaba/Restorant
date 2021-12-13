@@ -3,21 +3,6 @@
         <h2>Status</h2>
         <div class="status">
             <table  class="status-taable">
-                <thead>
-                    <tr class="raw">
-                        <!-- <td><mat-icon color="primary">circle</mat-icon></td> -->
-                        <!-- <td *ngIf="index == 0"><mat-spinner color="primary" diameter="20"></mat-spinner></td> -->
-                        <td><h2>Order</h2></td>
-                        <td><div style="flex-grow: 1;"></div></td>
-                        <td><div style="flex-grow: 1;"></div></td>
-                        <td *ngIf="isBasket|async">
-                            <button  mat-button (click)="send()">
-                                Send
-                                <mat-icon color="primary">send</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
                         <td *ngIf="index == 0 && (isBasket|async)"><mat-icon color="primary" >circle</mat-icon></td>
@@ -58,5 +43,16 @@
    </p>
    <span class="total">
     Total: {{totalPrice|async}} Zloty
+    <div style="flex-grow: 1;"></div>
+    <button *ngIf="(response|async)?.message == 'pending' ||(isBasket|async)" mat-button (click)="send()" style="width: 120px">
+        <span *ngIf="(response|async)?.success" class="button-content">
+            Send Order
+            <mat-icon color="primary">send</mat-icon>
+        </span>
+        <span *ngIf="(response|async)?.message == 'pending'" class="button-content">
+            <mat-spinner  color="primary" diameter="20"></mat-spinner>
+            Sending
+        </span>
+    </button>   
    </span>
 </div>

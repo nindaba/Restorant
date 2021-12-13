@@ -1,8 +1,9 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { OrderStatus } from "src/app/models/order-status.model";
 import { Order } from "src/app/models/order.model";
-import {Common, INITIAL_ORDER} from './order.initial'
-import { copy, OrderState } from "./order.model";
+import { Caller } from "src/app/models/response.module";
+import { INITIAL_ORDER } from "./order.initial";
+import { copy, OrderState,Common } from "./order.model";
 
 /**
    * @param OrderStatus
@@ -56,9 +57,11 @@ const getOrders = ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
         (state:OrderState) => state.orders
 );
-const getOrder = (index:number)=> createSelector(
+const getOrder = (id:string)=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
-        (state:OrderState) => copy<Order[]>(state.orders)[index] ||copy<Order[]>(state.orders).sort(compare)[0] || INITIAL_ORDER
+        (state:OrderState) => copy<Order[]>(state.orders).find(order=> order.orderId == id) 
+        ||copy<Order[]>(state.orders).sort(compare)[0] 
+        || INITIAL_ORDER
 );
 const getSelected = ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
@@ -109,7 +112,23 @@ const isBasket =()=>createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
         (state:OrderState)=> state.selectedOrder.isBasket
 )
+const getSelectedId =()=>createSelector(
+        createFeatureSelector(Common.FREATUE_KEY),
+        (state:OrderState)=> state.selectedOrder.orderId
+)
+const getResponse =(caller:Caller)=>createSelector(
+        createFeatureSelector(Common.FREATUE_KEY),
+        (state:OrderState)=> state.response
+        .filter(resp=> resp.from == caller)
+        .slice(-1)[0]
+)
+const noItem =()=>createSelector(
+        createFeatureSelector(Common.FREATUE_KEY),
+        (state:OrderState)=> !state.selectedOrder.isBasket && state.isEmpty
+)
 export{
+        noItem,
+        getSelectedId,
         isBasket,
         getOrders,
         getSelected,
@@ -120,4 +139,5 @@ export{
         getLatestStatus,
         getTitles,
         getStatusIndex,
+        getResponse,
 }

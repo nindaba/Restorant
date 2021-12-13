@@ -1,15 +1,22 @@
 .content{
     width: 100%;
+    height: 100%;
     padding-left: 20px;
     color: rgb(24, 23, 23);
+}
+.order-status{
+    display:flex;
+    flex-direction:row;
+    height: 90%; 
+    width: 100%;
 }
 .space{
     flex-grow: 1;
 }
 .orders{
-    height: 540px;
-    width: 75%;
-    overflow: auto;
+    height: 100%;
+    width: 100%;
+    overflow-y:auto;
 }
 .title{
     height: 40px;

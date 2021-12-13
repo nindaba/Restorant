@@ -22,9 +22,10 @@ public class OrderService {
     public Mono<String> save(Order order){
         //todo validate, check if the order has at least one item. if not return a mono of Exception Response
         //but later as we need empty order to save time in production
-        return orderRepository.save(order)
+        return orderRepository
+                .save(order)
                 .flatMap(kafkaService::sendToClient)
-                .map(Order::getOrderId);
+                .map(id-> "{\'id\':\'"+id+"\'}");
     }
     /**
      * This will fetch all the records in the database and merge
@@ -44,7 +45,7 @@ public class OrderService {
      * @param order
      * @return Mono<ORDER>
      */
-    public Mono<Order> update(Order order) {
+    public Mono<String> update(Order order) {
         return orderRepository
                 .findById(order.getOrderId())
                 .flatMap(foundOrder-> orderRepository.save(order))

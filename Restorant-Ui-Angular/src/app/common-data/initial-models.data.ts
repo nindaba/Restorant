@@ -1,4 +1,5 @@
 import { BasketItem } from "../models/basket-item.model";
+import { CategoryItem } from "../models/category-item.model";
 import { Item } from "../models/item.model";
 import { OrderStatus } from "../models/order-status.model";
 import { Order } from "../models/order.model";
@@ -26,12 +27,19 @@ export class InitialModels{
                 number: 0,
                 price: 0
         }
-  static ITEM: Item = {
-          image: "",
-          category: "",
-          price: 0,
-          id: "",
-          name: "",
-          description: ""
-  }
+        public static ITEM: Item = {
+                image: "",
+                category: "",
+                price: 0,
+                id: "",
+                name: "",
+                description: ""
+        }
+        public static CATEGORY_ITEM: CategoryItem ={
+                image: "",
+                items: [],
+                id: "",
+                name: "",
+                description: ""
+        }
 }

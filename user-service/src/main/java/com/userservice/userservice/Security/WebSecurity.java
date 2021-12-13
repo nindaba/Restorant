@@ -61,15 +61,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new VerifyFilter(secret), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(authFilter);
     }
-//    @Bean //Nolonger needed since the gateway has
-    public CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(origins.split(",")));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setMaxAge(1000000L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
-        return source;
-    }
 }

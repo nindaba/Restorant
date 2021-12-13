@@ -22,12 +22,8 @@ import { OrderViewModule } from './order-view/order-view.module';
 import { UserModule } from './user/user.module';
 import { UserService } from './services/user.service';
 import { TokenInterceptor } from './token-interceptor.interceptor';
-import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { Common } from './order-view/store/order.initial';
-import { OrderReducer } from './order-view/store/order.reducer';
-import { OrderEffect } from './order-view/store/order.effect';
 // import { CustomInputComponent } from './components/custom-input/custom-input.component';
 @NgModule({
   declarations: [
@@ -49,8 +45,8 @@ import { OrderEffect } from './order-view/store/order.effect';
     MatModule, 
     OrderViewModule  ,
     UserModule,
-    StoreModule.forRoot({[Common.FREATUE_KEY]:OrderReducer}),
-    EffectsModule.forRoot([OrderEffect]),
+    StoreModule.forRoot({},{}),
+    EffectsModule.forRoot([]),
   ],
   providers: [
     CategoryService,

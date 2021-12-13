@@ -1,7 +1,7 @@
 <div class="content">
     <div class="order-list">
-        <order-list></order-list>
-        <!-- <order-list-skeleton></order-list-skeleton> -->
+        <order-list *ngIf="!(isEmpty|async)"></order-list>
+        <order-list-skeleton *ngIf="isEmpty|async"></order-list-skeleton>
     </div>
     <div class="order-display">
         <router-outlet></router-outlet>

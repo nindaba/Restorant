@@ -44,7 +44,7 @@ public class AuthFilter extends UsernamePasswordAuthenticationFilter {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         Date dateGranted = new Date();
         Date dateExpires = new Date();
-        dateExpires.setHours(dateExpires.getHours()+168); //Todo this needs to be fixed as it is giving range of 7 days in stead of two
+        dateExpires.setHours(dateExpires.getHours() + 168); //Todo this needs to be fixed as it is giving range of 7 days in stead of two
         User user = (User) authResult.getPrincipal();
         Map<String, ?> claims = Map.of(
                 "userId", user.getUserId(),
@@ -56,13 +56,10 @@ public class AuthFilter extends UsernamePasswordAuthenticationFilter {
                 .withIssuedAt(dateGranted)
                 .withIssuer("Yadlings")
                 .withSubject(user.getUsername())
-                .withClaim("payload",claims)
+                .withClaim("payload", claims)
                 .sign(algorithm);
         response.setContentType(MediaType.APPLICATION_JSON.toString());
-        response.setHeader(HttpHeaders.AUTHORIZATION,"bearer "+token);
-       new ObjectMapper().writeValue(
-response.getOutputStream(),
-                Map.of("Token",token));
+        response.setHeader(HttpHeaders.AUTHORIZATION, "bearer " + token);
     }
 
     @Override

@@ -20,6 +20,7 @@ import reactor.kafka.receiver.ReceiverOptions;
 import reactor.kafka.receiver.ReceiverRecord;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
+import reactor.kafka.sender.SenderResult;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
@@ -122,15 +123,16 @@ public class KafkaService {
      * @param order
      * @return Mono of Order
      */
-    public Mono<Order> sendToClient(Order order){
+    public Mono<String> sendToClient(Order order){
         return kafkaSender
                 .createOutbound()
                 .send(Flux
                         .just(order)
                         .map(record -> new ProducerRecord<>(CLIENT_TOPIC, record.getOrderId(), record.serialize()))
-                )
-                .then()
-                .map(voidValue -> order);
+                ).then()
+                .cast(String.class)
+                .concatWith(Mono.just(order.getOrderId()))
+                .single();
     }
     public Mono<Order> sendToClient(Mono<Order> order){
         return kafkaSender
