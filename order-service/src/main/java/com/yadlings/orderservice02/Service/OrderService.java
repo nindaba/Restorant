@@ -24,8 +24,7 @@ public class OrderService {
         //but later as we need empty order to save time in production
         return orderRepository
                 .save(order)
-                .flatMap(kafkaService::sendToClient)
-                .map(id-> "{\'id\':\'"+id+"\'}");
+                .flatMap(kafkaService::sendToClient);
     }
     /**
      * This will fetch all the records in the database and merge
