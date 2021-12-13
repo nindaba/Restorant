@@ -24,10 +24,11 @@ public class ClientHandler {
                     order.setOrderId(null); /** set the orderId to null otherwise mongo will not give it an id */
                     return order;
                 })
-                .map(orderService::save)
+                .flatMap(orderService::save)
                 .flatMap(orderId -> ServerResponse
                         .ok()
-                        .body(orderId,String.class));
+                        .header("Location",orderId)
+                        .body(Mono.empty(),Void.class));
     }
     public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
         return null;
