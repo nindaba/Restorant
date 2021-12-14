@@ -42,7 +42,8 @@ const INITIAL_STATE:OrderState ={
         selectedOrder: INITIAL_SELECTED_ORDER,
         isEmpty: true,
         selectedIndex: -1,
-        response: []
+        response: [],
+        userId: ""
 }
 const INITIAL_ORDER: Order ={
         orderId: "",

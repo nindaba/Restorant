@@ -4,6 +4,7 @@ import { Order } from "src/app/models/order.model";
 import * as OrderAction from "./order.action";
 import { INITIAL_STATE } from "./order.initial";
 import {copy, OrderState, SelectedOrder } from "./order.model";
+import { compare } from "./order.selector";
 
 const updateOrders = (orders:Order[],order: Order):Order[]=>{
     let index = orders.findIndex(find => find.orderId == order.orderId);
@@ -77,6 +78,9 @@ const OrderReducer = createReducer(
 		stateCopy.selectedOrder.isBasket = metadata.isBasket;
 		return stateCopy;
 	}),
+	// on(OrderAction.checkUser,(state:OrderState,metadata)=>{
+	// 	return metadata.userId ? {...INITIAL_STATE,userId:metadata.userId}:state;
+	// }),
 )
 export{
 	OrderReducer

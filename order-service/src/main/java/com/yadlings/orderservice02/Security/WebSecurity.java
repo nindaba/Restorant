@@ -32,7 +32,7 @@ public class WebSecurity{
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors()//todo .disable()
+                .cors().disable()
                 .and()
                 /**
                  * Authentication manager is customized to fit the jwt token model of authentication

@@ -13,21 +13,35 @@ import * as OrderSelector from "./order.selector";
 import { Caller,Response } from "src/app/models/response.module";
 import * as Messages from 'src/app/common-data/responses.messages'
 import { logger } from "src/app/common-data/utils";
+import { UserService } from "src/app/services/user.service";
 @Injectable()
 export class OrderEffect{
     constructor(
             private orderService:OrderService,
             private actions:Actions,
             private store :Store,
-            private http:HttpClient
-    ){}
+            private http:HttpClient,
+            private userService:UserService
+    ){
+        // this.actions.subscribe(log)
+    }
     onloadOrders = createEffect(()=>this.actions.pipe(
         ofType(OrderAction.loadOrders),
         mergeMap(
-            ()=> this.orderService.loadOrders().pipe(
-                map(order=> OrderAction.ordersLoadedSuccess({payload:order})),
-                catchError(()=> of(OrderAction.addResponse(Messages.LOADING_ORDER_FAILED)))
+            ()=> this.store.select(OrderSelector.isEmpty())
+            .pipe(
+                take(1),
+                filter(empty => empty == true),
+                map(log),
+                mergeMap(
+                    ()=> this.orderService.loadOrders().pipe(
+                        map(order=> OrderAction.ordersLoadedSuccess({payload:order})),
+                        
+                        catchError(()=> of(OrderAction.addResponse(Messages.LOADING_ORDER_FAILED)))
+                    )
+                )
             )
+            
         )
     ));
     onSendOrder = createEffect(()=> this.actions.pipe(
@@ -37,9 +51,9 @@ export class OrderEffect{
             mergeMap(order=> this.orderService.sendOrder(order).pipe(
         mergeMap(response => [
                     OrderAction.orderSendSuccess({response:response}),
-                    OrderAction.initSelectedOrder({id:''}), // we choose 0 since it will be the with the latest time update
-                    OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS)
-                ]),
+                    OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS),
+                    OrderAction.initSelectedOrder({id:response.headers.get('Location') || ''}) // we choose 0 since it will be the with the latest time update
+                ]), 
                 catchError(()=> [
                     OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
                     OrderAction.setBasket({isBasket:true})
@@ -79,13 +93,17 @@ export class OrderEffect{
         )
     ))
     );
-    // double = createEffect(()=> this.actions.pipe(
-    //     ofType(OrderAction.onError),
-    //     mergeMap(c =>
-    //         zip(
-    //             of(OrderAction.onError({message:'frirst DOUBLE'})),
-    //             of(OrderAction.loadSelectedItems)
-    //         )),
-    //     mergeMap(res => [...res])
-    // ));
+    onChangeUser = createEffect(()=> this.actions.pipe(
+        ofType(OrderAction.checkUser),
+        filter(metadata => metadata.userId != 'INITIAL'),
+        mergeMap(metadata=>
+             this.store.select(OrderSelector.isUserChanged(this.userService.userInfo.payload.userId))
+             .pipe(map(id=> OrderAction.checkUser({userId:id})))
+        )
+    ));
+}
+
+const log = (l:any) => {
+    console.log(l);
+    return l;
 }

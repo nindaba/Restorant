@@ -3,10 +3,13 @@ import com.yadlings.orderservice02.Documents.Order;
 import com.yadlings.orderservice02.Repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.kafka.receiver.ReceiverRecord;
+
+import java.util.Comparator;
 
 @Service
 @AllArgsConstructor
@@ -59,14 +62,16 @@ public class OrderService {
      */
     public Flux<Order> getOrders(String clientId){
         return Flux.merge(
-                orderRepository.findByClientId(clientId),
+                orderRepository.findByClientId(clientId)
+                        .sort(Comparator
+                                .comparingLong(Order::getTimeUpdated)
+                                .reversed()),
                 kafkaService.receive()
                         .map(ReceiverRecord::value)
                         .map(Order::deserialize)
                         .filter(order -> order.getClientId().endsWith(clientId)) //Note that the broker is not for one client, therefore I have to filter the orders for the client
         );
     }
-
 //    public ResponseEntity<Order> getByOrderId(String orderId){
 //        return orderRepository
 //                .findById(orderId)

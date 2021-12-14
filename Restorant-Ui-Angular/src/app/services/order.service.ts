@@ -26,7 +26,7 @@ export class OrderService {
    */
   loadOrders(): Observable<Order>{
     let ordersEvent = new EventSourcePolyfill(RestorantApis.ORDER,{
-      headers:{'Authorization': "bearer "+this.userService.token},
+      headers:{'Authorization': this.userService.token},
       heartbeatTimeout: 2*60*60*1000 //2 hours
     });
     return new Observable<Order>(
@@ -42,7 +42,7 @@ export class OrderService {
    * @returns HttpResponse
    */
   sendOrder(order: SelectedOrder): Observable<HttpResponse<any>> {
-    return this.http.post<HttpResponse<any>>(RestorantApis.ORDER,{
+    return this.http.post<any>(RestorantApis.ORDER,{
       ...order,
       id: null,
       orderItems: order.items
@@ -53,7 +53,7 @@ export class OrderService {
       })),
       timeCreated: new Date().getTime(),
       timeUpdated: new Date().getTime(),
-    });
+    },{observe:'response'});
   }
 }
 

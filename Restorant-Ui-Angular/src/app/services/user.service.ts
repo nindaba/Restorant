@@ -4,24 +4,33 @@ import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { RestorantApis} from '../common-data/restorant.apis';
 import jwt_decode from 'jwt-decode'
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Token } from '../models/token.model';
 import { Order } from '../models/order.model';
 import {EventSourcePolyfill} from 'ng-event-source'
+import { catchError, map } from 'rxjs/operators';
+import { Response } from '../models/response.module';
+import { LOGIN_FAILED, LOGIN_SUCCESS } from '../common-data/responses.messages';
+import { logger } from '../common-data/utils';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   constructor(private http:HttpClient,private router:Router) { }
-  login(credentials: {username:string,password:string}):Observable<{Token:string}>{
-    // this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MTk5MTRlYWM4ZjE2Zjc5MWY2MWFiYjUiLCJwYXlsb2FkIjp7InVzZXJUeXBlIjoiQ0xJRU5UIiwidXNlcm5hbWUiOiJuZGFiYSIsImVtYWlsIjoiamVhbkBib3NjbyJ9LCJpc3MiOiJZYWRsaW5ncyIsImV4cCI6MTYzODA1MzkzMiwiaWF0IjoxNjM4MDUzOTMyfQ.X9m6iRI3B23Gr9b0w-wIxHX7JVYKMd3zWeWZIquaXJc"
-    // this.router.navigate(['/'])
+  login(credentials: {username:string,password:string}):Observable<Response>{
     let formCredentials = `username=${credentials.username}&password=${credentials.password}`
     let httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     })
       return this.http
-      .post<{Token:string}>(RestorantApis.USER_LOGIN,formCredentials,{headers:httpHeaders});
+      .post(RestorantApis.USER_LOGIN,formCredentials,{headers:httpHeaders,observe:'response'})
+      .pipe(
+        map(response=>{
+        this.token = response.headers.get("Authorization")||'';
+        return LOGIN_SUCCESS.response;
+        }),
+        catchError(() => [LOGIN_FAILED('err').response])
+      );
   }
   register(user : User&{password:string}):Observable<HttpResponse<any>>{
     // console.log(user);

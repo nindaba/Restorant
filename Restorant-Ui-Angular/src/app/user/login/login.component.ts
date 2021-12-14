@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { logger } from 'src/app/common-data/utils';
 import { UserService } from 'src/app/services/user.service';
 import { inputTextValidator } from 'src/app/validators/validators';
 
@@ -33,12 +34,10 @@ export class LoginComponent implements OnInit,OnDestroy {
     this.hasSubmitted ='';
     this.userService
     .login(this.loginForm.value)
-    .subscribe({
-      next: response => {
-        this.router.navigate(['/']);
-        this.userService.token = response.Token;
-      },
-      error: response => this.hasSubmitted = 'primary',
+    .subscribe(response => {
+      logger(response,'A')
+      if(response.success)this.router.navigate(['/']);
+      else this.hasSubmitted = 'primary';
     })
   }
 }

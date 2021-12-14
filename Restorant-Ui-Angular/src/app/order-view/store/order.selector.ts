@@ -60,12 +60,16 @@ const getOrders = ()=> createSelector(
 const getOrder = (id:string)=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
         (state:OrderState) => copy<Order[]>(state.orders).find(order=> order.orderId == id) 
-        ||copy<Order[]>(state.orders).sort(compare)[0] 
+        ||copy<Order[]>(state.orders).sort(compare)[0]
         || INITIAL_ORDER
 );
 const getSelected = ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
         (state:OrderState) => state.selectedOrder
+);
+const isUserChanged = (id:string)=> createSelector(
+        createFeatureSelector(Common.FREATUE_KEY),
+        (state:OrderState) => state.userId != id ? id:'' 
 );
 const getTotal= ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
@@ -107,7 +111,7 @@ const getTitles = ()=>createSelector(
           totalPrice :order.totalPrice,
           timeUpdated: order.timeUpdated
       }))
-      .sort(compare))
+)      //.sort(compare)
 const isBasket =()=>createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
         (state:OrderState)=> state.selectedOrder.isBasket
@@ -140,4 +144,6 @@ export{
         getTitles,
         getStatusIndex,
         getResponse,
+        isUserChanged,
+        compare
 }

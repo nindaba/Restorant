@@ -35,6 +35,7 @@ interface OrderState{
         selectedIndex:number;
         isEmpty: Boolean;
         response:Response[];
+        userId:string;
 }
 const copy = <T>(original:any):T => JSON.parse(JSON.stringify(original))
 export {

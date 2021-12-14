@@ -4,7 +4,7 @@ export interface Token{
     exp: number;
     iat: number;
     payload:{
-      email: string;
+      userId: string;
       userType: string;
       username: string;
     } 

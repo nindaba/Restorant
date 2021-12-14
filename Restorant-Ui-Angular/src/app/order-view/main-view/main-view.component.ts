@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { logger } from 'src/app/common-data/utils';
 import { BasketServiceService } from 'src/app/services/basket-service.service';
 import * as OrderAction from '../store/order.action';
 import { copy } from '../store/order.model';
@@ -16,7 +17,9 @@ export class MainViewComponent implements OnInit{
   isEmpty:Observable<Boolean> = new Observable(observaber=> observaber.next(true));
   ngOnInit(): void {
     this.isEmpty = this.store.select(isEmpty());
-    this.store.dispatch(OrderAction.loadOrders())
+    this.isEmpty.subscribe(c=>logger(c,"CCCC 20 main v"))
+    this.store.dispatch(OrderAction.loadOrders());
     if(this.service.order.isBasket) this.store.dispatch(OrderAction.setSelected({id:'',order:copy(this.service.order)}));
+    this.store.dispatch(OrderAction.checkUser({userId:'INITIAL'}))
   }
 }
