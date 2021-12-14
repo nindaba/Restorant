@@ -33,7 +33,7 @@ public class WebSecurity{
                 .httpBasic().disable()
                 .csrf().disable()
                 .cors().disable()
-                .and()
+//                .and()
                 /**
                  * Authentication manager is customized to fit the jwt token model of authentication
                  * Security Repository is customized to intercept the request and get the token,
