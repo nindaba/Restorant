@@ -52,6 +52,7 @@ export class OrderService {
         number: item.count,
         price: item.price
       })),
+      username: this.userService.username,
       timeCreated: new Date().getTime(),
       timeUpdated: new Date().getTime(),
     },{observe:'response'});

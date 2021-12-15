@@ -20,7 +20,8 @@ export class InitialModels{
                 status: InitialModels.ORDER_STATUS,
                 totalPrice: 0,
                 timeCreated: 0,
-                timeUpdated: 0
+                timeUpdated: 0,
+                username: ""
         }
         public static BASKET_ITEM :BasketItem ={
                 itemId: "",

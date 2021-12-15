@@ -34,7 +34,8 @@ const INITIAL_SELECTED_ORDER:SelectedOrder= {
         totalPrice: 0,
         timeCreated: 0,
         timeUpdated: 0,
-        isBasket: false
+        isBasket: false,
+        username: ""
 }
 const INITIAL_STATE:OrderState ={
         orders: [],
@@ -52,7 +53,8 @@ const INITIAL_ORDER: Order ={
         status: INITIAL_STATUS,
         totalPrice: 0,
         timeCreated: 0,
-        timeUpdated: 0
+        timeUpdated: 0,
+        username: ""
 }
 const INITIAL_ORDER_ITEM: Item&Count= {
         image: "",

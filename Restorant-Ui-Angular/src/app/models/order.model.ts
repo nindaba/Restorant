@@ -4,6 +4,7 @@ import { OrderStatus } from "./order-status.model";
 export interface Order{
     orderId:string,
     clientId:string,
+    username:string;
     orderItems: Array<BasketItem>,
     status: OrderStatus,
     totalPrice:number,

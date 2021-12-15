@@ -59,7 +59,7 @@ public class WebSecurity{
                 .addFilterAfter(new AuthorizedIdSetter(), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
-//    @Bean
+    @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(origins.split(",")));
