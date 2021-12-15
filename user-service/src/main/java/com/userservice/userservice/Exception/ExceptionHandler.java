@@ -5,12 +5,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @ControllerAdvice
 public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(UserException.class)
-    public ResponseEntity<UserException> userExceptionResponse(UserException exception, HttpServletRequest request){
-        exception.setPath(request.getContextPath());
-        return new ResponseEntity<UserException>(exception, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<UserExceptionResponse> userExceptionResponse(UserException exception, HttpServletRequest request){
+        return new ResponseEntity<UserExceptionResponse>(new UserExceptionResponse(
+                exception.getStatus(),
+                exception.getMessage(),
+                exception.getAction(),
+                request.getServletPath(),
+                new Date().toString()),
+                exception.getStatus()
+        );
+
     }
 }

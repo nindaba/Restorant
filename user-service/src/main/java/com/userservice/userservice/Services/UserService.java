@@ -2,6 +2,7 @@ package com.userservice.userservice.Services;
 
 import com.userservice.userservice.Documents.User;
 import com.userservice.userservice.Exception.UserException;
+import com.userservice.userservice.Exception.UserExceptionResponse;
 import com.userservice.userservice.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +39,8 @@ public class UserService implements org.springframework.security.core.userdetail
                         .orElseThrow(()-> new UserException(
                                 HttpStatus.NOT_FOUND,
                                 "finding user Username email",
-                                String.format("%s was not found try sign up ",emailOrUsername))));
+                                String.format("%s was not found try sign up ",emailOrUsername)
+                        )));
 
     }
     public ResponseEntity<HttpStatus> save(User user){
@@ -73,5 +75,21 @@ public class UserService implements org.springframework.security.core.userdetail
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return getUserByUsernameOrEmail(s);
+    }
+
+    public ResponseEntity<com.userservice.userservice.Models.UserDetails> getDetails(String id) {
+        return repository.findById(id)
+                .map(user-> new com.userservice.userservice.Models.UserDetails(
+                        user.getUsername(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getType()
+                ))
+                .map(user-> new ResponseEntity<>(user,HttpStatus.OK))
+                .orElseThrow(()-> new UserException(
+                        HttpStatus.NOT_FOUND,
+                        "finding user Details by id",
+                        String.format("use with id %s was not found ",id)
+                ));
     }
 }

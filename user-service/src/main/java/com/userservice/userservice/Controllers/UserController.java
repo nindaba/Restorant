@@ -1,6 +1,7 @@
 package com.userservice.userservice.Controllers;
 
 import com.userservice.userservice.Documents.User;
+import com.userservice.userservice.Models.UserDetails;
 import com.userservice.userservice.Models.UserType;
 import com.userservice.userservice.Services.UserService;
 import lombok.AllArgsConstructor;
@@ -30,4 +31,8 @@ public class UserController {
     public ResponseEntity<HttpStatus> updateAccount(@RequestBody User user){
         return userService.update(user);
  	}
+     @GetMapping("/{id}")
+    public ResponseEntity<UserDetails> getDetails(@PathVariable String id){
+        return userService.getDetails(id);
+     }
 }
