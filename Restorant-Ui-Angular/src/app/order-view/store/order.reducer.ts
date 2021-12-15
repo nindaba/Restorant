@@ -10,7 +10,7 @@ const updateOrders = (orders:Order[],order: Order):Order[]=>{
     let index = orders.findIndex(find => find.orderId == order.orderId);
     if(index >-1) orders[index] = order;
     else orders.push(order);
-	return orders;
+	return orders.sort(compare);
   }
 const OrderReducer = createReducer(
 	INITIAL_STATE,
@@ -76,11 +76,11 @@ const OrderReducer = createReducer(
 	on(OrderAction.setBasket,(state:OrderState,metadata)=>{
 		let stateCopy = copy<OrderState>(state);
 		stateCopy.selectedOrder.isBasket = metadata.isBasket;
-		return stateCopy;
+		return metadata.isBasket? stateCopy : state;
 	}),
-	// on(OrderAction.checkUser,(state:OrderState,metadata)=>{
-	// 	return metadata.userId ? {...INITIAL_STATE,userId:metadata.userId}:state;
-	// }),
+	on(OrderAction.onUserChanged,(state:OrderState,metadata)=>{
+		return{...INITIAL_STATE,userId:metadata.userId};
+	}),
 )
 export{
 	OrderReducer

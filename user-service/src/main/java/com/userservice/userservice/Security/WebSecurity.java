@@ -50,7 +50,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         authFilter.setFilterProcessesUrl(SERVICE_END_POINT+"/login");
         http.
                 csrf().disable()
-                .cors().disable()
+                .cors()//.disable()
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -60,5 +61,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new VerifyFilter(secret), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(authFilter);
+    }
+//    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(origins.split(",")));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setMaxAge(100000L);
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

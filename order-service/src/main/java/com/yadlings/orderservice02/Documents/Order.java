@@ -24,6 +24,7 @@ public class Order {
     @Id
     private String orderId;
     private String clientId;
+    private String username;
     private List<OrderedItem> orderItems = new ArrayList<>();
     private OrderStatus status = new OrderStatus();
     private Double totalPrice = 0.0;

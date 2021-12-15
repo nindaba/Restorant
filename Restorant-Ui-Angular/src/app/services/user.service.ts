@@ -12,6 +12,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Response } from '../models/response.module';
 import { LOGIN_FAILED, LOGIN_SUCCESS } from '../common-data/responses.messages';
 import { logger } from '../common-data/utils';
+import { UserDetails } from '../models/user-details.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -67,6 +68,9 @@ export class UserService {
   load(){
     // let ordersEvent = new EventSourcePolyfill(RestorantApis.CATEGORY);
     // ordersEvent.addEventListener('message' ,event =>  console.log(event));
+  }
+  getUserDetails(id:string):Observable<UserDetails>{
+    return this.http.get<UserDetails>(RestorantApis.USER(id))
   }
 }
 

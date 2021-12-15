@@ -11,7 +11,7 @@ import { ItemService } from 'src/app/services/item-service.service';
 import { OrderService } from 'src/app/services/order.service';
 import { BasketServiceService } from '../../services/basket-service.service';
 import { SelectedOrder } from '../store/order.model';
-import * as OrderAction from '../store/order.selector';
+import * as OrderSelection from '../store/order.selector';
 
 @Component({
   selector: 'order-display',
@@ -25,8 +25,8 @@ export class OrderComponent implements OnInit {
     private store:Store) { }
 
   ngOnInit(): void {
-    this.order = this.store.select(OrderAction.getSelected());
-    this.noItem = this.store.select(OrderAction.noItem());
+    this.order = this.store.select(OrderSelection.getSelected());
+    this.noItem = this.store.select(OrderSelection.noItem());
   }
   
 }

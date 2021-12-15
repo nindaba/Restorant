@@ -19,10 +19,12 @@ const orderSendSuccess = createAction(Common.ORDER_SEND_SUCCESS,props<{response:
 const onError = createAction(Common.ON_ERROR,props<{message:string}>());
 const addResponse = createAction(Common.ON_RESPONSE,props<{response:Response}>());
 const setBasket = createAction(Common.SET_BASKET,props<{isBasket:Boolean}>());
-const checkUser = createAction(Common.SET_BASKET,props<{userId:string}>());
+const isUserChanged = createAction(Common.CHECH_USER);
+const onUserChanged = createAction(Common.USER_CHANGED,props<{userId:string}>());
 
 export{
-        checkUser,
+        onUserChanged,
+        isUserChanged,
         setBasket,
         initTitles,
         loadOrders,

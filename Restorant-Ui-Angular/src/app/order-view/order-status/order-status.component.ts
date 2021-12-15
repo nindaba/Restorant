@@ -8,6 +8,7 @@ import {addResponse, sendOrder, setBasket} from '../store/order.action'
 import { INITIAL_STATUS } from '../store/order.initial';
 import { Caller,Response } from 'src/app/models/response.module';
 import { getResponse, getStatus, getStatusIndex, getTotal, isBasket } from '../store/order.selector';
+import { logger } from 'src/app/common-data/utils';
 @Component({
   selector: 'order-status',
   templateUrl: './order-status.component.html',

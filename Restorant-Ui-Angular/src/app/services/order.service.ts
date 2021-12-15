@@ -22,10 +22,11 @@ export class OrderService {
   }
   /**
    * This will create on Observable using event source from reactive api of order-service
+   * @param flag of checking if you want all the records or specifically for client
    * @returns Observable of Orders
    */
-  loadOrders(): Observable<Order>{
-    let ordersEvent = new EventSourcePolyfill(RestorantApis.ORDER,{
+  loadOrders(all?:Boolean): Observable<Order>{
+    let ordersEvent = new EventSourcePolyfill(all ? RestorantApis.ORDER_ALL: RestorantApis.ORDER,{
       headers:{'Authorization': this.userService.token},
       heartbeatTimeout: 2*60*60*1000 //2 hours
     });

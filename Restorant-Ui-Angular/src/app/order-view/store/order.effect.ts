@@ -23,7 +23,7 @@ export class OrderEffect{
             private http:HttpClient,
             private userService:UserService
     ){
-        // this.actions.subscribe(log)
+        this.onChangeUser.subscribe(logger)
     }
     onloadOrders = createEffect(()=>this.actions.pipe(
         ofType(OrderAction.loadOrders),
@@ -32,7 +32,6 @@ export class OrderEffect{
             .pipe(
                 take(1),
                 filter(empty => empty == true),
-                map(log),
                 mergeMap(
                     ()=> this.orderService.loadOrders().pipe(
                         map(order=> OrderAction.ordersLoadedSuccess({payload:order})),
@@ -49,15 +48,15 @@ export class OrderEffect{
         mergeMap(()=> this.store.select(OrderSelector.getSelected()).pipe(
             take(1),
             mergeMap(order=> this.orderService.sendOrder(order).pipe(
-        mergeMap(response => [
-                    OrderAction.orderSendSuccess({response:response}),
-                    OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS),
-                    OrderAction.initSelectedOrder({id:response.headers.get('Location') || ''}) // we choose 0 since it will be the with the latest time update
-                ]), 
-                catchError(()=> [
-                    OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
-                    OrderAction.setBasket({isBasket:true})
-            ])
+                mergeMap(response => [
+                            OrderAction.orderSendSuccess({response:response}),
+                            OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS),
+                            OrderAction.initSelectedOrder({id:response.headers.get('Location') || ''}) // we choose 0 since it will be the with the latest time update
+                        ]), 
+                        catchError(()=> [
+                            OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
+                            OrderAction.setBasket({isBasket:true})
+                    ])
             )),
         ))
     ));
@@ -94,16 +93,14 @@ export class OrderEffect{
     ))
     );
     onChangeUser = createEffect(()=> this.actions.pipe(
-        ofType(OrderAction.checkUser),
-        filter(metadata => metadata.userId != 'INITIAL'),
+        ofType(OrderAction.isUserChanged),
+        map(logger),
         mergeMap(metadata=>
              this.store.select(OrderSelector.isUserChanged(this.userService.userInfo.payload.userId))
-             .pipe(map(id=> OrderAction.checkUser({userId:id})))
+             .pipe(
+                 take(1),
+                 map(id=> OrderAction.onUserChanged({userId:id}))
+                 )
         )
     ));
-}
-
-const log = (l:any) => {
-    console.log(l);
-    return l;
 }
