@@ -18,6 +18,7 @@ import { CommonModule } from "@angular/common";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { CategorySkeletonComponent } from "./skeletons/category-skeleton/category-skeleton.component";
 import { OrderItemSkeletonComponent } from "./skeletons/order-item-skeleton/order-item.component";
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
     imports:[
@@ -46,6 +47,7 @@ import { OrderItemSkeletonComponent } from "./skeletons/order-item-skeleton/orde
     declarations: [
       CustomInputComponent,
       CategorySkeletonComponent,
+      HeaderComponent,
     ]
   })
   export class MatModule { }

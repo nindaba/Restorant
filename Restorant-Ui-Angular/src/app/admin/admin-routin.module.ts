@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CategoryComponent } from "../components/category/category.component";
 import { OrderComponent } from "../order-view/order/order.component";
+import { AccountsComponent } from "./components/accounts/accounts.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { MenuComponent } from "./components/menu/menu.component";
 import { OrderViewComponent } from "./components/order-view/order-view.component";
@@ -20,7 +21,7 @@ const routes: Routes =[
 
         {path:'orders',component:OrderViewComponent},
         {path:'orders/:orderId',component:OrderComponent},
-        // {path:'accounts',component:MenuComponent},
+        {path:'accounts',component:AccountsComponent},
     ]}
 ]
 @NgModule({

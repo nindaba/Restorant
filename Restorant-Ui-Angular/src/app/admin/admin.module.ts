@@ -14,6 +14,8 @@ import {Common} from './store/order.model'
 import { OrderReducer } from './store/order.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { OrderEffect } from './store/order.effect';
+import { AccountRowComponent } from './components/account-row/account-row.component';
+import { AccountsComponent } from './components/accounts/accounts.component';
 
 @NgModule({
   declarations:[
@@ -21,7 +23,9 @@ import { OrderEffect } from './store/order.effect';
     DashboardComponent,
     RegisterComponent,
     OrderViewComponent,
-    OrderRequestComponent
+    OrderRequestComponent,
+    AccountRowComponent,
+    AccountsComponent
   ],
   imports:[
     CommonModule,
