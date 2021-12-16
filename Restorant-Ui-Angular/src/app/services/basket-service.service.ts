@@ -1,16 +1,15 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { copy } from '../common/utils';
 import { Item } from '../models/item.model';
-import {Order} from '../models/order.model'
-import {RestorantApis} from './restorant.apis';
+import { INITIAL_SELECTED_ORDER } from '../order-view/store/order.initial';
+import { Count, SelectedOrder } from '../order-view/store/order.model';
 
 @Injectable({
   providedIn: 'root'
 }) 
 export class BasketServiceService {
   private basketItems: (Item&{count:number})[]=[];
-  constructor(private http:HttpClient) { 
-  }
+  constructor() {}
   remove(id: string) {
     this.basketItems.splice(this.basketItems.findIndex(item=> item.id===id),1)
   }
@@ -23,10 +22,10 @@ export class BasketServiceService {
     }
     else this.basketItems.push({...item,count:1});
   }
-  get items():(Item&{count:number})[]{
+  get items():(Item&Count)[]{
     return this.basketItems;
   }
-  set items(items :(Item&{count:number})[]){
+  set items(items :(Item&Count)[]){
     this.basketItems = items;
   }
   get totalPrice():number{
@@ -34,35 +33,10 @@ export class BasketServiceService {
     .map(item=> item.count*item.price)
     .reduce((total,acc)=> acc+total,0);
   }
-  //To be changed to order service
-  sendOrder(){
-    let orderTime:number = new Date().getTime();
-    let orderItem: Order = {
-      orderId:'',
-      clientId:'',
-      orderItems: this.basketItems.map(item=>{
-        return {
-          itemId:item.id,
-          number:item.count,
-          price:item.price
-        }
-      }),
-      status: {
-        accepted:false,
-        cooking:false,
-        ready:false,
-        served:false,
-        payed:false,
-        cancelMessage:''
-      },
-      totalPrice:0, //this will be calculated by the server
-      timeCreated:orderTime,
-      timeUpdated:orderTime
-    }
-    this.http.post<HttpResponse<any>>(RestorantApis.ORDER,orderItem)
-    .subscribe({
-      next: value=> console.log("ORDER SENT "+value),
-      error: error => console.log("ERROR "+error)
-    })
+  get order():SelectedOrder{
+    let order:SelectedOrder = copy(INITIAL_SELECTED_ORDER);
+    order.items = this.basketItems; // copy because i dont want it to create a cooection with the state which will make it read only
+    if(order.items.length > 0) order.isBasket = true;
+    return order;
   }
 }

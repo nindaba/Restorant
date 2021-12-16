@@ -19,11 +19,16 @@ public class ClientHandler {
         var clientId = serverRequest.headers().firstHeader(Constants.AUTHORISED_USER_ID);
         return serverRequest
                 .bodyToMono(Order.class)
-                .map(order-> {order.setClientId(clientId);return order;})
-                .map(orderService::save)
+                .map(order-> {
+                    order.setClientId(clientId); /**set the client id to the one stored in the header*/
+                    order.setOrderId(null); /** set the orderId to null otherwise mongo will not give it an id */
+                    return order;
+                })
+                .flatMap(orderService::save)
                 .flatMap(orderId -> ServerResponse
                         .ok()
-                        .body(orderId,String.class));
+                        .header("Location",orderId)
+                        .body(Mono.empty(),Void.class));
     }
     public Mono<ServerResponse> updateOrder(ServerRequest serverRequest) {
         return null;

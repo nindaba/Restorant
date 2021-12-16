@@ -2,8 +2,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Observable, Subscriber } from 'rxjs';
-import { CategoryServiceService } from 'src/app/services/category-service.service';
-import { ItemServiceService } from 'src/app/services/item-service.service';
+import { CategoryService } from 'src/app/services/category-service.service';
+import { ItemService } from 'src/app/services/item-service.service';
 import { UserService } from 'src/app/services/user.service';
 import { inputTextValidator } from 'src/app/validators/validators';
 
@@ -23,8 +23,8 @@ export class RegisterComponent implements OnInit,OnDestroy {
   _url:string[] =[];
   constructor(
     formBuilder:FormBuilder,
-    private itemService:ItemServiceService,
-    private categoryService:CategoryServiceService,
+    private itemService:ItemService,
+    private categoryService:CategoryService,
     private router:Router,
     private activateRoute :ActivatedRoute
     ) {
@@ -159,7 +159,7 @@ export class RegisterComponent implements OnInit,OnDestroy {
   }
   delete(){
     this.hasDeleted = '';
-    if(this.isCategory) this.categoryService.delete();
-    else this.itemService.delete()
+    if(this.url[1] =='edit') this.categoryService.delete();
+    if(this.url[2] =='edit') this.itemService.delete()
   }
 }

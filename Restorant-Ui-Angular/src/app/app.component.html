@@ -7,7 +7,7 @@
         <mat-divider [vertical]="true"></mat-divider>
         <div class="spacer"></div>
         <nav class="navigations">
-            <a class="nav-button" mat-icon-button   matBadgeSize="small" [routerLink]="['orders']"><mat-icon>local_mall</mat-icon></a>
+            <a class="nav-button" *ngIf="!userService.isEmployee " mat-icon-button   matBadgeSize="small" [routerLink]="['orders']"><mat-icon>local_mall</mat-icon></a>
             <div class="guest-user" *ngIf="!userService.isLoggedIn">
                 <span class="nav-button" mat-flat-button [routerLink]="['login']">Login / Sign-up</span>
                 <!-- <span class="nav-button" mat-flat-button [routerLink]="['login']">Sign-up</span> -->
@@ -19,4 +19,6 @@
         </nav> 
     </mat-toolbar>
 </div>
-<router-outlet></router-outlet>
+<div class="outlet">
+    <router-outlet ></router-outlet>    
+</div>

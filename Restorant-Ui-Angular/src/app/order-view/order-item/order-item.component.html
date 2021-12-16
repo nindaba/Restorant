@@ -2,7 +2,7 @@
     <div class="details">
         <h2 class="name">{{item.name}}</h2>
             <div class="image-description">
-                <img class="image" [src]="item.images[0]">
+                <img class="image" [src]="item.image">
                 <p>
                     {{item.description}}
                 </p>
@@ -15,7 +15,13 @@
                                 <b>Price </b>
                             </td>
                             <td style="padding-left:0.5em;">
-                                <label> {{item.price}} Zloty</label>
+                                <label> {{item.price|currency:' '}} zloty</label>
+                            </td>
+                            <td>
+                                <b>Total Price</b>
+                            </td>
+                            <td style="padding-left:0.5em;">
+                                <label> {{(item.price* item.count)|currency:' '}} zloty</label>
                             </td>
                         </tr>
                         <tr>
@@ -23,27 +29,19 @@
                                 <b>Items</b> 
                             </td>
                             <td>
-                                <button mat-icon-button color="primary" (click)="countSub()">
+                                <button *ngIf="isClient" mat-icon-button color="primary" (click)="countSub()">
                                     <mat-icon>
                                         remove
                                     </mat-icon>
                                 </button>
                                 <label> {{item.count}}</label> 
-                                <button mat-icon-button color="primary" (click)="countAdd()">
+                                <button *ngIf="isClient" mat-icon-button color="primary" (click)="countAdd()">
                                     <mat-icon>
                                         add
                                     </mat-icon>
                                 </button>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Total Price</b>
-                            </td>
-                            <td style="padding-left:0.5em;">
-                                <label> {{item.price* item.count}} Zloty</label>
-                            </td>
-                        </tr>            
+                        </tr>           
                     </table>
                 <div style="flex-grow: 1;"></div>
                 

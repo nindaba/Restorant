@@ -16,6 +16,8 @@ import { CustomInputComponent } from "./components/custom-input/custom-input.com
 import { FormControl, FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import { CategorySkeletonComponent } from "./skeletons/category-skeleton/category-skeleton.component";
+import { OrderItemSkeletonComponent } from "./skeletons/order-item-skeleton/order-item.component";
 
 @NgModule({
     imports:[
@@ -38,10 +40,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
         MatTabsModule, 
         CustomInputComponent,
         MatProgressSpinnerModule,
-        FormsModule
+        FormsModule,
+        CategorySkeletonComponent,      
     ],
     declarations: [
-      CustomInputComponent
+      CustomInputComponent,
+      CategorySkeletonComponent,
     ]
   })
   export class MatModule { }

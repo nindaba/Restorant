@@ -9,8 +9,8 @@ import { CategoryComponent } from './components/category/category.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { CategoryServiceService } from './services/category-service.service';
-import { ItemServiceService } from './services/item-service.service';
+import { CategoryService } from './services/category-service.service';
+import { ItemService } from './services/item-service.service';
 
 import { MatModule } from './mat.module';
 import { ForCategoriesItemsDirective } from './directives/for-categories-items.directive';
@@ -19,11 +19,11 @@ import { BasketItemComponent } from './components/basket-item/basket-item.compon
 import { BasketServiceService } from './services/basket-service.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { OrderViewModule } from './order-view/order-view.module';
-import { CategorySkeletonComponent } from './skeletons/category-skeleton/category-skeleton.component';
 import { UserModule } from './user/user.module';
 import { UserService } from './services/user.service';
 import { TokenInterceptor } from './token-interceptor.interceptor';
-import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 // import { CustomInputComponent } from './components/custom-input/custom-input.component';
 @NgModule({
   declarations: [
@@ -35,7 +35,6 @@ import { CommonModule } from '@angular/common';
     ItemCardComponent,
     BasketItemComponent,
     NotFoundComponent,
-    CategorySkeletonComponent,
     // CustomInputComponent, 
   ],
   imports: [
@@ -46,10 +45,12 @@ import { CommonModule } from '@angular/common';
     MatModule, 
     OrderViewModule  ,
     UserModule,
+    StoreModule.forRoot({},{}),
+    EffectsModule.forRoot([]),
   ],
   providers: [
-    CategoryServiceService,
-    ItemServiceService,
+    CategoryService,
+    ItemService,
     BasketServiceService,
     UserService,
     {provide:HTTP_INTERCEPTORS,useClass: TokenInterceptor,multi:true}

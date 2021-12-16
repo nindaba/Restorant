@@ -1,9 +1,10 @@
 .content{
     color: rgb(24, 23, 23);
     width:280px;
+    height: 100%;
 }
 .items{
-    height: 540px;
+    height: 100%;
     overflow: auto;
     border-radius: 5px;
     /* box-shadow: 2px solid rgb(90, 151, 161); */
@@ -23,7 +24,7 @@
     height: 40px;
 } */
 .list-items{
-    height: 520px;
+    height: 90%;
     overflow: auto;
     border-radius: 5px;
     /* width: 30%; */

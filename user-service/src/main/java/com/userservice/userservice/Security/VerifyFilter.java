@@ -30,7 +30,7 @@ public class VerifyFilter extends OncePerRequestFilter {
         if (!request.getServletPath().matches(SERVICE_END_POINT+"/login") &&
                 !request.getServletPath().matches(SERVICE_END_POINT+"/client")) {
             try {
-                String token = request.getHeader("token")
+                String token = request.getHeader("Authorization")
                         .substring("bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256(secret);
                 JWTVerifier verifier = JWT.require(algorithm).build();

@@ -2,10 +2,11 @@ import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core'
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { InitialModels } from 'src/app/common/initial-models.data';
 import { CategoryItem } from 'src/app/models/category-item.model';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
-import { CategoryServiceService } from 'src/app/services/category-service.service';
+import { CategoryService } from 'src/app/services/category-service.service';
 
 @Component({
   selector: 'category',
@@ -30,17 +31,11 @@ export class CategoryComponent implements OnInit,OnDestroy {
   categoryItem: CategoryItem;
   padding:string = 'pd-category';
   constructor(
-    private categoryService: CategoryServiceService,
+    private categoryService: CategoryService,
     private activatedRoutes:ActivatedRoute,
     private router:Router) {
     this.categories = []
-    this.categoryItem = {
-      id: '',
-      name: '',
-      image: '',
-      description: '',
-      items: []
-    };
+    this.categoryItem = InitialModels.CATEGORY_ITEM;
     this.categoriesDisplay = [];
     this.subscription = new Subscription();
    }
@@ -68,11 +63,8 @@ export class CategoryComponent implements OnInit,OnDestroy {
     }));
   }
   get isLoading():Boolean{
-    //checks if either the categories length == 0 has values
-    // or categoryitems length == 0 when category has values
-
+    //checks if the categories length == 0 has values
     return this.categories.length == 0 
-      // || this.categoryItem.items.length  == 0 && this.categories.length > 0
   }
   get isAdmin():Boolean{
     return this.router.url.startsWith("/admin");

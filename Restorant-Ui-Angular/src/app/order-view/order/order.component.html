@@ -1,15 +1,24 @@
 <div class="content">
     <div class="title">
-        <label class="order-name">#Client Name/ 11:11</label>
+        <h2 style="margin-top: 1em;">#{{(order|async)?.username|| 'ClientName'}}/</h2>
         <span class="space"></span>
     </div>
-    <div style="display:flex;flex-direction:row">
-        
+    <div class="order-status">
         <div class="orders">
-            <order-item *ngFor="let item of getItems()" [item]="item"></order-item>
+        <order-item 
+            *ngFor="let item of (order|async)?.items; 
+            index as index" 
+            [item]="item" 
+            [index]="index"></order-item>
+            <div *ngIf="(noItem|async)" style="width: 100%;">
+                <order-item-skeleton></order-item-skeleton>
+                <order-item-skeleton></order-item-skeleton>
+                <order-item-skeleton></order-item-skeleton>
+            </div>
         </div>
         <div class="status">
-            <order-status></order-status>
+            <order-status *ngIf="!(noItem|async)"></order-status>
+            <order-status-skeleton *ngIf="(noItem|async)"></order-status-skeleton>
         </div>
     </div>
     <div class="messages">

@@ -1,6 +1,7 @@
 package com.yadlings.orderservice02.Service;
 
 import com.yadlings.orderservice02.Documents.Order;
+import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.admin.Admin;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -19,14 +20,16 @@ import reactor.kafka.receiver.ReceiverOptions;
 import reactor.kafka.receiver.ReceiverRecord;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
+import reactor.kafka.sender.SenderResult;
 
 import javax.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 
 @Service
+@Log4j2
 public class KafkaService {
-
     @Value("${kafka.bootstrap}")
     private String BROKERS;
     @Value("${kafka.topic.employee}")
@@ -63,7 +66,6 @@ public class KafkaService {
                 .receive()
                 .publish();
         connectableFlux.connect();
-
     }
     @Bean
     public KafkaAdmin admin(){
@@ -73,7 +75,7 @@ public class KafkaService {
     public NewTopic clientTopic(){
         return TopicBuilder
                 .name(CLIENT_TOPIC)
-                .partitions(3)
+                .partitions(1)
                 .replicas(3)
                 .build();
     }
@@ -81,7 +83,7 @@ public class KafkaService {
     public NewTopic employeeTopic(){
         return TopicBuilder
                 .name(EMPLOYEE_TOPIC)
-                .partitions(3)
+                .partitions(1)
                 .replicas(3)
                 .build();
     }
@@ -121,15 +123,16 @@ public class KafkaService {
      * @param order
      * @return Mono of Order
      */
-    public Mono<Order> sendToClient(Order order){
+    public Mono<String> sendToClient(Order order){
         return kafkaSender
                 .createOutbound()
                 .send(Flux
                         .just(order)
                         .map(record -> new ProducerRecord<>(CLIENT_TOPIC, record.getOrderId(), record.serialize()))
-                )
-                .then()
-                .map(voidValue -> order);
+                ).then()
+                .cast(String.class)
+                .concatWith(Mono.just(order.getOrderId()))
+                .single();
     }
     public Mono<Order> sendToClient(Mono<Order> order){
         return kafkaSender
@@ -138,7 +141,7 @@ public class KafkaService {
                 .then()
                 .flatMap(voidValue -> order);
     }
-    public Mono<Order> sendToTopics(Order order) {
+    public Mono<Order> sendToAll(Order order) {
         return kafkaSender
                 .createOutbound()
                 .send(Flux

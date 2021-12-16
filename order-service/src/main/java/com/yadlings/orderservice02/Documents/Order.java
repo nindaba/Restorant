@@ -24,13 +24,14 @@ public class Order {
     @Id
     private String orderId;
     private String clientId;
+    private String username;
     private List<OrderedItem> orderItems = new ArrayList<>();
     private OrderStatus status = new OrderStatus();
     private Double totalPrice = 0.0;
     private Long timeCreated = new Date().getTime();
     private Long timeUpdated = new Date().getTime();
 
-//    public Order(String clientId){this.clientId = clientId;}
+    public Order(String clientId){this.clientId = clientId;}
 
     /**
      * @return The Total price of All Ordered Items

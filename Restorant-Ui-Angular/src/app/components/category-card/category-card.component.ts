@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
-import { CategoryServiceService } from 'src/app/services/category-service.service';
+import { CategoryService } from 'src/app/services/category-service.service';
 
 @Component({
   selector: 'category-card',
@@ -14,7 +14,7 @@ export class CategoryCardComponent implements OnInit {
   @Input('category') category : Category;
   @Output('viewItems')
   viewItemsEvent: EventEmitter<string>;
-  constructor(private router:Router,private service:CategoryServiceService) {
+  constructor(private router:Router,private service:CategoryService) {
     this.category = {
       id: '',
       name: '',

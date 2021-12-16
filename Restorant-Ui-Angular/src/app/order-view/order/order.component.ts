@@ -1,58 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscriber } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { combineLatest, merge, Observable, of, Subscription, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { logger } from 'src/app/common/utils';
+import { BasketItem } from 'src/app/models/basket-item.model';
 import { Item } from 'src/app/models/item.model';
-import { ItemServiceService } from 'src/app/services/item-service.service';
+import { Order } from 'src/app/models/order.model';
+import { ItemService } from 'src/app/services/item-service.service';
 import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
 import { BasketServiceService } from '../../services/basket-service.service';
+import { SelectedOrder } from '../store/order.model';
+import * as OrderSelection from '../store/order.selector';
+import * as OrderEmployeeSelection from '../../admin/store/order.selector';
+import { initSelectedOrder,loadOrders } from 'src/app/admin/store/order.action';
 
 @Component({
   selector: 'order-display',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
-export class OrderComponent implements OnInit {
-  public orderId :string ='';
-  public Items: (Item&{count:number})[]=[];
+export class OrderComponent implements OnInit,OnDestroy {
+  public order: Observable<SelectedOrder> = new Observable();
+  public noItem :Observable<Boolean> = new Observable(observer=> observer.next(true));
+  public subScription: Subscription = new Subscription();
   constructor(
-    private basketService : BasketServiceService,
-    private orderService : OrderService,
-    private itemService: ItemServiceService,
-    private activatedRoute : ActivatedRoute) { }
-
+    private store:Store,
+    private userService:UserService,private o:OrderService) { }
+  ngOnDestroy(): void {
+    this.subScription.unsubscribe();
+  }
+  
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params=>{
-      this.orderId = params['orderId'];
-    })
+    if(this.userService.isEmployee){   
+      this.store.dispatch(loadOrders());    
+      this.store.dispatch(initSelectedOrder({id:'INITIAL'}))
+      this.order = this.store.select(OrderEmployeeSelection.getSelected())
+      this.noItem = this.store.select(OrderEmployeeSelection.noItem());
+    }
+    else{
+      this.order = this.store.select(OrderSelection.getSelected());
+      this.noItem = this.store.select(OrderSelection.noItem());
+    }
+
   }
-  /**
-   * will first check if the client is trying to get an old order
-   * or wants to buy new order
-   * TODO: if both arrays are empty it shouls diplay that no order made yet
-   * @returns Array of Item with number of those items
-   */
-  getItems():(Item&{count:number})[]{
-      return this.orderId ?
-      this.orderService
-      .getOrder(this.orderId)?.orderItems
-      .map((orderItem):(Item&{count:number})=>{
-        let item = this.itemService.getItem(orderItem.itemId);
-        return ({
-          id:orderItem.itemId,
-          name:item?.name||'',
-          category:item?.category||'',
-          image:item?.image||'',
-          price:orderItem.price,
-          count:orderItem.number,
-          description:item?.description||''
-        })
-      })
-      //Or if the order is not found in the order service
-      //it should return an empty array
-      || []:
-      //else if the id is null it will check if the person is trying to buy
-      //therefore it checks the basket
-      this.basketService.items;
-      
-  }
+  
 }

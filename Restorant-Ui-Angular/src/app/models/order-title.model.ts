@@ -4,4 +4,5 @@ export interface OrderTitle{
     time:string,
     totalPrice:number,
     status:string
+    timeUpdated:number;
   }

@@ -1,13 +1,13 @@
 <div class="content">
     <div class="title">
-        <label>ORDERS</label>
+        <h2 style="margin-top: 1em;">Orders</h2>
     </div>
     <div class="list-items">
-        <order-list-item 
-        *ngFor="let title of titles"
-        [title] = title
+        <order-title 
+        *ngFor="let title of titles|async"
+        [title] = "title"
         >
-        </order-list-item>        
+        </order-title>        
     </div>
     
 </div>
