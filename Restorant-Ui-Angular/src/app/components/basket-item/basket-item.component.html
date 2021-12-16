@@ -5,9 +5,9 @@
             <img class="basket-item-image" [src] = "item.image">
         </div>
         <div fxFlex="40" class="description">
-            Price: {{item.price}} zloty<br>
+            Price: {{item.price|currency:' '}} zloty<br>
             x{{item.count}} <br>
-            Total: {{item.count*item.price|number:'.2'}} zloty 
+            Total: {{item.count*item.price|currency:' '}} zloty 
         </div>
         <div fxFlex="18" class="actions">
             <button mat-icon-button>

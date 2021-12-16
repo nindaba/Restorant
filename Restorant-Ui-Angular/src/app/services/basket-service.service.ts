@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { copy } from '../common/utils';
 import { Item } from '../models/item.model';
 import { INITIAL_SELECTED_ORDER } from '../order-view/store/order.initial';
-import { copy, Count, SelectedOrder } from '../order-view/store/order.model';
+import { Count, SelectedOrder } from '../order-view/store/order.model';
 
 @Injectable({
   providedIn: 'root'

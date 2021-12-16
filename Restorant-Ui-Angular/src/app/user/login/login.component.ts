@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { logger } from 'src/app/common-data/utils';
+import { logger } from 'src/app/common/utils';
 import { UserService } from 'src/app/services/user.service';
 import { inputTextValidator } from 'src/app/validators/validators';
 

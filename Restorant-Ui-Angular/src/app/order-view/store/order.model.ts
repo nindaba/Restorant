@@ -39,11 +39,10 @@ interface OrderState{
         response:Response[] ;
         userId:string;
 }
-const copy = <T>(original:any):T => JSON.parse(JSON.stringify(original))
+
 export {
         Count,
         SelectedOrder,
         OrderState,
-        copy,
         Common,
 }

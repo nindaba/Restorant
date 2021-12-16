@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpResponse } from '@angu
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
-import { RestorantApis} from '../common-data/restorant.apis';
+import { RestorantApis} from '../common/restorant.apis';
 import jwt_decode from 'jwt-decode'
 import { Observable, of } from 'rxjs';
 import { Token } from '../models/token.model';
@@ -10,13 +10,15 @@ import { Order } from '../models/order.model';
 import {EventSourcePolyfill} from 'ng-event-source'
 import { catchError, map } from 'rxjs/operators';
 import { Response } from '../models/response.module';
-import { LOGIN_FAILED, LOGIN_SUCCESS } from '../common-data/responses.messages';
-import { logger } from '../common-data/utils';
+import { LOGIN_FAILED, LOGIN_SUCCESS } from '../common/responses.messages';
+import { logger } from '../common/utils';
 import { UserDetails } from '../models/user-details.model';
+import { InitialModels } from '../common/initial-models.data';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
   constructor(private http:HttpClient,private router:Router) { }
   login(credentials: {username:string,password:string}):Observable<Response>{
     let formCredentials = `username=${credentials.username}&password=${credentials.password}`
@@ -52,7 +54,7 @@ export class UserService {
     return localStorage.getItem("user_token") || '';
   }
   get userInfo():Token{    
-    return JSON.parse(localStorage.getItem("user_info")||"{\"noToken\":\"true\"}");
+    return JSON.parse(localStorage.getItem("user_info")||'{}') || InitialModels.INITIAL_TOKEN;
   }
   get isLoggedIn():boolean{
     //check if there is token
@@ -65,12 +67,11 @@ export class UserService {
   get username():string{
     return this.userInfo.sub ||'';
   }
-  load(){
-    // let ordersEvent = new EventSourcePolyfill(RestorantApis.CATEGORY);
-    // ordersEvent.addEventListener('message' ,event =>  console.log(event));
-  }
-  getUserDetails(id:string):Observable<UserDetails>{
+  bgetUserDetails(id:string):Observable<UserDetails>{
     return this.http.get<UserDetails>(RestorantApis.USER(id))
+  }
+  get isEmployee():Boolean{
+    return this.userInfo.payload?.userType =='EMPLOYEE' || false;
   }
 }
 

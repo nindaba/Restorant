@@ -1,10 +1,10 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Item } from 'src/app/models/item.model';
-import { OrderService } from 'src/app/services/order.service';
 import { INITIAL_ORDER_ITEM } from '../store/order.initial';
-import { copy, Count } from '../store/order.model';
+import { Count } from '../store/order.model';
 import {increaseItems,decreaseItems} from '../store/order.action'
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'order-item',
   templateUrl: './order-item.component.html',
@@ -13,7 +13,7 @@ import {increaseItems,decreaseItems} from '../store/order.action'
 export class OrderItemComponent implements OnInit {
   @Input() item: Item&Count = INITIAL_ORDER_ITEM;
   @Input() index:number = -1;
-  constructor(private store:Store){}
+  constructor(private store:Store,private userService:UserService){}
   ngOnInit(): void {
     
   }
@@ -23,4 +23,8 @@ export class OrderItemComponent implements OnInit {
   countSub(){
     this.store.dispatch(decreaseItems({index:this.index}))
   }
+  get isClient():Boolean{
+    return !this.userService.isEmployee;
+  }
+
 }

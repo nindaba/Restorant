@@ -2,7 +2,7 @@ import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core'
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { InitialModels } from 'src/app/common-data/initial-models.data';
+import { InitialModels } from 'src/app/common/initial-models.data';
 import { CategoryItem } from 'src/app/models/category-item.model';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';

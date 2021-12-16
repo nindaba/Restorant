@@ -1,6 +1,6 @@
 <div class="content">
     <div class="title">
-        <label class="order-name">#Client Name/</label>
+        <h2 style="margin-top: 1em;">#{{(order|async)?.username|| 'ClientName'}}/</h2>
         <span class="space"></span>
     </div>
     <div class="order-status">
@@ -17,7 +17,8 @@
             </div>
         </div>
         <div class="status">
-            <order-status></order-status>
+            <order-status *ngIf="!(noItem|async)"></order-status>
+            <order-status-skeleton *ngIf="(noItem|async)"></order-status-skeleton>
         </div>
     </div>
     <div class="messages">

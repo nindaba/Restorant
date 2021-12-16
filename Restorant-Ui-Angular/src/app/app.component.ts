@@ -10,7 +10,6 @@ export class AppComponent implements OnInit {
   title = 'restorant';
   constructor(public userService:UserService){}
   ngOnInit(): void {
-    this.userService.load()
   }
 
   //We need this for our template

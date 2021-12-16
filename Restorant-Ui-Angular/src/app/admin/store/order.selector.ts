@@ -1,10 +1,12 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { compare, extractLatestStatus, extractStatusIndex, extractTimestamp } from "src/app/common/order.common";
-import { copy } from "src/app/common/utils";
+import { throwError } from "rxjs";
+import { extractLatestStatus, extractStatusIndex, extractTimestamp } from "src/app/common/order.common";
+import { copy, logger } from "src/app/common/utils";
+import { OrderStatus } from "src/app/models/order-status.model";
 import { Order } from "src/app/models/order.model";
 import { Caller } from "src/app/models/response.module";
 import { INITIAL_ORDER } from "./order.initial";
-import { OrderState,Common } from "./order.model";
+import {OrderState,Common } from "./order.model";
 
 const getOrders = ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
@@ -12,9 +14,7 @@ const getOrders = ()=> createSelector(
 );
 const getOrder = (id:string)=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
-        (state:OrderState) => copy<Order[]>(state.orders).find(order=> order.orderId == id) 
-        ||copy<Order[]>(state.orders).sort(compare)[0]
-        || INITIAL_ORDER
+        (state:OrderState) => copy<Order[]>(state.orders).find(order=> order.orderId == id) || INITIAL_ORDER
 );
 const getSelected = ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
@@ -26,8 +26,8 @@ const isUserChanged = (id:string)=> createSelector(
 );
 const getTotal= ()=> createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
-        (state:OrderState) => state.selectedOrder.items
-        .map(item=>item.price*item.count)
+        (state:OrderState) => state.selectedOrder.orderItems
+        .map(item=>item.price*item.number)
         .reduce((current,acc)=>current+acc,0)
 )
 const isEmpty = ()=>createSelector(
@@ -58,11 +58,14 @@ const getTitles = ()=>createSelector(
         .map((order:Order) => 
         ({
           status :extractLatestStatus(order.status),
-          date :extractTimestamp(order.timeCreated).date,
-          time :extractTimestamp(order.timeUpdated).time,
+          time :extractTimestamp(order.timeCreated).time,
+          username:order.username,
           orderId : order.orderId,
+          clientId: order.clientId,
+          count: order.orderItems
+          .map(item=> item.number)
+          .reduce((a,b)=>a+b,0),
           totalPrice :order.totalPrice,
-          timeUpdated: order.timeUpdated
       }))
 )      //.sort(compare)
 const isBasket =()=>createSelector(
@@ -81,7 +84,7 @@ const getResponse =(caller:Caller)=>createSelector(
 )
 const noItem =()=>createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
-        (state:OrderState)=> state.selectedOrder.items.length ==0
+        (state:OrderState)=> state.selectedOrder.items.length == 0
 )
 export{
         noItem,
@@ -98,5 +101,4 @@ export{
         getStatusIndex,
         getResponse,
         isUserChanged,
-        compare,
 }

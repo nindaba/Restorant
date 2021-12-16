@@ -17,6 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { OrderReducer } from './store/order.reducer';
 import { OrderEffect } from './store/order.effect';
 import { Common } from './store/order.model';
+import { OrderStatusSkeleton } from '../skeletons/order-status-skeleton/order-status.skeleton';
 
 
 
@@ -30,6 +31,7 @@ import { Common } from './store/order.model';
     OrderStatusComponent,
     OrderItemSkeletonComponent,
     OrderListSkeletonComponent,
+    OrderStatusSkeleton
   ],
   imports: [
     CommonModule,

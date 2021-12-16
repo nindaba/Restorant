@@ -3,13 +3,14 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { EventSourcePolyfill } from 'ng-event-source';
 import { Observable } from 'rxjs';
 import { Order } from '../models/order.model';
-import { RestorantApis } from '../common-data/restorant.apis';
+import { RestorantApis } from '../common/restorant.apis';
 import { UserService } from './user.service';
 import { BasketItem } from '../models/basket-item.model';
 import { Item } from '../models/item.model';
-import { Count, SelectedOrder } from '../order-view/store/order.model';
-import { logger } from '../common-data/utils';
-import { map } from 'rxjs/operators';
+import { Count, SelectedOrder  } from '../order-view/store/order.model';
+import { OrderStatus } from '../models/order-status.model';
+import { INITIAL_STATUS } from '../order-view/store/order.initial';
+import { copy } from '../common/utils';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,10 +53,16 @@ export class OrderService {
         number: item.count,
         price: item.price
       })),
+      status: INITIAL_STATUS,
       username: this.userService.username,
       timeCreated: new Date().getTime(),
       timeUpdated: new Date().getTime(),
     },{observe:'response'});
+  }
+  update(_order: SelectedOrder,status:OrderStatus): Observable<any> {
+    let order: SelectedOrder = copy(_order);
+    order.status = status;
+    return this.http.put<any>(RestorantApis.ORDER,order);
   }
 }
 

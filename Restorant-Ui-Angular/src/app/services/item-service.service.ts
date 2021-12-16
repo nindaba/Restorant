@@ -2,8 +2,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Item } from '../models/item.model';
-import { RestorantApis } from '../common-data/restorant.apis';
-import { InitialModels } from '../common-data/initial-models.data';
+import { RestorantApis } from '../common/restorant.apis';
+import { InitialModels } from '../common/initial-models.data';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,10 +53,13 @@ export class ItemService {
     this.http
     .put<HttpResponse<any>>(RestorantApis.ITEM_ID(this.selected?.id||''),form)
     .subscribe({
-      next: response => this.router.navigate(this.url),
+    next: response => this.router.navigate(this.url),
       //TODO: error handler eg pop up
       error:response => console.log(response)
     })
+  }
+  observeItem(id:string):Observable<Item>{
+    return this.http.get<Item>(RestorantApis.ITEM_ID(id))
   }
   set selected(value:Item|undefined){
     this._selected = value;

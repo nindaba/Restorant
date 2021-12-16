@@ -6,7 +6,7 @@ import { CategoryItem } from '../models/category-item.model';
 import { Category } from '../models/category.model';
 import { Item } from '../models/item.model';
 import { Order } from '../models/order.model';
-import { RestorantApis} from '../common-data/restorant.apis';
+import { RestorantApis} from '../common/restorant.apis';
 
 @Injectable({
   providedIn: 'root'

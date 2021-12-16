@@ -8,6 +8,10 @@
 b{
     color: rgb(43, 170, 117);
 }
+.mat-icon,.mat-progress-spinner{
+    color: rgb(43, 170, 117);
+    /* color: white; */
+}
 .status-table thead{
     margin-bottom: 2em;
     border-bottom: 2px;
@@ -26,7 +30,7 @@ b{
     align-self:flex-end;
     width: 40px;
 }
-.message{
+.message,.description{
     width: 100%;
     background-color: rgb(236, 176, 176);
     border-radius: 5px;
@@ -43,4 +47,18 @@ b{
 .button-content{
     display: flex;
     align-items: center;
+}
+.description{
+    border: none;
+    height: 400px;
+    background-color:  white;
+    height: fit-content;
+    font-family: Roboto;
+    font-size: small;
+    color: rgb(20, 20, 20);
+
+}
+.description:focus{
+    border: none;
+    outline-style: none;
 }
