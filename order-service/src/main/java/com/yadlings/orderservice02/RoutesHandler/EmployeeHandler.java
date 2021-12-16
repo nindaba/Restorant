@@ -26,7 +26,6 @@ public class EmployeeHandler {
                 .map(orderService::update)
                 .flatMap(response -> ServerResponse
                         .status(200)
-                        .contentType(MediaType.TEXT_EVENT_STREAM)
                         .body(response, Order.class));
     }
 }
