@@ -1,0 +1,40 @@
+.card{
+    /* max-width: 300px; */
+    width: 270px;
+    height: 26em;
+    border-radius: 5px;
+    background-color: white;
+    margin: 5px;
+}
+.card-image{
+    width: 100%;
+    height:170px;
+    border-top-right-radius: .5em;
+    border-top-left-radius: .5em;
+}
+.card-content{
+    overflow-wrap: break-word;
+}
+p{
+    text-indent: 2em;
+}
+.title{
+    display: flex;
+    align-items: center;
+}
+.spacer{
+    flex: 1 1 auto;
+}
+.card-footer{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+button{
+    display: flex;
+    align-items: center;
+}
+h2{
+    font-size: medium;
+    line-height: 1;
+}

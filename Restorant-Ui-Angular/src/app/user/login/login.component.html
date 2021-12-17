@@ -1,0 +1,24 @@
+<div class="content">
+    <h2 for="form">Login to Yadlings</h2>
+    <div class="inputs">
+        <form [formGroup]="loginForm" (submit)="login()">
+            <custom-input 
+            formControlName="username" 
+            [properties]="{name:'Username or email'}"
+            ></custom-input>
+            <custom-input 
+            formControlName="password" 
+            [properties]="{iconColor: 'primary',iconName:'done',name:'Password',isPassword:true}"
+            ></custom-input>
+            <div class="buttons">
+                <button mat-button color="primary" type="button" (click)="register()">register</button>
+                <div style="flex-grow: 1;"></div>
+                <button mat-flat-button color="{{hasSubmitted}}" type="submit" style="display: flex;flex-direction:row;align-items:center">
+                    <mat-spinner *ngIf="!hasSubmitted" color="primary" diameter="20"></mat-spinner>
+                    <span *ngIf="hasSubmitted" >Login</span>
+                </button>
+            </div> 
+            
+        </form>
+    </div>
+</div>

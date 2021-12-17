@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="time-status">
+        <span>{{title.time}}</span>        
+        <span style="float: right;">{{title.status}}</span>
+    </div>
+    <div class="details">
+        <span>
+            <mat-icon>person</mat-icon>
+           {{title.username}}
+        </span>
+        <span>
+            <mat-icon>category</mat-icon>
+            {{title.count}}
+        </span>
+        <span>
+            <mat-icon>payments</mat-icon>
+            {{title.totalPrice|currency:' '}} zloty
+            
+        </span>
+        <button mat-flat-button  [routerLink]="[title.orderId]" color="primary">View</button>
+    </div>
+</div>
