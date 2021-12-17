@@ -1,0 +1,36 @@
+<div class="content">
+    <h2 for="form">Register to Yadlings</h2>
+    <div>
+        <form [formGroup]="registerForm" (submit)="register()">
+            <custom-input 
+            formControlName="name" 
+            [properties]="{name:'FullName'}"
+            ></custom-input>
+            <custom-input 
+            formControlName="username" 
+            [properties]="{name:'Username'}"
+            ></custom-input>
+            <custom-input 
+            formControlName="email" 
+            [properties]="{name:'Email'}"
+            ></custom-input>
+            <custom-input 
+            formControlName="password" 
+            [properties]="{iconColor: 'primary',iconName:'done',name:'Password',isPassword:true}"
+            ></custom-input>
+            <custom-input 
+            formControlName="confirm" 
+            [properties]="{iconColor: 'warn',iconName:'close',name:'Confirm Password',isPassword:true}"
+            ></custom-input>
+            <!-- <custom-input></custom-input> -->
+            <div class="buttons">
+                <button mat-button color="primary" (click)="login()" type="button">Login</button>
+                <div style="flex-grow: 1;"></div>
+                <button mat-flat-button color="{{hasSubmitted}}" type="submit" style="display: flex;flex-direction:row;align-items:center">
+                    <mat-spinner *ngIf="!hasSubmitted" color="primary" diameter="20"></mat-spinner>
+                    <span *ngIf="hasSubmitted" >register</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+.content{
+    background-color: rgb(255, 255, 255);
+    color: rgb(27, 26, 26);
+    padding: 2%;
+    margin-left: 1%;
+}
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin-top: 1em;
+}
+.image{
+    width:200px;
+    height: 150px;
+}
+
+.description{
+    border: none;
+    width: 90%;
+    height: 400px;
+    background-color:  rgba(156, 156, 156, 0.25);
+    height: fit-content;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-size: small;
+    color: rgb(20, 20, 20);
+
+}
+.description:focus{
+    border: none;
+    outline-style: none;
+}
+.buttons button{
+    margin-right: 1em;
+}
