@@ -1,0 +1,11 @@
+<div class="content" (click)="onClick()" [ngClass]="(isSelected|async)||''">
+    <span class="date-time">
+        <label>{{title.date}}</label>
+        <mat-spinner *ngIf="isLoading|async" class="is-loading" color="primary" diameter="20"></mat-spinner>
+        <label *ngIf="!(isLoading|async)" class="time">{{title.time}}</label>
+    </span>
+    <div class="name-status">
+        <label class="name">{{title.totalPrice|currency:' '}} zloty</label>
+        <label class="status" >{{title.status}}</label>
+    </div>
+</div>
