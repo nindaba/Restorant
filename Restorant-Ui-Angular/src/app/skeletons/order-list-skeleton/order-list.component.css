@@ -1,0 +1,105 @@
+.skeleton{
+    animation: modern-skeleton-animation 1s infinite;
+}
+@keyframes modern-skeleton-animation{
+    0%{
+        background-image: linear-gradient(
+            90deg,
+            rgb(238,238,238),
+            rgb(230, 230, 230),
+            rgb(235, 232, 232),
+            rgb(235, 235, 235)
+            );
+    }
+    50%{
+        background-image: linear-gradient(
+            90deg,
+            rgb(230, 230, 230),
+            rgb(238,238,238),
+            rgb(235, 232, 232),
+            rgb(235, 235, 235)
+            );
+    }
+    100%{
+        background-image: linear-gradient(
+            90deg,
+            rgb(230, 230, 230),
+            rgb(235, 232, 232),
+            rgb(235, 235, 235),
+            rgb(238,238,238)
+
+            );
+        /* background-image: linear-gradient(
+            90deg,
+            rgb(238,238,238),
+            rgb(235, 235, 235)
+            ); */
+    }
+}
+.content{
+    color: rgb(24, 23, 23);
+    width:280px;
+    height: 90%;
+}
+.items{
+    height: 540px;
+    overflow: auto;
+    border-radius: 5px;
+    /* box-shadow: 2px solid rgb(90, 151, 161); */
+    
+}
+.title{
+    height: 40px;
+    display: flex;
+    align-items:center;
+}
+.number-orders{
+    color: rgb(43, 170, 117);
+    float: right;
+    padding-right: 1em;
+}
+/* .status-label{
+    height: 40px;
+} */
+.list-items{
+    /* display: flex; */
+    height: 100%;
+    width: 100%;
+}
+.date{
+    width: 120px;
+    height: 1em;
+    border-radius: 5px;
+}
+.time{
+    width: 60px;
+    height: 1em;
+    border-radius: 5px;
+    float: right;
+}
+.total,.status{
+    width: 100px;
+    height: 1.5em;
+    border-radius: 5px;
+}
+.status{
+    width: 80px;
+    float: right;
+}
+span{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.name-status{
+    margin-top: 0.5em;
+}
+.item{
+    border-radius: 5px;
+    width: 250px;
+    height: 40px;
+    background-color: white;
+    padding:1em;
+    margin-top: .5em;
+    color: rgb(24, 23, 23);
+}
