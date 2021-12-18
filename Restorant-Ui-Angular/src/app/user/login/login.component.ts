@@ -1,7 +1,10 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { logger } from 'src/app/common/utils';
+import { CustomInputProps } from 'src/app/components/custom-input/custom-input.component';
 import { UserService } from 'src/app/services/user.service';
 import { inputTextValidator } from 'src/app/validators/validators';
 
@@ -13,7 +16,10 @@ import { inputTextValidator } from 'src/app/validators/validators';
 export class LoginComponent implements OnInit,OnDestroy {
   @Output('register')registerEvent: EventEmitter<any> = new EventEmitter()
   loginForm: FormGroup;
-  hasSubmitted:string = 'primary';
+  hasSubmitted:Boolean = false;
+  _nameProps: CustomInputProps ={name:'username'}
+  _passProps: CustomInputProps ={name:'Password',type:'password'}
+  subscription: Subscription = new Subscription();
   constructor(formBuilder: FormBuilder,private userService:UserService,private router:Router) {
     this.loginForm = formBuilder
     .group({
@@ -22,22 +28,38 @@ export class LoginComponent implements OnInit,OnDestroy {
     })
    }
   ngOnDestroy(): void {
-    this.hasSubmitted = 'primary'
+    this.hasSubmitted = false
+    this.subscription.unsubscribe();
   }
-
   ngOnInit(): void {
+      this.subscription
+      .add(this.loginForm.get('username')?.statusChanges
+        .subscribe(value=> this._nameProps.invalid = value == 'INVALID'))
+      .add(this.loginForm.get('password')?.statusChanges
+        .subscribe(value=> this._passProps.invalid = value == 'INVALID'));
   }
   register(){
     this.registerEvent.emit();
   }
+  get nameProps():CustomInputProps{
+    return this._nameProps;
+  }
+  get passProps():CustomInputProps{
+    return this._passProps;
+  }
   login(){
-    this.hasSubmitted ='';
+    this.hasSubmitted =true;
     this.userService
     .login(this.loginForm.value)
-    .subscribe(response => {
-      logger(response,'A')
-      if(response.success)this.router.navigate(['/']);
-      else this.hasSubmitted = 'primary';
-    })
+    .subscribe(
+      response=> {
+        this.loginForm.reset();
+        if(response.success) this.router.navigate(['/'])
+        else{
+          this.loginForm.markAsTouched();
+          this.hasSubmitted =false;
+        }
+      }
+      )
   }
 }

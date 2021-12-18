@@ -3,64 +3,62 @@
         <h2>Status</h2>
         <div class="status">
             <table  class="status-taable" style="width: 100%;">
-                <tbody>
-                    <tr>
-                        <td *ngIf="index == -1 && (isBasket|async)"><mat-icon color="primary" >circle</mat-icon></td>
-                        <td *ngIf="index >=0"><mat-icon color="primary" >check_circle</mat-icon></td>
-                        <td *ngIf="index == -1 && !(isBasket|async)"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
-                        <td>Accepted</td>
-                        <td>
-                            <button *ngIf="isEmployee && index ==-1" mat-icon-button color="primary" (click)="updateOrder(0)">
-                                <mat-icon>check</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td *ngIf="index <0"><mat-icon color="primary">circle</mat-icon></td>
-                        <td *ngIf="index >=1"><mat-icon color="primary" >check_circle</mat-icon></td>
-                        <td *ngIf="index ==0"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
-                        <td>Cooking </td>
-                        <td>
-                            <button *ngIf="isEmployee && index < 1" mat-icon-button color="primary" (click)="updateOrder(1)">
-                                <mat-icon>check</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td *ngIf="index < 1"><mat-icon color="primary">circle</mat-icon></td>
-                        <td *ngIf="index >= 2"><mat-icon color="primary" diameter="15">check_circle</mat-icon></td>
-                        <td *ngIf="index ==1"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
-                        <td>Ready to serve</td>
-                        <td>
-                            <button *ngIf="isEmployee && index < 2" mat-icon-button color="primary" (click)="updateOrder(2)">
-                                <mat-icon>check</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td *ngIf="index < 2"><mat-icon color="primary">circle</mat-icon></td>
-                        <td *ngIf="index >= 3"><mat-icon color="primary" >check_circle</mat-icon></td>
-                        <td *ngIf="index ==2"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
-                        <td>Served </td>
-                        <td>
-                            <button *ngIf="isEmployee && index < 3" mat-icon-button color="primary" (click)="updateOrder(3)">
-                                <mat-icon>check</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td *ngIf="index < 3"><mat-icon color="primary">circle</mat-icon></td>
-                        <td *ngIf="index >=4"><mat-icon color="primary" >check_circle</mat-icon></td>
-                        <td *ngIf="index ==3"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
-                        <td>Payed </td>
-                        <td>
-                            <button *ngIf="isEmployee &&index < 4" mat-icon-button color="primary" (click)="updateOrder(4)">
-                                <mat-icon>check</mat-icon>
-                            </button>
-                        </td>
-                        
-                    </tr>
-                </tbody>
+                <tr>
+                    <td *ngIf="index == -1 && (isBasket|async)"><mat-icon color="primary" >circle</mat-icon></td>
+                    <td *ngIf="index >=0"><mat-icon color="primary" >check_circle</mat-icon></td>
+                    <td *ngIf="index == -1 && !(isBasket|async)"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                    <td>Accepted</td>
+                    <td>
+                        <button *ngIf="isEmployee && index ==-1" mat-icon-button color="primary" (click)="updateOrder(0)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td *ngIf="index <0"><mat-icon color="primary">circle</mat-icon></td>
+                    <td *ngIf="index >=1"><mat-icon color="primary" >check_circle</mat-icon></td>
+                    <td *ngIf="index ==0"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                    <td>Cooking </td>
+                    <td>
+                        <button *ngIf="isEmployee && index < 1" mat-icon-button color="primary" (click)="updateOrder(1)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td *ngIf="index < 1"><mat-icon color="primary">circle</mat-icon></td>
+                    <td *ngIf="index >= 2"><mat-icon color="primary" diameter="15">check_circle</mat-icon></td>
+                    <td *ngIf="index ==1"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                    <td>Ready to serve</td>
+                    <td>
+                        <button *ngIf="isEmployee && index < 2" mat-icon-button color="primary" (click)="updateOrder(2)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td *ngIf="index < 2"><mat-icon color="primary">circle</mat-icon></td>
+                    <td *ngIf="index >= 3"><mat-icon color="primary" >check_circle</mat-icon></td>
+                    <td *ngIf="index ==2"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                    <td>Served </td>
+                    <td>
+                        <button *ngIf="isEmployee && index < 3" mat-icon-button color="primary" (click)="updateOrder(3)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td *ngIf="index < 3"><mat-icon color="primary">circle</mat-icon></td>
+                    <td *ngIf="index >=4"><mat-icon color="primary" >check_circle</mat-icon></td>
+                    <td *ngIf="index ==3"><mat-spinner  color="primary" diameter="20"></mat-spinner></td>
+                    <td>Payed </td>
+                    <td>
+                        <button *ngIf="isEmployee &&index < 4" mat-icon-button color="primary" (click)="updateOrder(4)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </td>
+                    
+                </tr>
             </table>
         </div>
     </div>

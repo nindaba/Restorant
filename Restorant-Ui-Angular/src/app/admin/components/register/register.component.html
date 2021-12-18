@@ -4,7 +4,7 @@
         <form [formGroup]="registerForm" (submit)="register()">
             <img class="image" [src]="displayImage">
             <input type="file"  hidden="true" (change)="imagePicked($event)" accept="image/jpeg,image/png" #picker>
-            <button *ngIf="hasSubmitted && uploadImage.length ==0" mat-button (click)="picker.click()" type="button" color="primary" style="width: 200px;">Choose Image</button>
+            <button mat-button (click)="picker.click()" type="button" color="primary" style="width: 200px;">Choose Image</button>
             <custom-input 
             formControlName="name" 
             [properties]="{name:'Name'}"

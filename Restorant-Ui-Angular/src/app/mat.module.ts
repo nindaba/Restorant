@@ -9,16 +9,16 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatStepperModule } from '@angular/material/stepper'
-import { MatTabsModule } from '@angular/material/tabs'
-import { BrowserModule } from '@angular/platform-browser';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CustomInputComponent } from "./components/custom-input/custom-input.component";
-import { FormControl, FormsModule } from "@angular/forms";
+import {FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { CategorySkeletonComponent } from "./skeletons/category-skeleton/category-skeleton.component";
-import { OrderItemSkeletonComponent } from "./skeletons/order-item-skeleton/order-item.component";
-
+import { HeaderComponent } from "./components/header/header.component";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatPaginatorModule} from '@angular/material/paginator'
 @NgModule({
     imports:[
         MatIconModule,
@@ -41,11 +41,15 @@ import { OrderItemSkeletonComponent } from "./skeletons/order-item-skeleton/orde
         CustomInputComponent,
         MatProgressSpinnerModule,
         FormsModule,
-        CategorySkeletonComponent,      
+        HeaderComponent,
+        CategorySkeletonComponent,  
+        MatTooltipModule,
+        MatPaginatorModule
     ],
     declarations: [
       CustomInputComponent,
       CategorySkeletonComponent,
+      HeaderComponent
     ]
   })
   export class MatModule { }

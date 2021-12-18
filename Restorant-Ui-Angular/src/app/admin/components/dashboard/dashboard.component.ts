@@ -3,20 +3,33 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  template:`
+  <div fxLayout="row" fxLayoutAlign="start start" class="content">
+    <div fxFlex="20" class="menu">
+        <admin-menu></admin-menu>
+    </div>
+    <div fxFlex="75" class="outlet">
+        <router-outlet ></router-outlet>
+    </div>
+  </div>
+  `,
+  styles:[
+    `
+    .outlet{
+      width:100%;
+      /* height:100%; */
+    }
+    .menu{
+      width:100%;
+    }
+    `
+  ],
 })
 export class DashboardComponent implements OnInit {
   title:string='';
   constructor(private activeRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    // this.activeRoute
-    // .params
-    // .subscribe((params:Params)=>{
-    //   let menu:string  = params['chosen-menu'];
-    //   this.title = menu?.replace(menu.charAt(0),menu.charAt(0).toUpperCase())
-    // });
   }
 
 }

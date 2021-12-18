@@ -1,17 +1,26 @@
 import { Component, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { logger } from 'src/app/common/utils';
 
+interface CustomInputProps{
+  name:string;
+  iconName? :string;
+  hasTitle?: Boolean;
+  type?: string;
+  invalid?:Boolean;
+}
 @Component({
   selector: 'custom-input',
   templateUrl: './custom-input.component.html',
   styleUrls: ['./custom-input.component.css'],
   providers:[{provide:NG_VALUE_ACCESSOR,useExisting:forwardRef(()=>CustomInputComponent),multi:true}]
 })
-export class CustomInputComponent implements ControlValueAccessor{
-  @Input('properties') properties: any;
+class CustomInputComponent implements ControlValueAccessor{
+  @Input('properties') properties: CustomInputProps = {
+    name: ''
+  }
   _value: string;
   constructor() { 
-    this.properties = {iconColor: '',iconName:'',isPassword:false};
     this._value = '';
   }
   set value(value:string){
@@ -32,19 +41,15 @@ export class CustomInputComponent implements ControlValueAccessor{
   get isError():Boolean{
     return false
   }
-  get type():string{
-    return this.properties['isPassword'] ? 'password':'text';
+  get color():string{
+    return this.properties.invalid ? 'warn': 'primary';
   }
-  get name():string{
-    return this.properties['name'] || '';
+  get icon():string|undefined{
+    return this.properties.invalid ? 'error' : this.properties.iconName;
   }
-  get iconName():string{
-    return this.properties['iconName'] || '';
-  }
-  get iconColor(): string{
-    return this.properties['iconColor'] || '';
-  }
-  get isTitle():Boolean{
-    return this.properties['isTitle'] == undefined ? true : this.properties['isTitle'];
-  }
+}
+
+export{
+  CustomInputComponent,
+  CustomInputProps
 }

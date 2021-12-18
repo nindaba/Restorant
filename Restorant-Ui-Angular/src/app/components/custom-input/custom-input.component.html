@@ -1,12 +1,12 @@
-<div class="content">
-    <label *ngIf="isTitle">
-        {{name}}
+<div class="custom-input">
+    <label *ngIf="properties.hasTitle">
+        {{properties.name}}
     </label>
     <div class="custom">
-        <input [(ngModel)]= "value" placeholder="{{name}}"type="{{type}}">
+        <input [(ngModel)]= "value" placeholder="{{properties.name}}"type="{{properties.type}}"> 
         <mat-icon 
-        *ngIf="iconName" 
-        color="{{iconColor}}">
-        {{iconName}}</mat-icon> 
+        *ngIf="icon" 
+        color="{{color}}">
+        {{icon}}</mat-icon> 
     </div> 
 </div>

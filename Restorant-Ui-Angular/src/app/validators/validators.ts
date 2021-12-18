@@ -1,6 +1,8 @@
 import { AbstractControl } from "@angular/forms";
+import { logger } from "../common/utils";
 
-export function inputTextValidator(control:AbstractControl):{[key:string]:Boolean}|null{
-    control.value ? null : {reuired:true};
-    return null;
+const inputTextValidator = (control:AbstractControl):{[key:string]:Boolean}|null =>
+   control.value ? null : {reuired:true};
+export{
+    inputTextValidator,
 }

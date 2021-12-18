@@ -14,6 +14,8 @@ import {Common} from './store/order.model'
 import { OrderReducer } from './store/order.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { OrderEffect } from './store/order.effect';
+import { EmployeeComponent } from './components/employee/employee.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 @NgModule({
   declarations:[
@@ -21,7 +23,9 @@ import { OrderEffect } from './store/order.effect';
     DashboardComponent,
     RegisterComponent,
     OrderViewComponent,
-    OrderRequestComponent
+    OrderRequestComponent,
+    EmployeeComponent,
+    EmployeesComponent
   ],
   imports:[
     CommonModule,

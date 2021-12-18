@@ -1,4 +1,4 @@
-.content{
+.custom-input{
     color: rgb(20, 20, 20);
     margin-bottom:.5em ;
     margin-top:.5em ;
@@ -11,14 +11,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 10px 0 10px;
+    padding: 0 5px 0 10px;
 }
 input{
     border: none;
-    width: 90%;
+    width: 98%;
     background-color:  transparent;
     height: fit-content;
-    
     font-family: Roboto;
     font-size: small;
     color: rgb(20, 20, 20);
@@ -33,6 +32,10 @@ input:focus{
 
 .error{
     color:rgb(224, 88, 70);
+}
+.mat-icon{
+    margin-top: .8em;
+    font-size: small;
 }
 .message{
     font-size: x-small;

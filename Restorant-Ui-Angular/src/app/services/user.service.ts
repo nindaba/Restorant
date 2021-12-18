@@ -8,10 +8,10 @@ import { Observable, of } from 'rxjs';
 import { Token } from '../models/token.model';
 import { Order } from '../models/order.model';
 import {EventSourcePolyfill} from 'ng-event-source'
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { Response } from '../models/response.module';
-import { LOGIN_FAILED, LOGIN_SUCCESS } from '../common/responses.messages';
-import { logger } from '../common/utils';
+import * as Messages from '../common/responses.messages';
+import { logger, TapLogger } from '../common/utils';
 import { UserDetails } from '../models/user-details.model';
 import { InitialModels } from '../common/initial-models.data';
 @Injectable({
@@ -27,17 +27,25 @@ export class UserService {
     })
       return this.http
       .post(RestorantApis.USER_LOGIN,formCredentials,{headers:httpHeaders,observe:'response'})
+      .pipe(take(1))
       .pipe(
         map(response=>{
         this.token = response.headers.get("Authorization")||'';
-        return LOGIN_SUCCESS.response;
+        return Messages.LOGIN_SUCCESS.response;
         }),
-        catchError(() => [LOGIN_FAILED('err').response])
+        catchError(() => [Messages.LOGIN_FAILED('err').response]),
       );
   }
-  register(user : User&{password:string}):Observable<HttpResponse<any>>{
-    // console.log(user);
-    return this.http.post<HttpResponse<any>>(RestorantApis.REGISTER_CLIENT,user,{observe:'response'});
+  register(user : User&{password:string}):Observable<Response>{
+    return this.http
+    .post<any>(RestorantApis.REGISTER_CLIENT,user,{observe:'response'})
+    .pipe(
+      map(response=> Messages.REGISTER_SUCCESS.response),
+      catchError(error => [
+        Messages.REGISTER_FAILED(error.error.message).response,
+      ]),
+      TapLogger
+    );
   }
   update(){
   }
