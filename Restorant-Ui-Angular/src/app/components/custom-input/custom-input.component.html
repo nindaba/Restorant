@@ -1,0 +1,12 @@
+<div class="custom-input">
+    <label *ngIf="properties.hasTitle">
+        {{properties.name}}
+    </label>
+    <div class="custom">
+        <input [(ngModel)]= "value" placeholder="{{properties.name}}"type="{{properties.type}}"> 
+        <mat-icon 
+        *ngIf="icon" 
+        color="{{color}}">
+        {{icon}}</mat-icon> 
+    </div> 
+</div>
