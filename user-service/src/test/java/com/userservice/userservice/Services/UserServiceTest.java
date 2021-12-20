@@ -58,6 +58,9 @@ class UserServiceTest {
 
     @Test
     void save() {
+        when(repository.findByUsername(CLIENT_USER.getUsername())).thenReturn(Optional.empty());
+        when(repository.findByEmail(CLIENT_USER.getEmail())).thenReturn(Optional.empty());
+        when(repository.findById(CLIENT_USER.getUserId())).thenReturn(Optional.of(CLIENT_USER));
         when(repository.save(CLIENT_USER)).thenReturn(CLIENT_USER);
         ResponseEntity<HttpStatus> actual = service.save(CLIENT_USER);
         assertEquals(HttpStatus.OK,actual.getStatusCode());
