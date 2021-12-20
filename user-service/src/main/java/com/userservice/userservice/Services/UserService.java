@@ -3,6 +3,7 @@ package com.userservice.userservice.Services;
 import com.userservice.userservice.Documents.User;
 import com.userservice.userservice.Exception.UserException;
 import com.userservice.userservice.Exception.UserExceptionResponse;
+import com.userservice.userservice.Models.UserType;
 import com.userservice.userservice.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -83,7 +87,8 @@ public class UserService implements org.springframework.security.core.userdetail
                         user.getUsername(),
                         user.getName(),
                         user.getEmail(),
-                        user.getType()
+                        user.getType(),
+                        user.getAccountLocked()
                 ))
                 .map(user-> new ResponseEntity<>(user,HttpStatus.OK))
                 .orElseThrow(()-> new UserException(
@@ -91,5 +96,18 @@ public class UserService implements org.springframework.security.core.userdetail
                         "finding user Details by id",
                         String.format("use with id %s was not found ",id)
                 ));
+    }
+
+    public ResponseEntity<List<com.userservice.userservice.Models.UserDetails>> getEmployees() {
+        return new ResponseEntity<>(repository
+                .findByType(UserType.EMPLOYEE)
+                .stream().map(user-> new com.userservice.userservice.Models.UserDetails(
+                        user.getUsername(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getType(),
+                        user.getAccountLocked()
+                ))
+                .collect(Collectors.toList()),HttpStatus.OK);
     }
 }

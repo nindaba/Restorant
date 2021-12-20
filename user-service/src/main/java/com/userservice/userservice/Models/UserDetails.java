@@ -12,4 +12,5 @@ public class UserDetails {
     private String name;
     private String email;
     private UserType type;
+    private Boolean accountLocked;
 }
