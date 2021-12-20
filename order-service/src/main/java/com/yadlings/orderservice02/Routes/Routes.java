@@ -26,7 +26,7 @@ public class Routes {
                 .route()
                 .POST("/order",clientHandler::saveOrder)
                 .GET("/order",clientHandler::getClientOrders)
-                .GET("/order/in-process",employeeHandler::getOrdersInPrpcess)
+                .GET("/order/in-process",employeeHandler::getOrdersInProcess)
                 .GET("/order/all",employeeHandler::getAllOrders)
                 .PUT("/order",employeeHandler::updateOrder)
                 .build();

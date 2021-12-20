@@ -29,7 +29,7 @@ public class EmployeeHandler {
                         .body(response, Order.class));
     }
 
-    public Mono<ServerResponse> getOrdersInPrpcess(ServerRequest request) {
+    public Mono<ServerResponse> getOrdersInProcess(ServerRequest request) {
         return ServerResponse
                 .ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)

@@ -13,7 +13,7 @@ public class OrderStatus {
     private Boolean ready    = false;
     private Boolean served   = false;
     private Boolean payed    = false;
-    private String  cancelMessage;
+    private String  cancelMessage = "";
 
     public void setCooking(Boolean cooking) {
         if(cooking) this.accepted = true;

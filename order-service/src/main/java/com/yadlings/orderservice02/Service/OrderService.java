@@ -77,9 +77,24 @@ public class OrderService {
     }
 
     public Flux<Order> getOrdersInProcess() {
-        return  getOrders()
-                .filter(order -> !order.getStatus().getPayed()
-                        && order.getStatus().getCancelMessage() == null);
+        return  Flux.merge(
+                orderRepository.findAll()
+                        .sort(Comparator
+                                .comparingLong(Order::getTimeUpdated)
+                                .reversed())
+                        .filter(order -> !order.getStatus().getPayed()
+                            && order.getStatus().getCancelMessage().equals("")),
+                kafkaService.receive()
+                        .map(ReceiverRecord::value)
+                        .map(Order::deserialize) //we don't filter out the complete status since we want to niffy the client that it got changed
+        );
+
+
+
+
+
+//                .filter(order -> !order.getStatus().getPayed()
+//                        && order.getStatus().getCancelMessage().equals(""));
     }
 //    public ResponseEntity<Order> getByOrderId(String orderId){
 //        return orderRepository
