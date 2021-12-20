@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.userservice.userservice.Models.Common.SERVICE_END_POINT;
 
 @RestController
@@ -28,11 +30,14 @@ public class UserController {
         return userService.save(user);
     }
     @PutMapping
-    public ResponseEntity<HttpStatus> updateAccount(@RequestBody User user){
+    public ResponseEntity<HttpStatus> updateAccount(@RequestBody User user) {
         return userService.update(user);
- 	}
-     @GetMapping("/{id}")
+    }
+    @GetMapping("/{id}")
     public ResponseEntity<UserDetails> getDetails(@PathVariable String id){
         return userService.getDetails(id);
+     }
+     @GetMapping("/employees") ResponseEntity<List<UserDetails>> getEmployees(){
+        return userService.getEmployees();
      }
 }
