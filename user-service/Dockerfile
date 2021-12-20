@@ -1,8 +1,8 @@
 FROM openjdk:11
-#all my services will be in restant folder
-COPY . ./restorant/user-service
-WORKDIR ./restorant/user-service
+RUN mvn install
+COPY ./target/user-service-0.0.1.jar ./restorant
+WORKDIR ./restorant
 EXPOSE 5000
 #my computer is slow so instead of compiling the service from the pc and upload the jar,
 #the azure container will run it using mvn
-CMD ./mvnw spring-boot:run
+CMD java -jar user-service-0.0.1.jar
