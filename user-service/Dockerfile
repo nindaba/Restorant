@@ -1,5 +1,6 @@
 FROM openjdk:11
-RUN mvn install
+WORKDIR .
+RUN ./mvnw install
 COPY ./target/user-service-0.0.1.jar ./restorant
 WORKDIR ./restorant
 EXPOSE 5000
