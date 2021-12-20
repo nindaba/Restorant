@@ -11,7 +11,7 @@ import java.util.Date;
 public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(UserException.class)
     public ResponseEntity<UserExceptionResponse> userExceptionResponse(UserException exception, HttpServletRequest request){
-        return new ResponseEntity<UserExceptionResponse>(new UserExceptionResponse(
+        return new ResponseEntity<>(new UserExceptionResponse(
                 exception.getStatus(),
                 exception.getMessage(),
                 exception.getAction(),

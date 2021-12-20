@@ -74,7 +74,7 @@ public class UserService implements org.springframework.security.core.userdetail
                     repository.save(user);
                     return new ResponseEntity<HttpStatus>(HttpStatus.OK);
                 })
-                .get();
+                .orElseThrow(()-> new UserException(HttpStatus.NOT_FOUND,"Updating Account","User Not found"));
     }
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -83,31 +83,20 @@ public class UserService implements org.springframework.security.core.userdetail
 
     public ResponseEntity<com.userservice.userservice.Models.UserDetails> getDetails(String id) {
         return repository.findById(id)
-                .map(user-> new com.userservice.userservice.Models.UserDetails(
-                        user.getUsername(),
-                        user.getName(),
-                        user.getEmail(),
-                        user.getType(),
-                        user.getAccountLocked()
-                ))
+                .map(com.userservice.userservice.Models.UserDetails::new)
                 .map(user-> new ResponseEntity<>(user,HttpStatus.OK))
                 .orElseThrow(()-> new UserException(
                         HttpStatus.NOT_FOUND,
                         "finding user Details by id",
-                        String.format("use with id %s was not found ",id)
+                        String.format("user was not found ")
                 ));
     }
 
     public ResponseEntity<List<com.userservice.userservice.Models.UserDetails>> getEmployees() {
         return new ResponseEntity<>(repository
                 .findByType(UserType.EMPLOYEE)
-                .stream().map(user-> new com.userservice.userservice.Models.UserDetails(
-                        user.getUsername(),
-                        user.getName(),
-                        user.getEmail(),
-                        user.getType(),
-                        user.getAccountLocked()
-                ))
+                .stream()
+                .map(com.userservice.userservice.Models.UserDetails::new)
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 }
