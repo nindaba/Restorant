@@ -54,4 +54,4 @@ jobs:
           app-name: 'restorant'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5DFB281DD225454290F046B1400D26DF }}
-          package: .Restorant-Ui-Angular/dist/restorant
+          package: ./Restorant-Ui-Angular/dist/restorant
