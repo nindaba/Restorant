@@ -15,9 +15,12 @@ import { ActivatedRoute, Params } from '@angular/router';
   `,
   styles:[
     `
+    .content{
+      height: 98%;
+    }
     .outlet{
       width:100%;
-      /* height:100%; */
+      height:100%;
     }
     .menu{
       width:100%;

@@ -27,7 +27,7 @@ export class OrderService {
    * @returns Observable of Orders
    */
   loadOrders(all?:Boolean): Observable<Order>{
-    let ordersEvent = new EventSourcePolyfill(all ? RestorantApis.ORDER_ALL: RestorantApis.ORDER,{
+    let ordersEvent = new EventSourcePolyfill(all ? RestorantApis.ORDER_IN_PROCESS: RestorantApis.ORDER,{
       headers:{'Authorization': this.userService.token},
       heartbeatTimeout: 2*60*60*1000 //2 hours
     });

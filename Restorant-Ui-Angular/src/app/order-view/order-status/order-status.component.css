@@ -8,10 +8,6 @@
 b{
     color: rgb(43, 170, 117);
 }
-.mat-icon,.mat-progress-spinner{
-    color: rgb(43, 170, 117);
-    /* color: white; */
-}
 .status-table thead{
     margin-bottom: 2em;
     border-bottom: 2px;

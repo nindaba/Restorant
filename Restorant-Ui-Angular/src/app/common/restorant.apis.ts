@@ -9,10 +9,12 @@ export class RestorantApis{
     public static ORDER = `${RestorantApis.RESTORANT_GATEWAY}order`
     /** Note from OrderAPi that only employees have access to all the records */
     public static ORDER_ALL = `${RestorantApis.RESTORANT_GATEWAY}order/all`
+    public static ORDER_IN_PROCESS = `${RestorantApis.RESTORANT_GATEWAY}order/in-process`
     public static USER_LOGIN = `${RestorantApis.RESTORANT_GATEWAY}user/login`
     public static USER = (id:string)=>`${RestorantApis.RESTORANT_GATEWAY}user/${id}`
     public static REGISTER_CLIENT = `${RestorantApis.RESTORANT_GATEWAY}user/client`
     public static REGISTER_EMPLOYEE = `${RestorantApis.RESTORANT_GATEWAY}user/employee`
-    public static USER_UPDATE = `${RestorantApis.RESTORANT_GATEWAY}user`  
+    public static USER_UPDATE = `${RestorantApis.RESTORANT_GATEWAY}user`;
+    public static EMPLOYEE_USERS= `${RestorantApis.RESTORANT_GATEWAY}user/employees`;
      
 }

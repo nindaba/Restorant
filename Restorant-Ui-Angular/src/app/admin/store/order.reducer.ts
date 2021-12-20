@@ -8,8 +8,10 @@ import {OrderState, SelectedOrder } from "./order.model";
 
 const updateOrders = (orders:Order[],order: Order):Order[]=>{
     let index = orders.findIndex(find => find.orderId == order.orderId);
+	let toBeRemoved:Boolean = order.status.payed == true || order.status.cancelMessage.length > 0; // this is to check if status is complete
     if(index >-1) orders[index] = order;
     else orders.push(order);
+	if(toBeRemoved && index >-1) orders.splice(index,1);
 	return orders.sort(compare);
   }
 const OrderReducer = createReducer(

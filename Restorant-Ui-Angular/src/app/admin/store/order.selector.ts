@@ -54,7 +54,7 @@ const getStatusIndex =()=>createSelector(
    */  
 const getTitles = ()=>createSelector(
         createFeatureSelector(Common.FREATUE_KEY),
-        (state:OrderState)=> state.orders      
+        (state:OrderState)=> state.orders   
         .map((order:Order) => 
         ({
           status :extractLatestStatus(order.status),

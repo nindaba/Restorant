@@ -22,7 +22,7 @@
 }
 .time-status{
     font-weight: 500;
-    color: rgb(43, 170, 117);
+    color: #2baa75;
     width: 100%;
 }
 .details{
@@ -41,7 +41,4 @@ button{
 .mat-icon{
     /* color: rgb(43, 170, 117); */
     margin-right: 0.5em;
-}
-.mat-flat-button{
-    background-color: rgb(43, 170, 117);
 }

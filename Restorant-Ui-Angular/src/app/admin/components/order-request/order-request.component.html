@@ -1,19 +1,19 @@
 <div class="card">
-    <div class="time-status">
+    <div class="time-status" color="primary">
         <span>{{title.time}}</span>        
         <span style="float: right;">{{title.status}}</span>
     </div>
     <div class="details">
         <span>
-            <mat-icon>person</mat-icon>
+            <mat-icon color="accent">person</mat-icon>
            {{title.username}}
         </span>
         <span>
-            <mat-icon>category</mat-icon>
+            <mat-icon color="accent">category</mat-icon>
             {{title.count}}
         </span>
         <span>
-            <mat-icon>payments</mat-icon>
+            <mat-icon color="accent">payments</mat-icon>
             {{title.totalPrice|currency:' '}} zloty
             
         </span>

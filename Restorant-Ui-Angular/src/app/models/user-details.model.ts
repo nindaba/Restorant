@@ -3,4 +3,5 @@ export interface UserDetails{
     name:string;
     email:string;
     userType:string;
+    accountLocked:Boolean;
 }

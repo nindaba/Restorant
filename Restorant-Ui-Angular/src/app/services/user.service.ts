@@ -75,8 +75,11 @@ export class UserService {
   get username():string{
     return this.userInfo.sub ||'';
   }
-  bgetUserDetails(id:string):Observable<UserDetails>{
+  getUserDetails(id:string):Observable<UserDetails>{
     return this.http.get<UserDetails>(RestorantApis.USER(id))
+  }
+  getEmployees():Observable<UserDetails[]>{
+    return this.http.get<UserDetails[]>(RestorantApis.EMPLOYEE_USERS).pipe(take(1));
   }
   get isEmployee():Boolean{
     return this.userInfo.payload?.userType =='EMPLOYEE' || false;

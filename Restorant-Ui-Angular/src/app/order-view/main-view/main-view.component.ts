@@ -1,17 +1,40 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { RestorantApis } from 'src/app/common/restorant.apis';
-import { copy, logger } from 'src/app/common/utils';
+import { copy } from 'src/app/common/utils';
 import { BasketServiceService } from 'src/app/services/basket-service.service';
 import * as OrderAction from '../store/order.action';
 import { isEmpty } from '../store/order.selector';
 
 @Component({
   selector: 'app-main-view',
-  templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.css']
+  template: `
+    <div class="content">
+      <div class="order-list">
+          <order-list *ngIf="!(isEmpty|async)"></order-list>
+          <order-list-skeleton *ngIf="isEmpty|async"></order-list-skeleton>
+      </div>
+      <div class="order-display">
+          <router-outlet></router-outlet>
+      </div>
+    </div>
+  `,
+  styles:[`
+  .content{
+      display: flex;
+      flex-direction: row;
+      padding: 0 50px 0px 50px;
+      height: 100%;
+      width: 90%;
+      /* background-color: indigo; */
+  }
+  .order-list{
+      width: 25%;
+  }
+  .order-display{
+      width: 70%;
+      /* background-color: green; */
+  }`]
 })
 export class MainViewComponent implements OnInit{
   constructor(private store:Store,private service:BasketServiceService) { }
