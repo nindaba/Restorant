@@ -48,7 +48,7 @@ public class WebSecurity{
                  * and for the service to keep their Ids and use them on their requests
                  */
                 .pathMatchers(HttpMethod.GET,"/order").hasAuthority(UserType.CLIENT.toString())
-                .pathMatchers(HttpMethod.GET,"/order/all").hasAuthority(UserType.EMPLOYEE.toString())
+                .pathMatchers(HttpMethod.GET,"/order/all","/order/in-process").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.PUT,"/order").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.POST,"/order").hasAuthority(UserType.CLIENT.toString())
                 .anyExchange().authenticated()

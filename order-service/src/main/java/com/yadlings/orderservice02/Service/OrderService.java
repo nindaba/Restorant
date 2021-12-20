@@ -36,7 +36,10 @@ public class OrderService {
      */
     public Flux<Order> getOrders(){
         return Flux.merge(
-                orderRepository.findAll(),
+                orderRepository.findAll()
+                        .sort(Comparator
+                        .comparingLong(Order::getTimeUpdated)
+                        .reversed()),
                 kafkaService.receive()
                         .map(ReceiverRecord::value)
                         .map(Order::deserialize));
@@ -71,6 +74,12 @@ public class OrderService {
                         .map(Order::deserialize)
                         .filter(order -> order.getClientId().endsWith(clientId)) //Note that the broker is not for one client, therefore I have to filter the orders for the client
         );
+    }
+
+    public Flux<Order> getOrdersInProcess() {
+        return  getOrders()
+                .filter(order -> !order.getStatus().getPayed()
+                        && order.getStatus().getCancelMessage() == null);
     }
 //    public ResponseEntity<Order> getByOrderId(String orderId){
 //        return orderRepository

@@ -35,7 +35,7 @@ public class ClientHandler {
     }
 
 
-    public Mono<ServerResponse> getClientOrder(ServerRequest serverRequest) {
+    public Mono<ServerResponse> getClientOrders(ServerRequest serverRequest) {
         var clientId = serverRequest.headers().firstHeader(Constants.AUTHORISED_USER_ID);
         return ServerResponse
                 .ok()

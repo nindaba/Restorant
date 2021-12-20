@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class EmployeeHandler {
     private OrderService orderService;
 
-    public Mono<ServerResponse> getAllOrder(ServerRequest serverRequest) {
+    public Mono<ServerResponse> getAllOrders(ServerRequest serverRequest) {
         return ServerResponse
                 .ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
@@ -27,5 +27,12 @@ public class EmployeeHandler {
                 .flatMap(response -> ServerResponse
                         .status(200)
                         .body(response, Order.class));
+    }
+
+    public Mono<ServerResponse> getOrdersInPrpcess(ServerRequest request) {
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(orderService.getOrdersInProcess(), Order.class);
     }
 }
