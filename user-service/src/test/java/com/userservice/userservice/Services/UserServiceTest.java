@@ -70,15 +70,17 @@ class UserServiceTest {
     @Test
     void update() {
         when(repository.findById(CLIENT_USER.getUserId())).thenReturn(Optional.of(CLIENT_USER));
-        when(repository.findById("")).thenReturn(Optional.empty());
+        when(repository.findByUsername(CLIENT_USER.getUsername())).thenReturn(Optional.empty());
+        when(repository.findByEmail(CLIENT_USER.getEmail())).thenReturn(Optional.empty());
+
         CLIENT_USER.setPassword("1234567");
         when(repository.save(CLIENT_USER)).thenReturn(CLIENT_USER);
-
         ResponseEntity<HttpStatus> actual = service.update(CLIENT_USER);
         assertEquals(HttpStatus.OK,actual.getStatusCode());
 
         //TODO test for existing username and email
 
+        when(repository.findById("")).thenReturn(Optional.empty());
         CLIENT_USER.setUserId("");
         try{
             actual = service.update(CLIENT_USER);
