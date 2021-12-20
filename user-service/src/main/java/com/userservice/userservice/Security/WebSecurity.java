@@ -50,8 +50,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         authFilter.setFilterProcessesUrl(SERVICE_END_POINT+"/login");
         http.
                 csrf().disable()
-                .cors()//.disable()
-                .and()
+                .cors().disable()
+//                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()

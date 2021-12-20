@@ -36,8 +36,8 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDetails> getDetails(@PathVariable String id){
         return userService.getDetails(id);
-     }
-     @GetMapping("/employees") ResponseEntity<List<UserDetails>> getEmployees(){
+    }
+    @GetMapping("/employees") ResponseEntity<List<UserDetails>> getEmployees(){
         return userService.getEmployees();
      }
 }
