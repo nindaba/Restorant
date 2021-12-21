@@ -33,4 +33,5 @@ public class UserController {
     @GetMapping("/employees") ResponseEntity<List<User>> getEmployees(){
         return userService.getEmployees();
      }
+    @DeleteMapping("/{id}") ResponseEntity<?>delete(@PathVariable String id) {return userService.delete(id);}
 }

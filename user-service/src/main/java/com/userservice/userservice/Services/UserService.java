@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.net.URI;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,5 +112,10 @@ public class UserService implements org.springframework.security.core.userdetail
                     return user;
                 })
                 .collect(Collectors.toList()),HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> delete(String id) {
+        repository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -20,8 +20,7 @@ import java.util.Optional;
 import static com.userservice.userservice.Common.CLIENT_USER;
 import static com.userservice.userservice.Common.EMPLOYEE_USER;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceTest {
@@ -124,6 +123,12 @@ class UserServiceTest {
         ResponseEntity<List<User>>
                 actual = service.getEmployees();
         assertEquals(HttpStatus.OK,actual.getStatusCode());
-        assertEquals(1,actual.getBody().size());
+        assertEquals(1,actual.getBody().size());;
+    }
+    @Test
+    void delete(){
+        doNothing().when(repository).deleteById(EMPLOYEE_USER.getUserId());
+        ResponseEntity<?> actual = service.delete(EMPLOYEE_USER.getUserId());
+        assertEquals(HttpStatus.OK,actual.getStatusCode());
     }
 }
