@@ -45,7 +45,7 @@ export class UserService {
     .pipe(
       tap(response=> {
         user.userId = response.headers.get('Location')||undefined;
-        this.newEmployee.push(user);
+        if(this.isEmployee) this.newEmployee.push(user);
       }),
       map(response=> Messages.REGISTER_SUCCESS.response),
       catchError(error => [
