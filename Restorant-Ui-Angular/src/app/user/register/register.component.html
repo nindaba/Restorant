@@ -23,12 +23,13 @@
             [properties]="confPasswordProps"
             ></custom-input>
             <div class="buttons">
-                <button mat-button color="primary" (click)="login()" type="button">Login</button>
+                <button *ngIf="!userService.isEmployee" mat-button color="primary" (click)="login()" type="button">Login</button>
+                <button *ngIf="userService.isEmployee" mat-button color="warn" (click)="cancel()" type="button">Cancel</button>
                 <div style="flex-grow: 1;"></div>
-                <button *ngIf="!hasSubmitted" [disabled]="registerForm.invalid" mat-flat-button color="primary" type="submit" style="display: flex;flex-direction:row;align-items:center">
+                <button *ngIf="!hasSubmitted || (loginEvent|async)" [disabled]="registerForm.invalid" mat-flat-button color="primary" type="submit" style="display: flex;flex-direction:row;align-items:center">
                     <span>register</span>
                 </button>
-                <mat-spinner *ngIf="hasSubmitted" color="primary" diameter="20"></mat-spinner>
+                <mat-spinner *ngIf="hasSubmitted && !(loginEvent|async)" color="primary" diameter="20"></mat-spinner>
             </div>
         </form>
     </div>

@@ -8,15 +8,22 @@ import { getTitles } from '../../store/order.selector';
 @Component({
   selector: 'app-order-view',
   template: `
-  <div class="content" fxLayout="row wrap">
-    <div class="orders"  *ngFor="let title of titles|async">
-        <order-request [title]="title"></order-request>
+  <div class="content">
+    <fx-header>
+      <h2 right>Orders</h2>
+    </fx-header>
+    <div class="orders" fxLayout="row wrap" fxLayoutAlign="start start">
+        <order-request  *ngFor="let title of titles|async" [title]="title"></order-request>
     </div>
   </div>
   `,
   styles:[`
   .content{
-      height: 100%;
+      height: 90%;
+  }
+  .orders{
+    height:100%;
+    overflow-y:auto;
   }
   `]
 })

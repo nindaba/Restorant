@@ -1,6 +1,13 @@
 
-<div fxLayout="column" class="content">
-        <div class="title">
+<div fxLayout="row" fxLayoutAlign="space-between center" fx class="content">
+    
+    <ng-content select="[right]"></ng-content>
+    <custom-input [(ngModel)]="search"
+        [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
+    ></custom-input>
+    <ng-content select="[left]"></ng-content>
+
+        <!-- <div class="title"> -->
             <!-- <mat-toolbar>
                 <span>{{categoryItem.name||'Categories'}}</span>
                 <div class="spacer"></div>
@@ -14,5 +21,5 @@
                     New
                 </button>
             </mat-toolbar> -->
-        </div>
+        <!-- </div> -->
 </div>
