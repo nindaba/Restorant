@@ -7,6 +7,7 @@ import com.userservice.userservice.Models.UserType;
 import com.userservice.userservice.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,14 +49,20 @@ public class UserService implements org.springframework.security.core.userdetail
                         )));
 
     }
-    public ResponseEntity<HttpStatus> save(User user){
+    public ResponseEntity<HttpHeaders> save(User user){
 	user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         if(repository.findByEmail(user.getEmail())
                 .isPresent()) throw new UserException(HttpStatus.CONFLICT,"Updating User","The email already taken");
         if(repository.findByUsername(user.getUsername())
                 .isPresent()) throw new UserException(HttpStatus.CONFLICT,"Updating User","The username already taken");
-	repository.save(user);
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	    ;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(URI.create(
+                repository
+                        .save(user)
+                        .getUserId()
+        ));
+        return new ResponseEntity<>(httpHeaders,HttpStatus.OK);
     }
     public ResponseEntity<HttpStatus> update(User user){
 	//the will be a methord for a password update
@@ -81,10 +89,12 @@ public class UserService implements org.springframework.security.core.userdetail
         return getUserByUsernameOrEmail(s);
     }
 
-    public ResponseEntity<com.userservice.userservice.Models.UserDetails> getDetails(String id) {
+    public ResponseEntity<User> getDetails(String id) {
         return repository.findById(id)
-                .map(com.userservice.userservice.Models.UserDetails::new)
-                .map(user-> new ResponseEntity<>(user,HttpStatus.OK))
+                .map(user -> {
+                    user.setPassword("");
+                    return new ResponseEntity<>(user,HttpStatus.OK);
+                })
                 .orElseThrow(()-> new UserException(
                         HttpStatus.NOT_FOUND,
                         "finding user Details by id",
@@ -92,11 +102,14 @@ public class UserService implements org.springframework.security.core.userdetail
                 ));
     }
 
-    public ResponseEntity<List<com.userservice.userservice.Models.UserDetails>> getEmployees() {
+    public ResponseEntity<List<User>> getEmployees() {
         return new ResponseEntity<>(repository
                 .findByType(UserType.EMPLOYEE)
                 .stream()
-                .map(com.userservice.userservice.Models.UserDetails::new)
+                .map(user -> {
+                    user.setPassword("");
+                    return user;
+                })
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 }

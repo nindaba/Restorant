@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -62,7 +63,7 @@ class UserServiceTest {
         when(repository.findByEmail(CLIENT_USER.getEmail())).thenReturn(Optional.empty());
         when(repository.findById(CLIENT_USER.getUserId())).thenReturn(Optional.of(CLIENT_USER));
         when(repository.save(CLIENT_USER)).thenReturn(CLIENT_USER);
-        ResponseEntity<HttpStatus> actual = service.save(CLIENT_USER);
+        ResponseEntity<HttpHeaders> actual = service.save(CLIENT_USER);
         assertEquals(HttpStatus.OK,actual.getStatusCode());
         //TODO test for existing username and email
     }
@@ -101,14 +102,11 @@ class UserServiceTest {
     @Test
     void getDetails() {
         when(repository.findById(CLIENT_USER.getUserId())).thenReturn(Optional.of(CLIENT_USER));
-        ResponseEntity<com.userservice.userservice.Models.UserDetails>
+        ResponseEntity<User>
                 actual = service.getDetails(CLIENT_USER.getUserId());
-
+        CLIENT_USER.setPassword("");
         assertEquals(HttpStatus.OK,actual.getStatusCode());
-        assertEquals(
-                new com.userservice.userservice.Models.UserDetails(CLIENT_USER),
-                actual.getBody()
-                );
+        assertEquals(CLIENT_USER,actual.getBody());
 
         CLIENT_USER.setUserId("");
         try{
@@ -123,7 +121,7 @@ class UserServiceTest {
     @Test
     void getEmployees() {
         when(repository.findByType(UserType.EMPLOYEE)).thenReturn(List.of(EMPLOYEE_USER));
-        ResponseEntity<List<com.userservice.userservice.Models.UserDetails>>
+        ResponseEntity<List<User>>
                 actual = service.getEmployees();
         assertEquals(HttpStatus.OK,actual.getStatusCode());
         assertEquals(1,actual.getBody().size());

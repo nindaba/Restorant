@@ -3,7 +3,8 @@
 }
 .content{
     width:100%;
-    height:88%;
+    background-color: white;
+    padding: .25em;
 }
 .title{
     width:100%;

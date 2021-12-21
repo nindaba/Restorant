@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserDetails } from 'src/app/models/user-details.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'employee',
@@ -7,12 +7,12 @@ import { UserDetails } from 'src/app/models/user-details.model';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
-  @Input() employee:UserDetails = {
+  @Input() employee:User = {
     username: '',
     name: '',
     email: '',
-    userType: '',
-    accountLocked: false
+    accountLocked: false,
+    type: ''
   }
   constructor() { }
 

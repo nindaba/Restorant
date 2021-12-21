@@ -1,11 +1,12 @@
 <div class="content">
+        <fx-header>
+                <h2 right>Employees</h2>
+                <button left mat-button (click)="register()">
+                        <mat-icon>add</mat-icon>Add
+                </button>
+        </fx-header>
+       <div class="list">
+        <employee  *ngFor="let employee of userService.newEmployee"[employee]="employee"></employee>
         <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
-        <employee  *ngFor="let employee of employees|async"[employee]="employee"></employee>
+       </div>
 </div>

@@ -8,7 +8,7 @@ import { isEmpty } from '../store/order.selector';
 
 @Component({
   selector: 'app-main-view',
-  template: `
+  template:`
     <div class="content">
       <div class="order-list">
           <order-list *ngIf="!(isEmpty|async)"></order-list>

@@ -4,7 +4,7 @@ import { logger } from 'src/app/common/utils';
 
 interface CustomInputProps{
   name:string;
-  iconName? :string;
+  icon? :string;
   hasTitle?: Boolean;
   type?: string;
   invalid?:Boolean;
@@ -45,7 +45,7 @@ class CustomInputComponent implements ControlValueAccessor{
     return this.properties.invalid ? 'warn': 'primary';
   }
   get icon():string|undefined{
-    return this.properties.invalid ? 'error' : this.properties.iconName;
+    return this.properties.invalid ? 'error' : this.properties.icon;
   }
 }
 

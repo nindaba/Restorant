@@ -28,7 +28,7 @@ public class User implements UserDetails{
     private String password;
     private UserType type;
     //todo add email code for activation
-    private Boolean  accountLocked = true;
+    private Boolean  accountLocked = false;
 
 
     @Override
@@ -40,7 +40,7 @@ public class User implements UserDetails{
         return true;
     }
     @Override
-    public boolean isAccountNonLocked() {return accountLocked;}
+    public boolean isAccountNonLocked() {return !accountLocked;}
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
