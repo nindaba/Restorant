@@ -16,6 +16,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { OrderEffect } from './store/order.effect';
 import { EmployeeComponent } from './components/employee/employee.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { PerformanceComponent } from './components/performance/performance.component';
 
 @NgModule({
   declarations:[
@@ -25,7 +26,8 @@ import { EmployeesComponent } from './components/employees/employees.component';
     OrderViewComponent,
     OrderRequestComponent,
     EmployeeComponent,
-    EmployeesComponent
+    EmployeesComponent,
+    PerformanceComponent
   ],
   imports:[
     CommonModule,

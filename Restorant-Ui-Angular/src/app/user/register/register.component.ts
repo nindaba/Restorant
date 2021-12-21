@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,7 +18,7 @@ import { inputTextValidator } from 'src/app/validators/validators';
 export class RegisterComponent implements OnInit ,OnDestroy{
 
 
-  @Output('login') loginEvent : EventEmitter<any> = new EventEmitter();
+  @Output('login') loginEvent : EventEmitter<Boolean> = new EventEmitter();
   registerForm: FormGroup;
   hasSubmitted:Boolean = false;
 
@@ -26,11 +27,11 @@ export class RegisterComponent implements OnInit ,OnDestroy{
   emailProps: CustomInputProps = {name:'email'}
 
   subscription:Subscription = new Subscription();
-
   constructor(
     formBuilder:FormBuilder,
-    private userService:UserService,
-    private router:Router) {
+    public userService:UserService,
+    @Optional() private dialogRef: MatDialogRef<RegisterComponent>
+    ){
     this.registerForm = formBuilder
     .group({
       name:['',inputTextValidator],
@@ -65,9 +66,13 @@ export class RegisterComponent implements OnInit ,OnDestroy{
     this.userService
     .register(this.registerForm.value)
     .subscribe(response =>{
-      if(response.success) this.loginEvent.emit()
+      this.loginEvent.emit(response.success);
+      if(response.success){
+        this.registerForm.reset();
+        this.dialogRef?.close()
+      } 
       else this.registerFailed(response.message)
-    })
+    });
   }
   registerFailed(message:string){
     /**Reseting the invalids*/
@@ -83,6 +88,9 @@ export class RegisterComponent implements OnInit ,OnDestroy{
     if(message =='The email already taken'){
       this.emailProps.invalid =true;
     }
+  }
+  cancel(){
+    this.dialogRef.close();
   }
 }
 

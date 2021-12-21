@@ -18,12 +18,14 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { CategorySkeletonComponent } from "./skeletons/category-skeleton/category-skeleton.component";
 import { HeaderComponent } from "./components/header/header.component";
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatPaginatorModule} from '@angular/material/paginator'
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog'
 @NgModule({
     imports:[
         MatIconModule,
         FormsModule,
-        CommonModule
+        CommonModule,
+        FlexLayoutModule
     ],
     exports: [
         MatCardModule,
@@ -44,7 +46,8 @@ import {MatPaginatorModule} from '@angular/material/paginator'
         HeaderComponent,
         CategorySkeletonComponent,  
         MatTooltipModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatDialogModule
     ],
     declarations: [
       CustomInputComponent,
