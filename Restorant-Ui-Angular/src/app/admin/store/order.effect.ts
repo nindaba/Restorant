@@ -15,7 +15,7 @@ import * as Messages from 'src/app/common/responses.messages'
 import { logger } from "src/app/common/utils";
 import { UserService } from "src/app/services/user.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ItemService } from "src/app/services/item-service.service";
+import { ItemService } from "src/app/services/item.service";
 @Injectable()
 export class OrderEffect{
     constructor(

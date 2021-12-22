@@ -9,9 +9,8 @@ import { UserService } from './services/user.service';
 })
 export class AppComponent implements OnInit {
   title = 'restorant';
-  constructor(public userService:UserService,private render:Renderer2){}
+  constructor(public userService:UserService){}
   ngOnInit(): void {
-    this.render.listen('window','scroll',ev=> logger(ev));
   }
 
   //We need this for our template

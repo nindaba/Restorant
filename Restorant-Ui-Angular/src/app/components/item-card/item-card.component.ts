@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
 import { BasketServiceService } from 'src/app/services/basket-service.service';
-import { ItemService } from 'src/app/services/item-service.service';
+import { ItemService } from 'src/app/services/item.service';
 
 @Component({
   selector: 'item-card',

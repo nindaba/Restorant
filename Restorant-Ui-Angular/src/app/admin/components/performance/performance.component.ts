@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./performance.component.css']
 })
 export class PerformanceComponent implements OnInit {
-
+  search:string =''
   constructor() { }
 
   ngOnInit(): void {

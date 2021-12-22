@@ -3,6 +3,7 @@ export enum Caller {
     LOAD_ORDER = "LOAD_ORDER",
     LOAD_ITEM = "LOAD_ITEM",
     USER_SERVICE = 'user_service',
+    EMPLOYEE = "EMPLOYEE"
 }
 export interface Response{
     message: string;

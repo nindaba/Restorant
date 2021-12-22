@@ -2,6 +2,9 @@
 <div fxLayout="column" class="content">
     <fx-header>
         <h2 right>{{categoryItem.name||'Categories'}}</h2>
+        <custom-input [(ngModel)]="search"
+        [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
+        ></custom-input>
         <button left mat-button *ngIf="isAdmin" color="primary" [routerLink]="['register']">
             <mat-icon>add</mat-icon>
             New

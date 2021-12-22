@@ -6,7 +6,7 @@ import { RestorantApis} from '../common/restorant.apis';
 import jwt_decode from 'jwt-decode'
 import { interval, Observable, zip } from 'rxjs';
 import { Token } from '../models/token.model';
-import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, retry, take, tap } from 'rxjs/operators';
 import { Response } from '../models/response.module';
 import * as Messages from '../common/responses.messages';
 import { logger, TapLogger } from '../common/utils';
@@ -53,8 +53,7 @@ export class UserService {
       ]),
     );
   }
-  update(){
-  }
+
   logout(){
     localStorage.removeItem("user_token");
     localStorage.removeItem("user_info");
@@ -85,14 +84,26 @@ export class UserService {
     return this.http.get<User>(RestorantApis.USER(id))
   }
   getEmployees():Observable<User[]>{
-    return this.http.get<User[]>(RestorantApis.EMPLOYEE_USERS)
-    .pipe(
-      take(1)
-    );
+    return this.http.get<User[]>(RestorantApis.EMPLOYEE_USERS);
 
   }
   get isEmployee():Boolean{
     return this.userInfo.payload?.userType =='EMPLOYEE' || false;
+  }
+  update(user:User):Observable<Response>{
+    return this.http.put(RestorantApis.USER_UPDATE,user,{observe:'response'}).pipe(
+      map(response=> Messages.REGISTER_SUCCESS.response),
+      catchError(error => [
+        Messages.REGISTER_FAILED(error.error.message).response,
+      ]),
+    )
+  }
+  delete(userId:string):Observable<Boolean>{
+    return this.http.delete(RestorantApis.USER(userId),{observe:'response'}).pipe(
+      map(reponse=> true),
+      retry(2),
+      catchError(error => [false])
+    )
   }
 }
 

@@ -70,6 +70,13 @@ const REGISTER_FAILED= (message:string):{response: Response} => ({
         from:Caller.USER_SERVICE
         }
 })
+const DELETED = (message:string):{response: Response} => ({
+    response :{
+        message: message,
+        success:true,
+        from:Caller.EMPLOYEE
+        }
+})
 export{
     SENDING_ORDER_FAILED,
     SENDING_ORDER_SUCESS,
@@ -80,5 +87,6 @@ export{
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     REGISTER_FAILED,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    DELETED
 }
