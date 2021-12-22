@@ -9,8 +9,8 @@ import { CategoryComponent } from './components/category/category.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { CategoryService } from './services/category-service.service';
-import { ItemService } from './services/item-service.service';
+import { CategoryService } from './services/category.service';
+import { ItemService } from './services/item.service';
 
 import { MatModule } from './mat.module';
 import { ForCategoriesItemsDirective } from './directives/for-categories-items.directive';

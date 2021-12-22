@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Item } from 'src/app/models/item.model';
-import { CategoryService } from 'src/app/services/category-service.service';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'category-card',
