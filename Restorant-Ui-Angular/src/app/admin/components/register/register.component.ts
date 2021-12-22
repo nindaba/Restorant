@@ -2,8 +2,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Observable, Subscriber } from 'rxjs';
-import { CategoryService } from 'src/app/services/category-service.service';
-import { ItemService } from 'src/app/services/item-service.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { ItemService } from 'src/app/services/item.service';
 import { UserService } from 'src/app/services/user.service';
 import { inputTextValidator } from 'src/app/validators/validators';
 

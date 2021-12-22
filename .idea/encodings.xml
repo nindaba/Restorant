@@ -2,15 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/item-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/item-service/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/order-service-0.2/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/order-service-0.2/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order-service/src/main/java" charset="UTF-8" />
-<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/user-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/user-service/src/main/resources" charset="UTF-8" />
-=======
-    <file url="file://$PROJECT_DIR$/order-service/src/main/resources" charset="UTF-8" />
->>>>>>> 5b34d9a49d984a013348f6bc54bb5daa28ffa5e5
   </component>
 </project>

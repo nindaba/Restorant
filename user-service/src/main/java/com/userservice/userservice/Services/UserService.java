@@ -71,15 +71,16 @@ public class UserService implements org.springframework.security.core.userdetail
         return repository
                 .findById(user.getUserId())
                 .map(foundUser ->{
-                    if(foundUser.getEmail() != user.getEmail()){
+                    if(!foundUser.getEmail().equals(user.getEmail())){
                         if(repository.findByEmail(user.getEmail())
                                 .isPresent()) throw new UserException(HttpStatus.CONFLICT,"Updating User","The email already taken");
                     }
-                    if(foundUser.getUsername() != user.getUsername()){
+                    if(!foundUser.getUsername().equals(user.getUsername())){
                         if(repository.findByUsername(user.getUsername())
                                 .isPresent()) throw new UserException(HttpStatus.CONFLICT,"Updating User","The username already taken");
                     }
-                    user.setType(foundUser.getType());		
+                    user.setType(foundUser.getType());
+                    user.setPassword(foundUser.getPassword());
                     repository.save(user);
                     return new ResponseEntity<HttpStatus>(HttpStatus.OK);
                 })

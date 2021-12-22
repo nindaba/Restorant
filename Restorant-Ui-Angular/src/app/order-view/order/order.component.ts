@@ -7,7 +7,7 @@ import { logger } from 'src/app/common/utils';
 import { BasketItem } from 'src/app/models/basket-item.model';
 import { Item } from 'src/app/models/item.model';
 import { Order } from 'src/app/models/order.model';
-import { ItemService } from 'src/app/services/item-service.service';
+import { ItemService } from 'src/app/services/item.service';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 import { BasketServiceService } from '../../services/basket-service.service';
