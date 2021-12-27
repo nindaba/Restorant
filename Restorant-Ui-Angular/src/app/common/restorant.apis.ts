@@ -1,6 +1,6 @@
 export class RestorantApis{
-    private static RESTORANT_GATEWAY: string ='http://192.168.0.45:5000/';
-    // private static RESTORANT_GATEWAY: string ='http://restorant.germanywestcentral.azurecontainer.io:4999/';
+    // private static RESTORANT_GATEWAY: string ='http://192.168.0.45:5000/';
+    private static RESTORANT_GATEWAY: string ='http://restorant.germanywestcentral.azurecontainer.io:4999/';
     public static CATEGORY:string= `${RestorantApis.RESTORANT_GATEWAY}category`;
     public static CATEGORY_UPDATE = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}category/${id}`;
     public static CATEGORY_ITEMS = (id:string):string=> `${RestorantApis.RESTORANT_GATEWAY}category/${id}/items`;
