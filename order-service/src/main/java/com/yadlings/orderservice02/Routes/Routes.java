@@ -24,11 +24,19 @@ public class Routes {
     public RouterFunction<ServerResponse> RouterFunctions(){
         return RouterFunctions
                 .route()
+
+                //order routes
+
                 .POST("/order",clientHandler::saveOrder)
                 .GET("/order",clientHandler::getClientOrders)
                 .GET("/order/in-process",employeeHandler::getOrdersInProcess)
                 .GET("/order/all",employeeHandler::getAllOrders)
                 .PUT("/order",employeeHandler::updateOrder)
+
+                //Performance routes
+
+//                .GET("/performance",performanceHandler::)
+
                 .build();
     }
 }

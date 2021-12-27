@@ -51,6 +51,7 @@ public class WebSecurity{
                 .pathMatchers(HttpMethod.GET,"/order/all","/order/in-process").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.PUT,"/order").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.POST,"/order").hasAuthority(UserType.CLIENT.toString())
+                .pathMatchers("/performance").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 /**
