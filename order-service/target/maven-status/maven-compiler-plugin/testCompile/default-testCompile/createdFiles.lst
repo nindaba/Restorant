@@ -1,0 +1,3 @@
+com\yadlings\orderservice02\ApplicationTests.class
+com\yadlings\orderservice02\Models\OrderStatusTest.class
+com\yadlings\orderservice02\Service\KafkaServiceTest.class
