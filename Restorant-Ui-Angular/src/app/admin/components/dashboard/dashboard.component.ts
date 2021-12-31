@@ -32,7 +32,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   title:string='';
-  constructor(private activeRoute:ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

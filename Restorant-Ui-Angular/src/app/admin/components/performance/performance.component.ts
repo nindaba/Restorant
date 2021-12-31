@@ -1,12 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Color } from '@swimlane/ngx-charts';
-import {ScaleLinear,ScaleBand} from 'd3-scale'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { logger, TapLogger } from 'src/app/common/utils';
-import { OrderService } from 'src/app/services/order.service';
 import { loadOrderCounter } from '../../store/order.action';
 import { NameValue, OrderCount } from '../../store/order.model';
 import { getOrderCounter} from '../../store/performance.selectors';
