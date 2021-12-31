@@ -6,11 +6,11 @@ export class RestorantApis{
     public static CATEGORY_ITEMS = (id:string):string=> `${RestorantApis.RESTORANT_GATEWAY}category/${id}/items`;
     public static ITEM =`${RestorantApis.RESTORANT_GATEWAY}item`;
     public static ITEM_ID = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}item/${id}`;
-    public static ORDER = `${RestorantApis.RESTORANT_GATEWAY1}order`
+    public static ORDER = `${RestorantApis.RESTORANT_GATEWAY}order`
     /** Note from OrderAPi that only employees have access to all the records */
-    public static ORDER_ALL = `${RestorantApis.RESTORANT_GATEWAY1}order/all`
-    public static ORDER_IN_PROCESS = `${RestorantApis.RESTORANT_GATEWAY1}order/in-process`
-    public static ORDER_COUNTER = `${RestorantApis.RESTORANT_GATEWAY1}order/counter`
+    public static ORDER_ALL = `${RestorantApis.RESTORANT_GATEWAY}order/all`
+    public static ORDER_IN_PROCESS = `${RestorantApis.RESTORANT_GATEWAY}order/in-process`
+    public static ORDER_COUNTER = `${RestorantApis.RESTORANT_GATEWAY}order/counter`
     public static USER_LOGIN = `${RestorantApis.RESTORANT_GATEWAY}user/login`
     public static USER = (id:string)=>`${RestorantApis.RESTORANT_GATEWAY}user/${id}`
     public static REGISTER_CLIENT = `${RestorantApis.RESTORANT_GATEWAY}user/client`

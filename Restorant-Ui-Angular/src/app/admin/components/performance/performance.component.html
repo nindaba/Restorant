@@ -1,8 +1,6 @@
 <div class="content">
     <fx-header>
-        <div right>
-            My titles
-        </div>
+        <h2 right>Performance</h2>
         <custom-input [(ngModel)]="search"
         [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
         ></custom-input>
@@ -54,7 +52,11 @@
             >
             </ngx-charts-bar-vertical>
           </div>
-          
+            <div class="details">
+                <Details>
+                    TODO
+                </Details>
+            </div>
       </div>
         <div class="graph">
           <h2>Weekly Earnings</h2>
@@ -69,6 +71,11 @@
             >
             </ngx-charts-bar-vertical>
           </div>
+          <div class="details">
+            <Details>
+                TODO
+            </Details>
+        </div>
         </div>
     
         <div class="graph">
@@ -84,6 +91,11 @@
             >
             </ngx-charts-bar-vertical>
           </div>
+          <div class="details">
+            <Details>
+                TODO
+            </Details>
+        </div>
         </div>  
       
     </div>

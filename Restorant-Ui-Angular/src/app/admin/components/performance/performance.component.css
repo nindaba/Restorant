@@ -41,6 +41,6 @@ td,th{
     width: 10em;
 }
 tr:hover{
-    color: rgb(0, 184, 197);
+    color: #029587;
     cursor: pointer;
 }
