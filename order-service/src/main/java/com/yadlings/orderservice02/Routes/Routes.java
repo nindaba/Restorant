@@ -20,22 +20,19 @@ import java.util.List;
 public class Routes {
     private ClientHandler clientHandler;
     private EmployeeHandler employeeHandler;
+
     @Bean
     public RouterFunction<ServerResponse> RouterFunctions(){
         return RouterFunctions
                 .route()
-
-                //order routes
-
                 .POST("/order",clientHandler::saveOrder)
                 .GET("/order",clientHandler::getClientOrders)
                 .GET("/order/in-process",employeeHandler::getOrdersInProcess)
                 .GET("/order/all",employeeHandler::getAllOrders)
                 .PUT("/order",employeeHandler::updateOrder)
 
-                //Performance routes
 
-//                .GET("/performance",performanceHandler::)
+                .GET("/order/counter",employeeHandler::getOrderCount)
 
                 .build();
     }

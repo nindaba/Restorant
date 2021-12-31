@@ -1,6 +1,8 @@
 package com.yadlings.orderservice02.RoutesHandler;
 
 import com.yadlings.orderservice02.Documents.Order;
+import com.yadlings.orderservice02.Models.OrderCount;
+import com.yadlings.orderservice02.Service.KafkaService;
 import com.yadlings.orderservice02.Service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -13,7 +15,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class EmployeeHandler {
     private OrderService orderService;
-
+    private KafkaService kafkaService;
     public Mono<ServerResponse> getAllOrders(ServerRequest serverRequest) {
         return ServerResponse
                 .ok()
@@ -35,4 +37,12 @@ public class EmployeeHandler {
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(orderService.getOrdersInProcess(), Order.class);
     }
+
+    public Mono<ServerResponse> getOrderCount(ServerRequest request) {
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(kafkaService.getOrderCount(), OrderCount.class);
+    }
+
 }

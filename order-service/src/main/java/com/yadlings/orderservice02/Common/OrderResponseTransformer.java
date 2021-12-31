@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 
 public interface OrderResponseTransformer {
     static UpdateResponse transformUpdate(Order order){
-        System.out.println("#############################################");
-        System.out.println(order);
         return new UpdateResponse(
                         "Order with Id "+order.getOrderId()+" Was Updated",
                         "UPDATE",

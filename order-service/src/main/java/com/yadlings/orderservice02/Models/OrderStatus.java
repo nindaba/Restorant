@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import static com.yadlings.orderservice02.Models.Constants.*;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,6 +15,8 @@ public class OrderStatus {
     private Boolean ready    = false;
     private Boolean served   = false;
     private Boolean payed    = false;
+    private String latestStatus = NEW_ORDER;
+//    private String changedStatus = NEW_ORDER; TODO store the changed status in order to change the skipped
     private String  cancelMessage = "";
 
     public void setCooking(Boolean cooking) {
@@ -45,4 +49,9 @@ public class OrderStatus {
         }
         this.payed = payed;
     }
+    public String getLatestStatus(){
+        return !cancelMessage.equals("") ? CANCELED :
+                payed ? PAYED : served ? SERVED : ready ? READY : cooking ? COOKING: accepted ? ACCEPTED : NEW_ORDER;
+    }
+
 }

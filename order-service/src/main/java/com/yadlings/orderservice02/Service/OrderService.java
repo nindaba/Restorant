@@ -1,15 +1,19 @@
 package com.yadlings.orderservice02.Service;
 import com.yadlings.orderservice02.Documents.Order;
+import com.yadlings.orderservice02.Models.OrderedItem;
 import com.yadlings.orderservice02.Repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.kafka.receiver.ReceiverRecord;
 
+import java.time.Duration;
 import java.util.Comparator;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -17,6 +21,26 @@ import java.util.Comparator;
 public class OrderService {
     private OrderRepository orderRepository;
     private KafkaService kafkaService;
+
+    @Bean(name="AUTOMATIC SAVE")
+    public Boolean save(){
+        Flux.interval(Duration.ofSeconds(2))
+                .map(k -> {
+                    Order kafka = new Order("Kafka");
+                    kafka.setOrderItems(List.of(
+                            new OrderedItem("id", 1, 1d),
+                            new OrderedItem("id", 2, 1d),
+                            new OrderedItem("id", 3, 1d),
+                            new OrderedItem("id", 4, 1d)
+                    ));
+//                    kafka.getStatus().setServed(true);
+                    return kafka;
+                })
+                .flatMap(this::save);
+//                .subscribe();
+        return true;
+    }
+
     /**
      * This will save an Order and return its new Id
      * @param order
@@ -40,9 +64,7 @@ public class OrderService {
                         .sort(Comparator
                         .comparingLong(Order::getTimeUpdated)
                         .reversed()),
-                kafkaService.receive()
-                        .map(ReceiverRecord::value)
-                        .map(Order::deserialize));
+                kafkaService.receive());
     }
     /**
      * This will update the record in the database if it is present
@@ -58,9 +80,9 @@ public class OrderService {
     }
 
     /**
-     * @param clientId
      * This will fetch all the records related to the client in the database and merge
      * with the new records which are being edited and passed to kafka
+     * @param clientId
      * @return Flux<Order>
      */
     public Flux<Order> getOrders(String clientId){
@@ -70,12 +92,14 @@ public class OrderService {
                                 .comparingLong(Order::getTimeUpdated)
                                 .reversed()),
                 kafkaService.receive()
-                        .map(ReceiverRecord::value)
-                        .map(Order::deserialize)
                         .filter(order -> order.getClientId().endsWith(clientId)) //Note that the broker is not for one client, therefore I have to filter the orders for the client
         );
     }
 
+    /**
+     *
+     * @return Orders which have not been canceled or payed
+     */
     public Flux<Order> getOrdersInProcess() {
         return  Flux.merge(
                 orderRepository.findAll()
@@ -84,12 +108,8 @@ public class OrderService {
                                 .reversed())
                         .filter(order -> !order.getStatus().getPayed()
                             && order.getStatus().getCancelMessage().equals("")),
-                kafkaService.receive()
-                        .map(ReceiverRecord::value)
-                        .map(Order::deserialize) //we don't filter out the complete status since we want to niffy the client that it got changed
+                kafkaService.receive() /** we don't filter out the complete status since we want to niffy the client that it got changed*/
         );
-
-
 
 
 

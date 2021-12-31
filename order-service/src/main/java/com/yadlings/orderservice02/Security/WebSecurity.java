@@ -32,8 +32,8 @@ public class WebSecurity{
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().disable()
-//                .and()
+                .cors()//.disable()
+                .and()
                 /**
                  * Authentication manager is customized to fit the jwt token model of authentication
                  * Security Repository is customized to intercept the request and get the token,
@@ -48,10 +48,9 @@ public class WebSecurity{
                  * and for the service to keep their Ids and use them on their requests
                  */
                 .pathMatchers(HttpMethod.GET,"/order").hasAuthority(UserType.CLIENT.toString())
-                .pathMatchers(HttpMethod.GET,"/order/all","/order/in-process").hasAuthority(UserType.EMPLOYEE.toString())
+                .pathMatchers(HttpMethod.GET,"/order/*").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.PUT,"/order").hasAuthority(UserType.EMPLOYEE.toString())
                 .pathMatchers(HttpMethod.POST,"/order").hasAuthority(UserType.CLIENT.toString())
-                .pathMatchers("/performance").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 /**
@@ -60,10 +59,10 @@ public class WebSecurity{
                 .addFilterAfter(new AuthorizedIdSetter(), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
-//    @Bean
+    @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(origins.split(",")));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setMaxAge(100000L);
