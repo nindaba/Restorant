@@ -19,7 +19,7 @@ import { logger } from 'src/app/common/utils';
         <label>Employees</label>
     </div>
     <div class="menu" [ngClass]="performanceClass" (click)="select('performance')">
-        <mat-icon>trending_up</mat-icon>
+        <mat-icon>trending_up</mat-icon> 
         <label>Performance</label>
     </div>
   </div>
