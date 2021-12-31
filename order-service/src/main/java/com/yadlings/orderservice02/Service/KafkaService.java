@@ -105,7 +105,7 @@ public class KafkaService {
         return TopicBuilder
                 .name(CLIENT_TOPIC)
                 .partitions(1)
-                .replicas(1)//TODO change to 3
+                .replicas(3)//TODO change to 3 when deploying
                 .build();
     }
     @Bean
@@ -113,7 +113,7 @@ public class KafkaService {
         return TopicBuilder
                 .name(EMPLOYEE_TOPIC)
                 .partitions(1)
-                .replicas(1)//TODO change to 3
+                .replicas(3)//TODO change to 3 when deploying
                 .build();
     }
     /**

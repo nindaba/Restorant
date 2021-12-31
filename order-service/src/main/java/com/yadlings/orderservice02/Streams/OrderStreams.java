@@ -59,7 +59,7 @@ public class OrderStreams {
         return TopicBuilder
                 .name(COUNTED_TOPIC)
                 .partitions(1)
-                .replicas(1)
+                .replicas(3)
                 .build();
     }
 
