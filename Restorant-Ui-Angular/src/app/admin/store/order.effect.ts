@@ -43,23 +43,6 @@ export class OrderEffect{
             
         )
     ));
-    // onSendOrder = createEffect(()=> this.actions.pipe(
-    //     ofType(OrderAction.sendOrder),
-    //     mergeMap(()=> this.store.select(OrderSelector.getSelected()).pipe(
-    //         take(1),
-    //         mergeMap(order=> this.orderService.sendOrder(order).pipe(
-    //             mergeMap(response => [
-    //                         OrderAction.orderSendSuccess({response:response}),
-    //                         OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS),
-    //                         OrderAction.initSelectedOrder({id:response.headers.get('Location') || ''}) // we choose 0 since it will be the with the latest time update
-    //                     ]), 
-    //                     catchError(()=> [
-    //                         OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
-    //                         OrderAction.setBasket({isBasket:true})
-    //                 ])
-    //         )),
-    //     ))
-    // ));
     onLoadedItems = createEffect(()=> this.actions.pipe(
         ofType(OrderAction.initSelectedOrder),
         map(props => props.id == 'INITIAL' ? ({id:this.router.url.split('/').slice(-1)[0]}) : props),
@@ -117,4 +100,7 @@ export class OrderEffect{
             )
         )
     ));
+
+
+
 }

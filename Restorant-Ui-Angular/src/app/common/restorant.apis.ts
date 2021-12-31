@@ -1,5 +1,5 @@
 export class RestorantApis{
-    // private static RESTORANT_GATEWAY: string ='http://192.168.0.45:5000/';
+    private static RESTORANT_GATEWAY1: string ='http://192.168.0.45:5002/';
     private static RESTORANT_GATEWAY: string ='http://restorant.germanywestcentral.azurecontainer.io:4999/';
     public static CATEGORY:string= `${RestorantApis.RESTORANT_GATEWAY}category`;
     public static CATEGORY_UPDATE = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}category/${id}`;
@@ -10,6 +10,7 @@ export class RestorantApis{
     /** Note from OrderAPi that only employees have access to all the records */
     public static ORDER_ALL = `${RestorantApis.RESTORANT_GATEWAY}order/all`
     public static ORDER_IN_PROCESS = `${RestorantApis.RESTORANT_GATEWAY}order/in-process`
+    public static ORDER_COUNTER = `${RestorantApis.RESTORANT_GATEWAY}order/counter`
     public static USER_LOGIN = `${RestorantApis.RESTORANT_GATEWAY}user/login`
     public static USER = (id:string)=>`${RestorantApis.RESTORANT_GATEWAY}user/${id}`
     public static REGISTER_CLIENT = `${RestorantApis.RESTORANT_GATEWAY}user/client`

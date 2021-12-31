@@ -1,4 +1,4 @@
-.logo,.navigations{
+.logo,.navigations,.user{
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -17,4 +17,7 @@
 .outlet{
     height: 88%;
     overflow-y: auto;
+}
+.mat-icon{
+    margin-right: .25em;
 }

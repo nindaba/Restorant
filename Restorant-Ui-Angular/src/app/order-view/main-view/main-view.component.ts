@@ -43,7 +43,7 @@ export class MainViewComponent implements OnInit{
     this.store.dispatch(OrderAction.isUserChanged())
     this.isEmpty = this.store.select(isEmpty());
     this.store.dispatch(OrderAction.loadOrders());
-    if(this.service.order.isBasket) this.store.dispatch(OrderAction.setSelected({id:'',order:copy(this.service.order)}));
+    if(this.service.order.isBasket) this.store.dispatch(OrderAction.setSelected({id:'INITIAL',order:copy(this.service.order)}));
 
   }
 }

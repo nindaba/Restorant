@@ -27,7 +27,7 @@ export class OrderComponent implements OnInit,OnDestroy {
   public subScription: Subscription = new Subscription();
   constructor(
     private store:Store,
-    private userService:UserService,private o:OrderService) { }
+    private userService:UserService) { }
   ngOnDestroy(): void {
     this.subScription.unsubscribe();
   }
