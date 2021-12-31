@@ -27,8 +27,8 @@ public class OrderCounterProcessor implements Processor<String, Order,String, Or
 
     @Override
     public void process(Record<String, Order> record) {
-        OrderCount orderCount = stateStore.get(record.value().getStatus().getLatest());
-        if(orderCount == null) orderCount = new OrderCount(record.value().getStatus().getLatest());
+        OrderCount orderCount = stateStore.get(record.value().getStatus().getLatestStatus());
+        if(orderCount == null) orderCount = new OrderCount(record.value().getStatus().getLatestStatus());
         orderCount.addCount(1);
         orderCount.addAmount(record.value().getTotalPrice());
         orderCount.addItems(record.value().getOrderItems().stream().map(OrderedItem::getNumber).reduce(0,Integer::sum));

@@ -11,12 +11,14 @@ import { OrderViewComponent } from './components/order-view/order-view.component
 import { OrderRequestComponent } from './components/order-request/order-request.component';
 import { StoreModule } from '@ngrx/store';
 import {Common} from './store/order.model'
-import { OrderReducer } from './store/order.reducer';
+import { OrderReducer, PerformanceReducer } from './store/order.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { OrderEffect } from './store/order.effect';
 import { EmployeeComponent } from './components/employee/employee.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { PerformanceComponent } from './components/performance/performance.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts'
+import { PerformanceEffects } from './store/performance.effects';
 
 @NgModule({
   declarations:[
@@ -27,15 +29,17 @@ import { PerformanceComponent } from './components/performance/performance.compo
     OrderRequestComponent,
     EmployeeComponent,
     EmployeesComponent,
-    PerformanceComponent
+    PerformanceComponent,
   ],
   imports:[
     CommonModule,
     AdminRoutingModule,
     MatModule,
     ReactiveFormsModule, 
-    StoreModule.forFeature(Common.FREATUE_KEY,OrderReducer)   ,
-    EffectsModule.forFeature([OrderEffect])
+    NgxChartsModule,
+    StoreModule.forFeature(Common.FREATUE_ORDER_KEY,OrderReducer),
+    StoreModule.forFeature(Common.FREATUE_PERFORMANCE_KEY,PerformanceReducer),
+    EffectsModule.forFeature([OrderEffect,PerformanceEffects])
   ]
 })
 export class AdminModule { }

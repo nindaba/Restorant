@@ -16,14 +16,16 @@ import { ActivatedRoute, Params } from '@angular/router';
   styles:[
     `
     .content{
-      height: 98%;
+      height: 100%;
     }
     .outlet{
       width:100%;
       height:100%;
+      /* overflow-y:auto; */
     }
     .menu{
       width:100%;
+      height:100%;
     }
     `
   ],

@@ -10,4 +10,81 @@
             
         </div>
     </fx-header>
+    <div class="graphs-container">
+        <div class="graph">
+          <h2>Current Orders</h2>
+          <div class="bar-card">
+            <ngx-charts-bar-vertical
+              [results]="orderNameValue|async"
+              [scheme]="orderColors"
+              [barPadding]="10"
+              [showGridLines]="false"
+              [xAxis]="true"
+              [showXAxisLabel]="true"
+            >
+            </ngx-charts-bar-vertical>            
+          </div>
+          <div class="details">
+            <Details>
+                <table>
+                    <th>Status</th>
+                    <th>Orders</th>
+                    <th>Items</th>
+                    <th>Amount</th>
+                    <tr *ngFor="let order of orderCounter|async">
+                        <td>{{order.status}}</td>
+                        <td>{{order.count}}</td>
+                        <td>{{order.totalItems}}</td>
+                        <td>{{order.totalAmount|currency:'2'}}</td>
+                    </tr>
+                </table>
+            </Details>
+          </div>
+        </div>
+        <div class="graph">
+          <h2>Most Sold Items</h2>
+          <div class="bar-card">
+          <ngx-charts-bar-vertical
+              [results]="mostSelling"
+              [scheme]="scheme"
+              [barPadding]="10"
+              [showGridLines]="false"
+              [xAxis]="true"
+              [showXAxisLabel]="true"
+            >
+            </ngx-charts-bar-vertical>
+          </div>
+          
+      </div>
+        <div class="graph">
+          <h2>Weekly Earnings</h2>
+          <div class="bar-card">
+            <ngx-charts-bar-vertical
+              [results]="days"
+              [scheme]="scheme"
+              [barPadding]="10"
+              [showGridLines]="false"
+              [xAxis]="true"
+              [showXAxisLabel]="true"
+            >
+            </ngx-charts-bar-vertical>
+          </div>
+        </div>
+    
+        <div class="graph">
+          <h2>Monthly Earnings</h2>
+          <div class="bar-card">
+            <ngx-charts-bar-vertical
+              [results]="months"
+              [scheme]="scheme"
+              [barPadding]="10"
+              [showGridLines]="false"
+              [xAxis]="true"
+              [showXAxisLabel]="true"
+            >
+            </ngx-charts-bar-vertical>
+          </div>
+        </div>  
+      
+    </div>
 </div>
