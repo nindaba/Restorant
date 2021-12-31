@@ -8,8 +8,7 @@ import { OrderStatus } from "../models/order-status.model";
  * @returns return the same thisng
  */
 function logger<T>(an:T,from?:any):T{
-    console.log('[INFO] '+new Date() +' '+from||'')
-    console.log(an);
+    console.log('[INFO] '+new Date() +' '+from||'',an)
     return an;
 }
 function TapLogger(an:Observable<any>,from?:any):Observable<any>{

@@ -11,6 +11,7 @@ import { Count, SelectedOrder  } from '../order-view/store/order.model';
 import { OrderStatus } from '../models/order-status.model';
 import { INITIAL_STATUS } from '../order-view/store/order.initial';
 import { copy } from '../common/utils';
+import { OrderCount } from '../admin/store/order.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,8 +33,8 @@ export class OrderService {
       heartbeatTimeout: 2*60*60*1000 //2 hours
     });
     return new Observable<Order>(
-      subscriber=>{
-        ordersEvent.onmessage = order => subscriber.next(JSON.parse(order.data));
+      observer=>{
+        ordersEvent.onmessage = order => observer.next(JSON.parse(order.data));
         return ()=> ordersEvent.close();
       }
     );
@@ -63,6 +64,17 @@ export class OrderService {
     let order: SelectedOrder = copy(_order);
     order.status = status;
     return this.http.put<any>(RestorantApis.ORDER,order);
+  }
+
+  loadOrderCounter():Observable<OrderCount>{
+    let orderCountEvent = new EventSourcePolyfill(RestorantApis.ORDER_COUNTER,{
+      headers:{'Authorization': this.userService.token},
+      heartbeatTimeout: 2*60*60*1000 //2 hours
+    });
+    return new Observable<OrderCount>(observer =>{      
+      orderCountEvent.onmessage = event => observer.next(JSON.parse(event.data));
+      return ()=> orderCountEvent.close();
+    });
   }
 }
 

@@ -2,7 +2,7 @@ import { BasketItem } from "src/app/models/basket-item.model"
 import { Item } from "src/app/models/item.model"
 import { OrderStatus } from "src/app/models/order-status.model"
 import { Order } from "src/app/models/order.model"
-import { Count, OrderState, OrderTitle, SelectedOrder } from "./order.model"
+import { Count, OrderCount, OrderState, OrderTitle, PerformanceState, SelectedOrder } from "./order.model"
 const INITIAL_STATUS: OrderStatus={
         accepted: false,
         cooking: false,
@@ -37,7 +37,7 @@ const INITIAL_ORDER_TITLEL: OrderTitle ={
         totalPrice: 0,
         username: ''
       }
-const INITIAL_STATE:OrderState ={
+const INITIAL_ORDER_STATE:OrderState ={
         orders: [],
         titles: [],
         selectedOrder: INITIAL_SELECTED_ORDER,
@@ -66,11 +66,26 @@ const INITIAL_ORDER_ITEM: Item&Count= {
         count:0
 }
 
+const INITIAL_ORDER_COUNT :OrderCount ={
+        status: "",
+        count: 0,
+        totalAmount: 0,
+        totalItems: 0
+}
+
+const INITIAL_PERFORMANCE_STATE:PerformanceState ={
+        orderCounter: [],
+        store:100
+}
 export {
+        //Order Initials
         INITIAL_ORDER_TITLEL,
-        INITIAL_STATE,
+        INITIAL_ORDER_STATE,
         INITIAL_ORDER,
         INITIAL_SELECTED_ORDER,
         INITIAL_ORDER_ITEM,
         INITIAL_STATUS,
+
+        //Perfomance Initials
+        INITIAL_PERFORMANCE_STATE
 }

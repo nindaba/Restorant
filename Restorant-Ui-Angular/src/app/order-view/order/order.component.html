@@ -9,7 +9,8 @@
             *ngFor="let item of (order|async)?.items; 
             index as index" 
             [item]="item" 
-            [index]="index"></order-item>
+            [index]="index">
+        </order-item>
             <div *ngIf="(noItem|async)" style="width: 100%;">
                 <order-item-skeleton></order-item-skeleton>
                 <order-item-skeleton></order-item-skeleton>
