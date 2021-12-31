@@ -32,8 +32,8 @@ public class WebSecurity{
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors()//.disable()
-                .and()
+                .cors().disable()
+//                .and()
                 /**
                  * Authentication manager is customized to fit the jwt token model of authentication
                  * Security Repository is customized to intercept the request and get the token,
@@ -59,7 +59,7 @@ public class WebSecurity{
                 .addFilterAfter(new AuthorizedIdSetter(), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
-    @Bean
+//    @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
