@@ -38,6 +38,7 @@ import { logger } from 'src/app/common/utils';
         align-items: center;
         height: 4em;
         border-bottom: 2px solid rgb(122, 122, 122);
+        cursor: pointer;
     }
     .menu label{
         cursor: pointer;

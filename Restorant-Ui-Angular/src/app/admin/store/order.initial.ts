@@ -75,7 +75,7 @@ const INITIAL_ORDER_COUNT :OrderCount ={
 
 const INITIAL_PERFORMANCE_STATE:PerformanceState ={
         orderCounter: [],
-        store:100
+        mostSoldItems:[]
 }
 export {
         //Order Initials
