@@ -12,5 +12,5 @@ public class Constants {
     public static final String NEW_ORDER = "Order";
 
     public static final String COUNTER_STORE ="order-counter-store-6";
-    public static final String MOST_SOLD_STORE ="most-sold-store-2";
+    public static final String MOST_SOLD_STORE ="most-sold-store-3";
 }

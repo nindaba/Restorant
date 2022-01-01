@@ -27,7 +27,8 @@ public class OrderItem {
     }
 
     public void update(Integer itemNumber, Double price) {
-        this.price += price;
+        // this is a simpler way but they is need of changing the callculation of total done on total so that the total price does not become affecrted
+        this.price = price;
         number += itemNumber;
     }
 }
