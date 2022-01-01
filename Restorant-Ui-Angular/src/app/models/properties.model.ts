@@ -1,5 +1,5 @@
 export interface Properties{
     id:string;
-    name: String;
+    name: string;
     description: string;
 }

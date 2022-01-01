@@ -33,7 +33,7 @@
                         <td>{{order.status}}</td>
                         <td>{{order.count}}</td>
                         <td>{{order.totalItems}}</td>
-                        <td>{{order.totalAmount|currency:'2'}}</td>
+                        <td>{{order.totalAmount|currency:' '}}</td>
                     </tr>
                 </table>
             </Details>
@@ -48,7 +48,7 @@
               [barPadding]="10"
               [showGridLines]="false"
               [legend]="true"
-
+              [tooltipDisabled]="false"
             >
             </ngx-charts-bar-vertical>
           </div>
@@ -60,10 +60,10 @@
                         <th>Total</th>
                         <th>Amount</th>
                         <tr *ngFor="let item of mostSoldItems|async">
-                            <td>{{item.itemId}}</td>
-                            <td>{{item.price}}</td>
+                            <td>{{item.name||item.itemId}}</td>
+                            <td>{{item.price|currency:' '}}</td>
                             <td>{{item.number}}</td>
-                            <td>{{item.totalPrice|currency:'2'}}</td>
+                            <td>{{item.totalPrice|currency:' '}}</td>
                         </tr>
                     </table>
                 </Details>

@@ -28,9 +28,8 @@ enum Common {
 
         //Performance 
         FREATUE_PERFORMANCE_KEY = "[performance] performance_store",
-        LOAD_ORDER_COUNT = '[performance] load_order_count',
+        LOAD_PERFORMANCE = '[performance] load_performance',
         ORDER_COUNTER_LOADED = '[performance] order_counter_loaded',
-        LOAD_MOST_SOLD = "[performance] load_most_sold",
         MOST_SOLD_LOADED = "[performance] most_sold_loaded"
 }
 interface Count{
