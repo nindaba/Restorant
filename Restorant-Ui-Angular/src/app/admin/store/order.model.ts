@@ -1,34 +1,37 @@
+import { BasketItem } from "src/app/models/basket-item.model";
 import { Item } from "src/app/models/item.model";
 import { Order } from "src/app/models/order.model";
 import { Caller,Response } from "src/app/models/response.module";
 enum Common {
-  FREATUE_ORDER_KEY = '[employee_order] order_store',
-  LOAD_ORDERS = '[employee_order] load_orders',
-  ORDERS_LOADED_SUCCESS = '[employee_order] orders_loaded_success',
-  INIT_TITLES = '[employee_order] init_titles',
-  INIT_ITEMS = "[employee_order] init_items",
-  SET_SELECTED = "[employee_order] set_selected",
-  INIT_SELECTED_ORDER = '[employee_order] init_seleceted_order',
-  LOAD_SELECTED_ITEMS = '[employee_order] load_selected_items',
-  INCREASE_ITEMS = "[employee_order] increase_items",
-  DECREASE_ITEMS = "[employee_order] decrease_items",
-  SEND_ORDER = '[employee_order] send_order',
-  ORDER_SEND_SUCCESS = '[employee_order] order_send_success',
-  SELECT_SUCCESS = "[employee_order] select_success",
-  ON_ERROR = "[employee_order] on_error",
-  DOUBLE = "[employee_order] learning_double_actions",
-  ON_RESPONSE = "[employee_order] on_response",
-  SET_BASKET = "[employee_order] set_is_basket",
-  CHECH_USER = "[employee_order] check_user",
-  USER_CHANGED = "[employee_order] on_user_changed",
-  UPDATE_ORDER = "ipdate_order",
-  ORDER_UPDATE_SUCCESS = "order_update_success",
+        FREATUE_ORDER_KEY = '[employee_order] order_store',
+        LOAD_ORDERS = '[employee_order] load_orders',
+        ORDERS_LOADED_SUCCESS = '[employee_order] orders_loaded_success',
+        INIT_TITLES = '[employee_order] init_titles',
+        INIT_ITEMS = "[employee_order] init_items",
+        SET_SELECTED = "[employee_order] set_selected",
+        INIT_SELECTED_ORDER = '[employee_order] init_seleceted_order',
+        LOAD_SELECTED_ITEMS = '[employee_order] load_selected_items',
+        INCREASE_ITEMS = "[employee_order] increase_items",
+        DECREASE_ITEMS = "[employee_order] decrease_items",
+        SEND_ORDER = '[employee_order] send_order',
+        ORDER_SEND_SUCCESS = '[employee_order] order_send_success',
+        SELECT_SUCCESS = "[employee_order] select_success",
+        ON_ERROR = "[employee_order] on_error",
+        DOUBLE = "[employee_order] learning_double_actions",
+        ON_RESPONSE = "[employee_order] on_response",
+        SET_BASKET = "[employee_order] set_is_basket",
+        CHECH_USER = "[employee_order] check_user",
+        USER_CHANGED = "[employee_order] on_user_changed",
+        UPDATE_ORDER = "ipdate_order",
+        ORDER_UPDATE_SUCCESS = "order_update_success",
 
 
-  //Performance 
-  FREATUE_PERFORMANCE_KEY = "[performance] performance_store",
-  LOAD_ORDER_COUNT = '[performance] load_order_count',
-  ORDER_COUNTER_LOADED = '[performance] order_counter_loaded',
+        //Performance 
+        FREATUE_PERFORMANCE_KEY = "[performance] performance_store",
+        LOAD_ORDER_COUNT = '[performance] load_order_count',
+        ORDER_COUNTER_LOADED = '[performance] order_counter_loaded',
+        LOad_MOST_SOLD = "LOad_MOST_SOLD",
+        MOST_SOLD_LOADED = "MOST_SOLD_LOADED"
 }
 interface Count{
         count:number;
@@ -64,8 +67,8 @@ interface OrderCount{
 }
 
 interface PerformanceState{
+        mostSoldItems: BasketItem[];
         orderCounter: OrderCount[];
-        store:number
 }
 interface NameValue{
         name:string;

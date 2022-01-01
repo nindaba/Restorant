@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
-import { map, mergeMap } from "rxjs/operators";
+import { map, mergeMap, retry } from "rxjs/operators";
 import { logger, TapLogger } from "src/app/common/utils";
 import { OrderService } from "src/app/services/order.service";
-import { loadOrderCounter, orderCounterLoaded } from './order.action'
+import { loadMostSold, loadOrderCounter, mostSoldLoaded, orderCounterLoaded } from './order.action'
 @Injectable()
 export class PerformanceEffects{
     constructor(private actions:Actions,private orderService:OrderService){
@@ -15,7 +15,15 @@ export class PerformanceEffects{
             return this.orderService.loadOrderCounter()
             .pipe(
                 map(order => orderCounterLoaded({orderCount:order}))
+                
             )
         })
+    ));
+    onLoadMostSold = createEffect(()=> this.actions.pipe(
+        ofType(loadMostSold),
+        mergeMap(()=> this.orderService.loadMostSold().pipe(
+            map(mostSold => mostSoldLoaded({mostSold:mostSold})),
+            retry(3),
+        ))
     ));
 }

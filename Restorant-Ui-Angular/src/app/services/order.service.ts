@@ -76,5 +76,15 @@ export class OrderService {
       return ()=> orderCountEvent.close();
     });
   }
+  loadMostSold():Observable<BasketItem[]>{
+    let orderCountEvent = new EventSourcePolyfill(RestorantApis.ORDER_MOST_SOLD,{
+      headers:{'Authorization': this.userService.token},
+      heartbeatTimeout: 2*60*60*1000 //2 hours
+    });
+    return new Observable<BasketItem[]>(observer =>{      
+      orderCountEvent.onmessage = event => observer.next(JSON.parse(event.data));
+      return ()=> orderCountEvent.close();
+    });
+  }
 }
 

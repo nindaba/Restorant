@@ -2,6 +2,7 @@ package com.yadlings.orderservice02.Service;
 
 import com.yadlings.orderservice02.Documents.Order;
 import com.yadlings.orderservice02.Models.OrderCount;
+import com.yadlings.orderservice02.Models.OrderItem;
 import com.yadlings.orderservice02.Streams.OrderStreams;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import reactor.kafka.sender.SenderOptions;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,9 +42,12 @@ public class KafkaService {
     private String CLIENT_TOPIC;
     @Value("${kafka.topic.order-counter}")
     private String COUNTED_TOPIC;
+    @Value("${kafka.topic.most-sold}")
+    private String MOST_SOLD_TOPIC;
     private KafkaSender<String, String> kafkaSender;
     private ConnectableFlux<ReceiverRecord<String, String>> connectableFlux;
     private ConnectableFlux<ReceiverRecord<String, String>> orderCounterFlux;
+    private ConnectableFlux<ReceiverRecord<String, String>> OrderItemFlux;
 
     @NonNull private OrderStreams orderStreams;
     @PostConstruct
@@ -67,25 +72,17 @@ public class KafkaService {
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
                 ConsumerConfig.GROUP_ID_CONFIG,"Reactive-group-1"
-//                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest"
         );
-        ReceiverOptions<String, String> receiverOptions = ReceiverOptions
-                .<String, String>create(config)
-                .subscription(Collections.singleton(CLIENT_TOPIC));
+//Read Client Orders
         connectableFlux = KafkaReceiver
-                .create(receiverOptions)
+                .create(ReceiverOptions
+                        .<String, String>create(config)
+                        .subscription(Collections.singleton(CLIENT_TOPIC)))
                 .receive()
                 .publish();
         connectableFlux.connect();
 
-
-        config = Map.of(
-                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS,
-                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
-                ConsumerConfig.GROUP_ID_CONFIG,"Reactive-group-1"
-//                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest"
-        );
+//Read OrderCount
         orderCounterFlux = KafkaReceiver
                 .create(ReceiverOptions
                         .<String, String>create(config)
@@ -93,8 +90,15 @@ public class KafkaService {
                 .receive()
                 .publish();
         orderCounterFlux.connect();
-
-
+        
+//Read OrderCount
+        OrderItemFlux = KafkaReceiver
+                .create(ReceiverOptions
+                        .<String, String>create(config)
+                        .subscription(Collections.singleton(MOST_SOLD_TOPIC)))
+                .receive()
+                .publish();
+        OrderItemFlux.connect();
     }
     @Bean
     public KafkaAdmin admin(){
@@ -138,7 +142,7 @@ public class KafkaService {
      * @param order
      * @return Mono<Order>
      */
-    public Mono<Order> sendToEmployee(Order order){
+    public Mono<String> sendToEmployee(Order order){
         return kafkaSender
                 .createOutbound()
                 .send(Flux
@@ -146,7 +150,9 @@ public class KafkaService {
                 .map(record -> new ProducerRecord<>(EMPLOYEE_TOPIC, record.getOrderId(), record.serialize()))
                 )
                 .then()
-                .map(voidValue -> order);
+                .cast(String.class)
+                .concatWith(Mono.just(order.getOrderId()))
+                .single();
     }
     /**
      * This method will send the record to client topic
@@ -194,6 +200,18 @@ public class KafkaService {
                 orderCounterFlux
                         .map(ReceiverRecord::value)
                         .map(OrderCount::deserialize)
+        );
+    }
+    public Flux<List<OrderItem>> getMostSold(){
+        return Flux.merge(
+                Flux.create(emitter -> {
+                    orderStreams.getOrderItemsStore().all()
+                            .forEachRemaining(keyValue -> emitter.next(keyValue.value));
+                    emitter.complete();
+                }),
+                OrderItemFlux
+                        .map(ReceiverRecord::value)
+                        .map(OrderItem::deserialize)
         );
     }
 }

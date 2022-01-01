@@ -35,8 +35,8 @@ export class BasketServiceService {
   }
   get order():SelectedOrder{
     let order:SelectedOrder = copy(INITIAL_SELECTED_ORDER);
-    order.items = this.basketItems; // copy because i dont want it to create a cooection with the state which will make it read only
-    if(this.basketItems.length > 0) order.isBasket = true;
+    order.items = this.basketItems; // copy because i dont want it to create a connection with the state which will make it read only
+    order.isBasket = this.basketItems.length > 0;
     return order;
   }
 }

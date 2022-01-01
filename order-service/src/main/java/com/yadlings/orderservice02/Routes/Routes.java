@@ -33,7 +33,7 @@ public class Routes {
 
 
                 .GET("/order/counter",employeeHandler::getOrderCount)
-
+                .GET("/order/most-sold",employeeHandler::getMostSold)
                 .build();
     }
 }

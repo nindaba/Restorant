@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class EmployeeHandler {
@@ -45,4 +47,10 @@ public class EmployeeHandler {
                 .body(kafkaService.getOrderCount(), OrderCount.class);
     }
 
+    public Mono<ServerResponse> getMostSold(ServerRequest request) {
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(kafkaService.getMostSold(), List.class);
+    }
 }

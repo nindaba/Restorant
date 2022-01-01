@@ -13,7 +13,7 @@
           <h2>Current Orders</h2>
           <div class="bar-card">
             <ngx-charts-bar-vertical
-              [results]="orderNameValue|async"
+              [results]="orderCounterKeyValue|async"
               [scheme]="orderColors"
               [barPadding]="10"
               [showGridLines]="false"
@@ -43,18 +43,29 @@
           <h2>Most Sold Items</h2>
           <div class="bar-card">
           <ngx-charts-bar-vertical
-              [results]="mostSelling"
+              [results]="mostSoldItemsKeyValue|async"
               [scheme]="scheme"
               [barPadding]="10"
               [showGridLines]="false"
-              [xAxis]="true"
-              [showXAxisLabel]="true"
+              [legend]="true"
+
             >
             </ngx-charts-bar-vertical>
           </div>
             <div class="details">
                 <Details>
-                    TODO
+                    <table>
+                        <th>Item Name</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Amount</th>
+                        <tr *ngFor="let item of mostSoldItems|async">
+                            <td>{{item.itemId}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.number}}</td>
+                            <td>{{item.totalPrice|currency:'2'}}</td>
+                        </tr>
+                    </table>
                 </Details>
             </div>
       </div>

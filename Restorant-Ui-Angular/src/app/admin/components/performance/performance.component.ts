@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { loadOrderCounter } from '../../store/order.action';
+import { logger, TapLogger } from 'src/app/common/utils';
+import { BasketItem } from 'src/app/models/basket-item.model';
+import { loadMostSold, loadOrderCounter } from '../../store/order.action';
 import { NameValue, OrderCount } from '../../store/order.model';
-import { getOrderCounter} from '../../store/performance.selectors';
+import { getMostSoldItems, getOrderCounter} from '../../store/performance.selectors';
 
 @Component({
   selector: 'app-performance',
@@ -12,46 +14,37 @@ import { getOrderCounter} from '../../store/performance.selectors';
   styleUrls: ['./performance.component.css']
 })
 export class PerformanceComponent implements OnInit {
+
   orderCounter:Observable<OrderCount[]> = new Observable();
-  orderNameValue:Observable<NameValue[]> = new Observable();
+  mostSoldItems:Observable<BasketItem[]> = new Observable();
+  mostSoldItemsKeyValue:Observable<NameValue[]> = new Observable();
+  orderCounterKeyValue:Observable<NameValue[]> = new Observable();
   constructor(private store:Store){}
   ngOnInit(): void {
     this.store.dispatch(loadOrderCounter());
+    this.store.dispatch(loadMostSold());
     this.orderCounter = this.store.select(getOrderCounter());
-    this.orderNameValue = this.orderCounter.pipe(
+    this.mostSoldItems = this.store.select(getMostSoldItems());
+
+    this.orderCounterKeyValue = this.orderCounter.pipe(
       map(counters => counters
         .map((counter):NameValue => ({name:counter.status,value:counter.totalAmount})
       ))
       );
+    this.mostSoldItemsKeyValue = this.mostSoldItems.pipe(
+          map(items => items
+            .map((item):NameValue => ({name:item.itemId,value:item.number})
+            ))
+        );
   }
   search:string ='';
-
-
+  mostLegend: any='below'
   scheme:any = {
     domain: ["#5353d1","#4cbda5","#ffd93d","#3dfff1","#c78ba8","#000ab1"]
   };
   orderColors:any = {
     domain: ["#5353d1","#4cbda5","#f75252","#3dfff1","#c78ba8","#ffb620"]
   };
-  barPadding: any = 110;
-
-
-  mostSelling:NameValue[] = [
-    {name: 'Apple',value: 410},
-    {name: 'Cakes',value: 230},
-    {name: 'Tomatoe',value: 500},
-    {name: 'Burundian Coffe',value: 200},
-    {name: 'Coke',value: 200},
-  ]
-  ordersCount: any =[
-      {name: 'New Orders',value: 100},
-      {name: 'Accepted',value: 80},
-      {name: 'Canceled',value: 20},
-      {name: 'Cooked',value: 80},
-      {name: 'Ready',value: 70},
-      {name: 'Served',value: 50},
-      {name: 'Payed',value: 49},
-  ]
 
   days : any = [
     {
