@@ -21,8 +21,8 @@ export class PerformanceComponent implements OnInit {
   orderCounterKeyValue:Observable<NameValue[]> = new Observable();
   constructor(private store:Store){}
   ngOnInit(): void {
-    this.store.dispatch(loadOrderCounter());
     this.store.dispatch(loadMostSold());
+    this.store.dispatch(loadOrderCounter());
     this.orderCounter = this.store.select(getOrderCounter());
     this.mostSoldItems = this.store.select(getMostSoldItems());
 

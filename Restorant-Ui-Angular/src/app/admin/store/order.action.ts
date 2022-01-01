@@ -25,7 +25,7 @@ const updateStatus = createAction(Common.UPDATE_ORDER,props<{status:OrderStatus}
 //Performance Actions
 const loadOrderCounter = createAction(Common.LOAD_ORDER_COUNT);
 const orderCounterLoaded = createAction(Common.ORDER_COUNTER_LOADED,props<{orderCount:OrderCount}>());
-const loadMostSold = createAction(Common.LOad_MOST_SOLD);
+const loadMostSold = createAction(Common.LOAD_MOST_SOLD);
 const mostSoldLoaded = createAction(Common.MOST_SOLD_LOADED,props<{mostSold:BasketItem[]}>());
 export{
         //Order actions

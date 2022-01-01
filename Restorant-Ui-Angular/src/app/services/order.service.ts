@@ -10,7 +10,7 @@ import { Item } from '../models/item.model';
 import { Count, SelectedOrder  } from '../order-view/store/order.model';
 import { OrderStatus } from '../models/order-status.model';
 import { INITIAL_STATUS } from '../order-view/store/order.initial';
-import { copy } from '../common/utils';
+import { copy, logger } from '../common/utils';
 import { OrderCount } from '../admin/store/order.model';
 @Injectable({
   providedIn: 'root'
@@ -81,7 +81,7 @@ export class OrderService {
       headers:{'Authorization': this.userService.token},
       heartbeatTimeout: 2*60*60*1000 //2 hours
     });
-    return new Observable<BasketItem[]>(observer =>{      
+    return new Observable<BasketItem[]>(observer =>{    
       orderCountEvent.onmessage = event => observer.next(JSON.parse(event.data));
       return ()=> orderCountEvent.close();
     });

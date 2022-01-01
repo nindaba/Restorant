@@ -30,8 +30,8 @@ enum Common {
         FREATUE_PERFORMANCE_KEY = "[performance] performance_store",
         LOAD_ORDER_COUNT = '[performance] load_order_count',
         ORDER_COUNTER_LOADED = '[performance] order_counter_loaded',
-        LOad_MOST_SOLD = "LOad_MOST_SOLD",
-        MOST_SOLD_LOADED = "MOST_SOLD_LOADED"
+        LOAD_MOST_SOLD = "[performance] load_most_sold",
+        MOST_SOLD_LOADED = "[performance] most_sold_loaded"
 }
 interface Count{
         count:number;
