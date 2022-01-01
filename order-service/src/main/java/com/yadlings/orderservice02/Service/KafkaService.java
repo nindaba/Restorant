@@ -7,6 +7,7 @@ import com.yadlings.orderservice02.Streams.OrderStreams;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -27,6 +28,7 @@ import reactor.kafka.sender.SenderOptions;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +47,7 @@ public class KafkaService {
     @Value("${kafka.topic.most-sold}")
     private String MOST_SOLD_TOPIC;
     private KafkaSender<String, String> kafkaSender;
-    private ConnectableFlux<ReceiverRecord<String, String>> connectableFlux;
+    private ConnectableFlux<ReceiverRecord<String, String>> orderFlux;
     private ConnectableFlux<ReceiverRecord<String, String>> orderCounterFlux;
     private ConnectableFlux<ReceiverRecord<String, String>> OrderItemFlux;
 
@@ -55,34 +57,32 @@ public class KafkaService {
         /**
          * Sender Initialization
          */
-        Map<String, Object> config = Map.of(
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS,
-                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer",
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer"
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+
+        kafkaSender = KafkaSender.create(
+                SenderOptions.<String, String>create(config).maxInFlight(1024)
         );
-        SenderOptions<String, String> senderOptions = SenderOptions.<String, String>create(config)
-                .maxInFlight(1024);
-        kafkaSender = KafkaSender.create(senderOptions);
 
         /**
          * Receiver Initialization
          */
-        config = Map.of(
-                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS,
-                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer",
-                ConsumerConfig.GROUP_ID_CONFIG,"Reactive-group-1"
-        );
 //Read Client Orders
-        connectableFlux = KafkaReceiver
+        config.put(ConsumerConfig.GROUP_ID_CONFIG,"Reactive-order-consumer");
+        orderFlux = KafkaReceiver
                 .create(ReceiverOptions
                         .<String, String>create(config)
                         .subscription(Collections.singleton(CLIENT_TOPIC)))
                 .receive()
                 .publish();
-        connectableFlux.connect();
-
+        orderFlux.connect();
+//
 //Read OrderCount
+        config.put(ConsumerConfig.GROUP_ID_CONFIG,"Reactive-counted-consumer");
         orderCounterFlux = KafkaReceiver
                 .create(ReceiverOptions
                         .<String, String>create(config)
@@ -90,8 +90,9 @@ public class KafkaService {
                 .receive()
                 .publish();
         orderCounterFlux.connect();
-        
-//Read OrderCount
+//
+////Read OrderCount
+        config.put(ConsumerConfig.GROUP_ID_CONFIG,"Reactive-order-consumer");
         OrderItemFlux = KafkaReceiver
                 .create(ReceiverOptions
                         .<String, String>create(config)
@@ -102,7 +103,7 @@ public class KafkaService {
     }
     @Bean
     public KafkaAdmin admin(){
-        return new KafkaAdmin(Map.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS));
+        return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BROKERS));
     }
     @Bean
     public NewTopic clientTopic(){
@@ -125,7 +126,7 @@ public class KafkaService {
      * @return ConnectableFlux<ReceiverRecord<Integer, String>>
      */
     public Flux<Order> receive(){
-        return connectableFlux.map(ReceiverRecord::value)
+        return orderFlux.map(ReceiverRecord::value)
                 .map(Order::deserialize);
     }
 
