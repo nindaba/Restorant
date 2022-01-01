@@ -35,6 +35,7 @@
     color: #343434;
     background-color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 td,th{
     text-align: left;

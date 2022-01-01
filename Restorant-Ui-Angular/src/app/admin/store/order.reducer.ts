@@ -93,6 +93,11 @@ const PerformanceReducer = createReducer(
 			metadata.orderCount
 		)
 		return newState;
+	}),
+	on(Actions.mostSoldLoaded,(state:PerformanceState,metadata) => {
+		let newState:PerformanceState = copy(state);
+		newState.mostSoldItems = metadata.mostSold;
+		return newState;
 	})
 );
 

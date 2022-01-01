@@ -11,6 +11,7 @@ export class RestorantApis{
     public static ORDER_ALL = `${RestorantApis.RESTORANT_GATEWAY}order/all`
     public static ORDER_IN_PROCESS = `${RestorantApis.RESTORANT_GATEWAY}order/in-process`
     public static ORDER_COUNTER = `${RestorantApis.RESTORANT_GATEWAY}order/counter`
+    public static ORDER_MOST_SOLD = `${RestorantApis.RESTORANT_GATEWAY}order/most-sold`
     public static USER_LOGIN = `${RestorantApis.RESTORANT_GATEWAY}user/login`
     public static USER = (id:string)=>`${RestorantApis.RESTORANT_GATEWAY}user/${id}`
     public static REGISTER_CLIENT = `${RestorantApis.RESTORANT_GATEWAY}user/client`
