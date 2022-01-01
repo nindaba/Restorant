@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { logger, TapLogger } from 'src/app/common/utils';
 import { BasketItem } from 'src/app/models/basket-item.model';
-import { loadMostSold, loadOrderCounter } from '../../store/order.action';
+import { loadPerformance } from '../../store/order.action';
 import { NameValue, OrderCount } from '../../store/order.model';
 import { getMostSoldItems, getOrderCounter} from '../../store/performance.selectors';
 
@@ -21,8 +21,7 @@ export class PerformanceComponent implements OnInit {
   orderCounterKeyValue:Observable<NameValue[]> = new Observable();
   constructor(private store:Store){}
   ngOnInit(): void {
-    this.store.dispatch(loadMostSold());
-    this.store.dispatch(loadOrderCounter());
+    this.store.dispatch(loadPerformance());
     this.orderCounter = this.store.select(getOrderCounter());
     this.mostSoldItems = this.store.select(getMostSoldItems());
 
@@ -33,7 +32,7 @@ export class PerformanceComponent implements OnInit {
       );
     this.mostSoldItemsKeyValue = this.mostSoldItems.pipe(
           map(items => items
-            .map((item):NameValue => ({name:item.itemId,value:item.number})
+            .map((item):NameValue => ({name:item.name||item.itemId,value:item.number})
             ))
         );
   }
