@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { of, throwError, zip } from "rxjs";
-import { catchError, delay, filter, map, mergeMap, repeatWhen, retry, retryWhen, take, takeLast, tap, withLatestFrom } from "rxjs/operators";
+import { merge, Observable, of, throwError, zip } from "rxjs";
+import { catchError, delay, filter, map, mergeAll, mergeMap, repeatWhen, retry, retryWhen, take, takeLast, tap, withLatestFrom, zipAll } from "rxjs/operators";
 import { RestorantApis } from "src/app/common/restorant.apis";
 import { Item } from "src/app/models/item.model";
 import { OrderService } from "src/app/services/order.service";
@@ -12,10 +12,11 @@ import { Count} from "./order.model";
 import * as OrderSelector from "./order.selector";
 import { Caller,Response } from "src/app/models/response.module";
 import * as Messages from 'src/app/common/responses.messages'
-import { logger } from "src/app/common/utils";
+import { logger, TapLogger } from "src/app/common/utils";
 import { UserService } from "src/app/services/user.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ItemService } from "src/app/services/item.service";
+import { Order } from "src/app/models/order.model";
 @Injectable()
 export class OrderEffect{
     constructor(
@@ -43,6 +44,7 @@ export class OrderEffect{
             
         )
     ));
+    
     onLoadedItems = createEffect(()=> this.actions.pipe(
         ofType(OrderAction.initSelectedOrder),
         map(props => props.id == 'INITIAL' ? ({id:this.router.url.split('/').slice(-1)[0]}) : props),
@@ -52,8 +54,7 @@ export class OrderEffect{
                 return order;
             }),
             take(1),
-            mergeMap(order => 
-                zip(
+            mergeMap(order => zip(
                     ...[
                         of(OrderAction.setSelected({
                             id: props.id,
@@ -64,13 +65,12 @@ export class OrderEffect{
                                 map((completeItem:Item):Item&Count => ({...completeItem,count:item.number,price:item.price})),
                                 map(item => OrderAction.loadSelectedItems({id:props.id,item: item}),
                                 catchError(()=> of(OrderAction.addResponse(Messages.LOADING_ITEM_FAILED)))
-                            )))
+                            ))),
+                        of(OrderAction.addResponse(Messages.LOADING_ORDER_SUCESS))
                         ]
                     )),
-            mergeMap(actions => [
-                ...actions, 
-                OrderAction.addResponse(Messages.LOADING_ORDER_SUCESS)
-            ]),
+
+            mergeAll(),
             retryWhen(error => error.pipe(
                 delay(2000)
             ))
@@ -100,7 +100,5 @@ export class OrderEffect{
             )
         )
     ));
-
-
-
 }
+

@@ -16,7 +16,6 @@ import { OrderCount } from '../admin/store/order.model';
   providedIn: 'root'
 })
 export class OrderService {
-  private orders: Order[] = []; //ORDERS  TODO: Emptie the orders once you connect to the spring services
   public onLoaded:EventEmitter<boolean> = new EventEmitter()
   constructor(
     private http:HttpClient,
@@ -77,13 +76,13 @@ export class OrderService {
     });
   }
   loadMostSold():Observable<BasketItem[]>{
-    let orderCountEvent = new EventSourcePolyfill(RestorantApis.ORDER_MOST_SOLD,{
+    let mostSoldEvent = new EventSourcePolyfill(RestorantApis.ORDER_MOST_SOLD,{
       headers:{'Authorization': this.userService.token},
       heartbeatTimeout: 2*60*60*1000 //2 hours
     });
     return new Observable<BasketItem[]>(observer =>{    
-      orderCountEvent.onmessage = event => observer.next(JSON.parse(event.data));
-      return ()=> orderCountEvent.close();
+      mostSoldEvent.onmessage = event => observer.next(JSON.parse(event.data));
+      return ()=> mostSoldEvent.close();
     });
   }
 }

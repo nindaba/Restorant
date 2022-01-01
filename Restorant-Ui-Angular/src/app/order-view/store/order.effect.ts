@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { of, zip } from "rxjs";
-import { catchError, filter, map, mergeMap, take, takeLast, withLatestFrom } from "rxjs/operators";
+import { catchError, filter, map, mergeAll, mergeMap, take, takeLast, withLatestFrom } from "rxjs/operators";
 import { RestorantApis } from "src/app/common/restorant.apis";
 import { Item } from "src/app/models/item.model";
 import { OrderService } from "src/app/services/order.service";
@@ -73,24 +73,17 @@ export class OrderEffect{
                             order:{...order,isBasket:false,items:[]}
                         })),
                         ...order.orderItems
-                        .map(item => this.http.get<Item>(RestorantApis.ITEM_ID(item.itemId)).pipe(
+                            .map(item => this.http.get<Item>(RestorantApis.ITEM_ID(item.itemId)).pipe(
                                 map((completeItem:Item):Item&Count => ({...completeItem,count:item.number,price:item.price})),
                                 map(item => OrderAction.loadSelectedItems({id:props.id,item: item}),
                                 catchError(()=> of(OrderAction.addResponse(Messages.LOADING_ITEM_FAILED)))
-                            )))
+                            ))),
+                            of(OrderAction.addResponse(Messages.LOADING_ITEM_SUCESS))
                         ]
                     )),
-            mergeMap(actions => [
-                ...actions, 
-                OrderAction.addResponse(Messages.SENDING_ORDER_SUCESS)
-            ]),
-            catchError(()=> [
-                OrderAction.addResponse(Messages.SENDING_ORDER_FAILED),
-            ]
-        )
-        )
-    ))
-    );
+            mergeAll(),
+        ))
+    ));
     onChangeUser = createEffect(()=> this.actions.pipe(
         ofType(OrderAction.isUserChanged),
         mergeMap(metadata=>

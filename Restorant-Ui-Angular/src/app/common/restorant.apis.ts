@@ -1,5 +1,5 @@
 export class RestorantApis{
-    private static RESTORANT_GATEWAY1: string ='http://192.168.0.45:5002/';
+    // private static RESTORANT_GATEWAY: string ='http://192.168.0.45:5002/';
     private static RESTORANT_GATEWAY: string ='http://restorant.germanywestcentral.azurecontainer.io:4999/';
     public static CATEGORY:string= `${RestorantApis.RESTORANT_GATEWAY}category`;
     public static CATEGORY_UPDATE = (id:string):string=>`${RestorantApis.RESTORANT_GATEWAY}category/${id}`;
