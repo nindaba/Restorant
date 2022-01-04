@@ -10,24 +10,24 @@ import { getTitles } from '../../store/order.selector';
   selector: 'app-order-view',
   template: `
   <div class="content">
-    <fx-header>
+    <!-- <fx-header>
       <h2 right>Orders</h2>
       <custom-input [(ngModel)]="search"
         [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
       ></custom-input>
-    </fx-header>
-    <div class="orders" fxLayout="row wrap" fxLayoutAlign="start start">
-        <order-request  *ngFor="let title of titles|async" [title]="title"></order-request>
+    </fx-header> -->
+    <div class="orders">
+        <!-- <order-request  *ngFor="let title of titles|async" [title]="title"></order-request> -->
     </div>
   </div>
   `,
   styles:[`
   .content{
-      height: 90%;
+      height: 100vh;
   }
   .orders{
-    height:100%;
     overflow-y:auto;
+    background-color: red;
   }
   `]
 })

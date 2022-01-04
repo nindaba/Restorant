@@ -3,7 +3,7 @@
     color: rgb(27, 26, 26);
     padding: 2em;
     border-radius: 5px;
-    height: 90%;
+    height: 100%;
 }
 .category,.account,.order,.performance{
     display: flex;

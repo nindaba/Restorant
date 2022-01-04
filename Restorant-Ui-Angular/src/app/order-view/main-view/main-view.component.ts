@@ -24,8 +24,8 @@ import { isEmpty } from '../store/order.selector';
       display: flex;
       flex-direction: row;
       padding: 0 50px 0px 50px;
-      height: 100%;
-      width: 90%;
+      height: 100vh;
+      width: 100vw;
       /* background-color: indigo; */
   }
   .order-list{

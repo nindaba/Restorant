@@ -1,3 +1,18 @@
+.app{
+    width: 100vw;
+    height: 100vh;
+}
+.header,.outlet{
+    width: inherit;
+}
+.logo h1{
+    font-weight: 400;
+    font-size: 1.5em;
+}
+.logo .mat-icon{
+    font-size: 1.5em;
+    transform: translateY(-5px);
+}
 .logo,.navigations,.user{
     display: flex;
     align-items: center;
@@ -15,7 +30,8 @@
     font-size: medium;
  } 
 .outlet{
-    height: 88%;
+    top: 70px;
+    height: calc(100vh - 64px);
     overflow-y: auto;
 }
 .mat-icon{
