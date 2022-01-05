@@ -1,21 +1,17 @@
 .content{
-    width: 100%;
-    height: 100%;
-    padding-left: 20px;
     color: rgb(24, 23, 23);
+    padding: 0 2em;
 }
 .order-status{
     display:flex;
     flex-direction:row;
-    height: 90%; 
-    width: 100%;
 }
 .space{
     flex-grow: 1;
 }
 .orders{
+    flex: 0.7;
     height: 100%;
-    width: 100%;
     overflow-y:auto;
 }
 .title{
@@ -24,5 +20,6 @@
     align-items:center;
 }
 .status{
+    flex: 0.3;
     float:right;
 }

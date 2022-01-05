@@ -11,7 +11,7 @@ import { getTitles } from '../../store/order.selector';
   template: `
   <div class="content">
     <fx-header>
-      <h2 right>Orders</h2>
+      <h2 left>Orders</h2>
       <custom-input [(ngModel)]="search"
         [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
       ></custom-input>
@@ -22,9 +22,6 @@ import { getTitles } from '../../store/order.selector';
   </div>
   `,
   styles:[`
-  .content{
-      height: 90%;
-  }
   .orders{
     height:100%;
     overflow-y:auto;

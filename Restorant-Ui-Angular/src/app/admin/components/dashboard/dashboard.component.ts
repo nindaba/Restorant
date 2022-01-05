@@ -4,11 +4,11 @@ import { ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'dashboard',
   template:`
-  <div fxLayout="row" fxLayoutAlign="start start" class="content">
-    <div fxFlex="20" class="menu">
+  <div class="content">
+    <div class="menu">
         <admin-menu></admin-menu>
     </div>
-    <div fxFlex="75" class="outlet">
+    <div class="outlet">
         <router-outlet ></router-outlet>
     </div>
   </div>
@@ -16,15 +16,17 @@ import { ActivatedRoute, Params } from '@angular/router';
   styles:[
     `
     .content{
-      height: 100%;
+      height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: row;
     }
     .outlet{
-      width:100%;
+      flex: .8;
       height:100%;
-      /* overflow-y:auto; */
+      overflow-y:auto;
     }
     .menu{
-      width:100%;
+      flex: .2;
       height:100%;
     }
     `

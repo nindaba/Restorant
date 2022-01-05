@@ -23,16 +23,16 @@ import { isEmpty } from '../store/order.selector';
   .content{
       display: flex;
       flex-direction: row;
-      padding: 0 50px 0px 50px;
-      height: 100%;
-      width: 90%;
+      padding: 0 0 0px 50px;
+      height: calc(100vh - 64px);
+      /* justify-content: space-around; */
       /* background-color: indigo; */
   }
   .order-list{
-      width: 25%;
+    flex: .25;
   }
   .order-display{
-      width: 70%;
+      flex: .69.5;
       /* background-color: green; */
   }`]
 })

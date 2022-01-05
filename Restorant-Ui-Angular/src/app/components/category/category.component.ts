@@ -12,7 +12,7 @@ import { CategoryService } from 'src/app/services/category.service';
 @Component({
   selector: 'category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit,OnDestroy {
 

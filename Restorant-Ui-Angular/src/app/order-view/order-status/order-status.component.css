@@ -1,5 +1,5 @@
 .content{
-    width: 300px;
+    /* width: 300px; */
     padding-left: 1.5em;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,6 @@ b{
     background-color: red;
 }
 .status,.total{
-    width: 100%;
     display: flex;
     align-items: center;
     padding: .5em;
@@ -27,7 +26,6 @@ b{
     width: 40px;
 }
 .message,.description{
-    width: 100%;
     background-color: rgb(236, 176, 176);
     border-radius: 5px;
     margin-top: .8em;
@@ -38,7 +36,6 @@ b{
     font-weight: 500;
     font-size: larger;
     margin-top: .5em;
-    width: 100%;
 }
 .mat-icon-button{
     height: 2em;

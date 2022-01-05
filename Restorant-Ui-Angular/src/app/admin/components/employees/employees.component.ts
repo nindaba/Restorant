@@ -12,24 +12,20 @@ import { RegisterComponent } from 'src/app/user/register/register.component';
   template:`
   <div class="content">
     <fx-header>
-            <h2 right>Employees</h2>
+            <h2 left>Employees</h2>
             <custom-input [(ngModel)]="search"
             [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
             ></custom-input>
-            <button left mat-button (click)="register()">
+            <button right mat-button (click)="register()">
                     <mat-icon>add</mat-icon>Add
             </button>
     </fx-header>
     <div class="list">
       <employee  *ngFor="let employee of employees; index as index"
       [employee]="employee" (deleted)="remove(index)"></employee>
-    </div>
   </div>
   `,
   styles: [`
-  .content{
-      height: 90%;
-  }
   .list{
       height: 100%;
       padding: 0.25em;
