@@ -1,0 +1,27 @@
+<div class="content">
+    <fx-header>
+        <h2 left>{{categoryItem.name||'Categories'}}</h2>
+        <custom-input [(ngModel)]="search"
+        [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
+        ></custom-input>
+        <button right mat-button *ngIf="isAdmin" color="primary" [routerLink]="['register']">
+            <mat-icon>add</mat-icon>
+            New
+        </button>
+    </fx-header>
+    <div class="list">
+        <div class="category" [ngClass]="padding" *ngIf="!categoryItem.name"> 
+            <div class="loading-skeleton" *ngIf="isLoading">
+                <category-skeleton  *ngFor="let item of [1,2,3,4,5,6,7]"></category-skeleton>
+            </div>
+            <category-card 
+            *ngFor="let categoryItem of categories" [category]="categoryItem">
+            </category-card>
+        </div>
+        <div class="items" [ngClass]="padding" *ngIf="categoryItem.name">
+            <item-card 
+            *ngFor="let item of categoryItem.items" [item]="item">
+            </item-card>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+.logo,.navigations,.user{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.logo h1{
+    font-weight: 500;
+    font-size: 2em;
+}
+.logo .mat-icon{
+    font-size: 2em;
+    margin-right: .5em;
+    transform: translateY(-10px);
+}
+.toolbar{
+    background-color: #252323;
+    color: white;
+}
+.spacer{
+    flex: 1 1 auto;
+}
+.nav-button{
+    margin-left:15px;
+    font-size: medium;
+ } 
+.outlet{
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+}

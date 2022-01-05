@@ -1,0 +1,25 @@
+.content{
+    color: rgb(24, 23, 23);
+    padding: 0 2em;
+}
+.order-status{
+    display:flex;
+    flex-direction:row;
+}
+.space{
+    flex-grow: 1;
+}
+.orders{
+    flex: 0.7;
+    height: 100%;
+    overflow-y:auto;
+}
+.title{
+    height: 40px;
+    display: flex;
+    align-items:center;
+}
+.status{
+    flex: 0.3;
+    float:right;
+}

@@ -1,0 +1,36 @@
+<div class="content">
+    <h2 for="form">Register to Yadlings</h2>
+    <div class="inputs">
+        <form [formGroup]="registerForm" (submit)="register()">
+            <custom-input 
+            formControlName="name" 
+            [properties]="{name:'FullName'}"
+            ></custom-input>
+            <custom-input 
+            formControlName="username" 
+            [properties]="usernameProps"
+            ></custom-input>
+            <custom-input 
+            formControlName="email" 
+            [properties]="emailProps"
+            ></custom-input>
+            <custom-input 
+            formControlName="password" 
+            [properties]="{name:'Password',type:'password'}"
+            ></custom-input>
+            <custom-input 
+            formControlName="confirm" 
+            [properties]="confPasswordProps"
+            ></custom-input>
+            <div class="buttons">
+                <button *ngIf="!userService.isEmployee" mat-button color="primary" (click)="login()" type="button">Login</button>
+                <button *ngIf="userService.isEmployee" mat-button color="warn" (click)="cancel()" type="button">Cancel</button>
+                <div style="flex-grow: 1;"></div>
+                <button *ngIf="!hasSubmitted || (loginEvent|async)" [disabled]="registerForm.invalid" mat-flat-button color="primary" type="submit" style="display: flex;flex-direction:row;align-items:center">
+                    <span>register</span>
+                </button>
+                <mat-spinner *ngIf="hasSubmitted && !(loginEvent|async)" color="primary" diameter="20"></mat-spinner>
+            </div>
+        </form>
+    </div>
+</div>

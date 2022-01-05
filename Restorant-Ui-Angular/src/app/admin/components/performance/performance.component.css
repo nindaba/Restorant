@@ -1,0 +1,45 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+}
+.graphs-container{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+}
+.bar-card{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background-color: white;
+    width: 30em;
+    height: 20em;
+    margin-top:1em;
+    border-radius: 5px;
+    padding: 1em;
+
+}
+.graph{
+    margin: .5em;
+    color: #343434;
+}
+.details{
+    margin-top: .5em;;
+    padding:1em;
+    width: 30em;
+    color: #343434;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+td,th{
+    text-align: left;
+    width: 10em;
+}
+tr:hover{
+    color: #029587;
+    cursor: pointer;
+}
