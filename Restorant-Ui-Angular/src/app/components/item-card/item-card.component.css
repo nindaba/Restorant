@@ -20,7 +20,7 @@
 }
 @media (max-width: 768px){
     .card-image{
-        height:20vw;
+        height:40%;
     }
 }
 .card-content{

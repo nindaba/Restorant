@@ -9,27 +9,27 @@
     flex-direction:row;
     flex-wrap: wrap;
 }
+.graph{
+    margin: .5em;
+    color: #343434;
+    width: 30em;
+}
 .bar-card{
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     background-color: white;
-    width: 30em;
     height: 20em;
     margin-top:1em;
     border-radius: 5px;
     padding: 1em;
 
 }
-.graph{
-    margin: .5em;
-    color: #343434;
-}
+
 .details{
     margin-top: .5em;;
     padding:1em;
-    width: 30em;
     color: #343434;
     background-color: white;
     border-radius: 5px;
@@ -42,4 +42,13 @@ td,th{
 tr:hover{
     color: #029587;
     cursor: pointer;
+}
+@media (max-width: 768px) {
+    .graphs-container{
+        width: 100%;
+        justify-content: center;
+    }
+    .graph{
+        width: 94%;
+    }
 }

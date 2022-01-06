@@ -15,7 +15,7 @@ import { inputTextValidator } from 'src/app/validators/validators';
 export class RegisterComponent implements OnInit,OnDestroy {
   @Output('login') loginEvent : EventEmitter<any> = new EventEmitter();
   registerForm: FormGroup;
-  displayImage: string | ArrayBuffer | null | undefined='item-default.jpg'; //get an initial picture
+  displayImage: string | ArrayBuffer | null | undefined='assets/item-default.jpg'; //get an initial picture
   uploadImage:File[]=[];
   imageButton: string ='primary';
   hasSubmitted:string='primary';

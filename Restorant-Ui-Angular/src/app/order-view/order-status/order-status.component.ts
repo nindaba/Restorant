@@ -1,18 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { OrderStatus } from 'src/app/models/order-status.model';
-import { BasketServiceService } from 'src/app/services/basket-service.service';
 import {addResponse, sendOrder, setBasket} from 'src/app/order-view/store/order.action' 
 import { INITIAL_STATUS } from '../store/order.initial';
 import { Caller,Response } from 'src/app/models/response.module';
 import * as ClientSelect from '../store/order.selector';
-import { logger } from 'src/app/common/utils';
 import { UserService } from 'src/app/services/user.service';
-import { updateOrder, updateStatus } from 'src/app/admin/store/order.action';
+import { updateStatus } from 'src/app/admin/store/order.action';
 import *as EmployeeSelect from 'src/app/admin/store/order.selector';
 import { newStatus } from 'src/app/common/order.common';
+import { OrderService } from 'src/app/services/order.service';
+import { BasketServiceService } from 'src/app/services/basket-service.service';
 @Component({
   selector: 'order-status',
   templateUrl: './order-status.component.html',
@@ -34,7 +33,8 @@ export class OrderStatusComponent implements OnInit,OnDestroy {
   @Input() cancelMessage:string =''
   constructor(
     private store:Store,
-    private userService:UserService) { }
+    private userService:UserService,
+    private basketService:BasketServiceService) { }
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }
@@ -43,13 +43,15 @@ export class OrderStatusComponent implements OnInit,OnDestroy {
     this.isBasket = this.store.select(ClientSelect.isBasket());
     if(this.isEmployee){
       this.totalPrice = this.store.select(EmployeeSelect.getTotal());
-      this.subscription.add(this.store.select(EmployeeSelect.getStatusIndex()).subscribe(index => this.index = index));
-      this.subscription.add(this.store.select(EmployeeSelect.getStatus()).subscribe(status => this.status = status));
+      this.subscription
+      .add(this.store.select(EmployeeSelect.getStatusIndex()).subscribe(index => this.index = index))
+      .add(this.store.select(EmployeeSelect.getStatus()).subscribe(status => this.status = status));
     }
     else{
       this.totalPrice = this.store.select(ClientSelect.getTotal());
-      this.subscription.add(this.store.select(ClientSelect.getStatusIndex()).subscribe(index => this.index = index));
-      this.subscription.add(this.store.select(ClientSelect.getStatus()).subscribe(status => this.status = status));
+      this.subscription
+      .add(this.store.select(ClientSelect.getStatusIndex()).subscribe(index => this.index = index))
+      .add(this.store.select(ClientSelect.getStatus()).subscribe(status => this.status = status));
     }
   }
   send(){
@@ -58,10 +60,11 @@ export class OrderStatusComponent implements OnInit,OnDestroy {
       message: 'pending',
       success:false, //we dont know if it will be successful so
       from:Caller.SEND_ORDER
-    }}))
+    }}));
     this.store.dispatch(setBasket({isBasket:false}));
     this.store.dispatch(sendOrder());
     this.userService.onMenu();
+    this.basketService.clearBasket();
   }
   get isEmployee():Boolean{
     return this.userService.isEmployee;

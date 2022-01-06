@@ -39,4 +39,7 @@ export class BasketServiceService {
     order.isBasket = this.basketItems.length > 0;
     return order;
   }
+  clearBasket(): void{
+    this.basketItems = [];
+  }
 }
