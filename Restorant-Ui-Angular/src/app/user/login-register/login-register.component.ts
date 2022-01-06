@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-login-register',
   template: `
@@ -19,10 +20,6 @@ import { Component, OnInit } from '@angular/core';
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      /* background: url("../../../assets/back.jpg"); */
-      /* opacity: alpha(0.8); */
-      /* background-color: black;
-      opacity: .8; */
     }
   `]
 })

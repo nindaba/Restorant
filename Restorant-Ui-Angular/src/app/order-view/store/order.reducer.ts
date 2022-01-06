@@ -78,7 +78,7 @@ const OrderReducer = createReducer(
 	on(OrderAction.setBasket,(state:OrderState,metadata)=>{
 		let stateCopy = copy<OrderState>(state);
 		stateCopy.selectedOrder.isBasket = metadata.isBasket;
-		return stateCopy;
+		return metadata.isBasket? stateCopy : state;
 	}),
 	on(OrderAction.onUserChanged,(state:OrderState,metadata)=>{
 		return{...INITIAL_STATE,userId:metadata.userId};
