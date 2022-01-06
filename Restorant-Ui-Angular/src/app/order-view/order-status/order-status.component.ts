@@ -61,6 +61,7 @@ export class OrderStatusComponent implements OnInit,OnDestroy {
     }}))
     this.store.dispatch(setBasket({isBasket:false}));
     this.store.dispatch(sendOrder());
+    this.userService.onMenu();
   }
   get isEmployee():Boolean{
     return this.userService.isEmployee;

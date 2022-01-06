@@ -44,6 +44,11 @@
     flex-direction: column;
     color: rgb(24, 23, 23);
 }
+@media(max-width: 768px){
+    .content{
+        padding-left: 0;
+    }
+}
 .ball{
     width: 1.5em;
     height: 1.5em;

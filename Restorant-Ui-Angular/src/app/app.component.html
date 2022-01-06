@@ -1,26 +1,29 @@
 <div class="header">
-    <mat-toolbar class="toolbar">
-        <span class="logo" [routerLink]="['']" >
-            <mat-icon>local_dining</mat-icon>
-            <h1>Yadlings |</h1>menu
-        </span>
-        <mat-divider [vertical]="true"></mat-divider>
-        <div class="spacer"></div>
-        <nav class="navigations">
-            <a class="nav-button" *ngIf="!userService.isEmployee " mat-icon-button   matBadgeSize="small" [routerLink]="['orders']"><mat-icon>local_mall</mat-icon></a>
-            <div class="guest-user" *ngIf="!userService.isLoggedIn">
-                <span class="nav-button" mat-flat-button [routerLink]="['login']">Login / Sign-up</span>
-                <!-- <span class="nav-button" mat-flat-button [routerLink]="['login']">Sign-up</span> -->
-            </div>
-            <div class="user" *ngIf="userService.isLoggedIn">
-                <span class="nav-button user">
-                    <mat-icon>account_circle</mat-icon>
-                    {{userService.username}}
-                </span>
-                <span class="nav-button" (click)="userService.logout()" mat-flat-button>Logout</span>
-            </div>
-        </nav> 
-    </mat-toolbar>
+    <a class="logo" [routerLink]="['']" >
+        <!-- <mat-icon>local_dining</mat-icon> -->
+        <h1>Yadlings |</h1>
+        menu
+    </a>
+    <nav class="navigations">
+        <a class="nav-button" *ngIf="!userService.isEmployee " mat-icon-button [routerLink]="['orders']"><mat-icon>local_mall</mat-icon></a>
+        <a class="logout" *ngIf="!userService.isEmployee && userService.isLoggedIn" (click)="userService.logout()"><mat-icon>logout</mat-icon></a>
+        <a class="login" *ngIf="!userService.isLoggedIn" [routerLink]="['login']"><mat-icon>login</mat-icon></a>
+        <div class="guest-user" *ngIf="!userService.isLoggedIn">
+            <span class="nav-button login-words" mat-flat-button [routerLink]="['login']">Login / Sign-up</span>
+        </div>
+        <div class="user" *ngIf="userService.isLoggedIn">
+            <span class="nav-button user">
+                <mat-icon>account_circle</mat-icon>
+                {{userService.username}}
+            </span>  
+            <a style="margin-left: 1em;" *ngIf="userService.isLoggedIn" (click)="userService.logout()">Logout</a>
+        </div>
+        <div *ngIf="userService.isEmployee" class="burger" (click)="onMenu()">
+            <div class="line first"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </nav> 
 </div>
 <div class="outlet">
     <router-outlet ></router-outlet>    

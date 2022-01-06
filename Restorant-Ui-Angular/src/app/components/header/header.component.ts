@@ -16,10 +16,16 @@ import { Component, OnDestroy, OnInit} from '@angular/core';
     flex-direction: row;
     align-items: center;
     background-color: white;
-    height:64px;
+    min-height:64px;
     justify-content: space-between;
     padding: 0 2em;
-      
+  }
+  @media (max-width: 768px){
+    .content{
+      flex-direction: column;
+      padding:1em 0;
+      /* background-color:blue; */
+    }
   }
   `]
 })

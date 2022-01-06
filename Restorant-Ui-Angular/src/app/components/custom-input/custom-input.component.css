@@ -27,6 +27,7 @@ input:focus{
     border: none;
     outline-style: none;
     background-color:  transparent;
+    zoom: 1;
     /* border: 2px solid rgba(58, 120, 255, 0.14); */
 }
 

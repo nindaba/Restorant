@@ -15,8 +15,7 @@ import { Component, OnInit } from '@angular/core';
       </div>`,
   styles:[`
     .content{
-      width: 100%;
-      height: 80%;
+      height: calc(100vh - 64px);
       display:flex;
       flex-direction: column;
       justify-content: center;

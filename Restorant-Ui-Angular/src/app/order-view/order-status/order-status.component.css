@@ -5,14 +5,17 @@
     flex-direction: column;
     color: rgb(24, 23, 23);
 }
+@media(max-width: 768px){
+    .content{
+        padding-left: 0;
+    }
+}
 b{
     color: rgb(43, 170, 117);
 }
 .status-table thead{
     margin-bottom: 2em;
     border-bottom: 2px;
-    border-color: black;
-    background-color: red;
 }
 .status,.total{
     display: flex;

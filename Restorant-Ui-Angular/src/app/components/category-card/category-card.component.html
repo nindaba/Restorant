@@ -1,5 +1,5 @@
 <div class="card">
-    <img class="card-image skeleton" [src]="category.image">
+    <img [src]="category.image" [ngClass]="category.image ? '':'skeleton'">
     <div class="card-footer">
         <div style="display:flex;align-items:center">
             <label>{{category.name}}</label>

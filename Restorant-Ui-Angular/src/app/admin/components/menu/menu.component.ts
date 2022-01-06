@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { logger } from 'src/app/common/utils';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'admin-menu',
@@ -21,6 +22,16 @@ import { logger } from 'src/app/common/utils';
     <div class="menu" [ngClass]="performanceClass" (click)="select('performance')">
         <mat-icon>trending_up</mat-icon> 
         <label>Performance</label>
+    </div>
+    <div class="user" *ngIf="userService.isLoggedIn">
+        <span class="name">
+            <mat-icon>account_circle</mat-icon>
+            {{userService.username}}
+        </span>
+        <span class="name" (click)="userService.logout()">
+            <mat-icon>logout</mat-icon>
+            Logout
+        </span>
     </div>
   </div>
   `,
@@ -51,6 +62,33 @@ import { logger } from 'src/app/common/utils';
     mat-divider{
         margin-bottom: 1em;
     }
+    .user{
+      width: 90%;
+      display:flex;
+      flex-direction: column;
+      /* justify-content:space-between; */
+      position: absolute;
+      align-items: center;
+      bottom: 0;
+    }
+    .name{
+      display:flex;
+      flex-direction: row;
+      justify-content:space-between;
+      align-items: center;
+      margin-bottom:1em;
+    }
+    .mat-icon{
+      cursor: pointer;
+    }
+    /* .user{
+        display:none;      
+      } */
+    @media(min-width: 769px){
+      .user{
+        display:none;   
+      }
+    }
     `
   ]
 })
@@ -60,12 +98,13 @@ export class MenuComponent implements OnInit {
   performanceClass:string ='';
   categoryClass:string= '';
   employeesClass:string='';
-  constructor(private router:Router) { }
+  constructor(private router:Router,public userService:UserService) { }
 
   ngOnInit(): void {
     this.select(this.router.url.split('/')[2]);
   }
   select(menu :string){
+    this.userService.onMenu();
     this.clear();
     if(menu == 'orders')this.orderClass ='selected';
     if(menu == 'performance')this.performanceClass ='selected';

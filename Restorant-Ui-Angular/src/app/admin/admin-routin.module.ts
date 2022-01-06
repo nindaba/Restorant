@@ -11,7 +11,7 @@ import { PerformanceComponent } from "./components/performance/performance.compo
 import { RegisterComponent } from "./components/register/register.component";
 const routes: Routes =[    
     { path:'',component:DashboardComponent,children:[
-        {path:'',redirectTo:'category',pathMatch:'full'},
+        {path:'',redirectTo:'orders',pathMatch:'full'},
 
         {path:'category',component:CategoryComponent},
         {path:'category/register',component:RegisterComponent},

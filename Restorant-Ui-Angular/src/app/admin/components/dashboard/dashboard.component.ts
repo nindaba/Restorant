@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'dashboard',
   template:`
   <div class="content">
-    <div class="menu">
+  <div class="menu {{userService.menuActive ? 'active' :''}}">
         <admin-menu></admin-menu>
     </div>
-    <div class="outlet">
+    <div class="outlet {{userService.menuActive ? '':'active'}}" >
         <router-outlet ></router-outlet>
     </div>
   </div>
@@ -29,14 +30,25 @@ import { ActivatedRoute, Params } from '@angular/router';
       flex: .2;
       height:100%;
     }
+    @media(max-width:768px){
+      /* .content{
+        background-color: red;
+      } */
+      .menu ,.outlet{
+        flex:1;
+        display:none;
+      }
+      .active{
+        display: initial;
+      }
+    }
     `
   ],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit{
   title:string='';
-  constructor() { }
+  constructor(public userService:UserService) { }
 
   ngOnInit(): void {
   }
-
 }

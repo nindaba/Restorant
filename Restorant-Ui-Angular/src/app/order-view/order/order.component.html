@@ -1,6 +1,9 @@
 <div class="content">
     <div class="title">
-        <h2 style="margin-top: 1em;">#{{(order|async)?.username|| 'ClientName'}}/</h2>
+        <h2 style="margin-top: 1em; display: flex; align-items: center;" (click)="userService.onMenu()">
+            <mat-icon>arrow_back</mat-icon>
+            {{(order|async)?.timeCreated|date}}
+        </h2>
         <span class="space"></span>
     </div>
     <div class="order-status">

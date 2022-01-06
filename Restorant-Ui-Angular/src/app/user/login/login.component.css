@@ -1,5 +1,5 @@
 .content{
-    width: 300px;
+    /* width: 98vw; */
     height: 200px;
     border-radius: 8px;
     background-color: white;
@@ -7,7 +7,6 @@
     /* border: 1px solid #E0E0E0;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14); */
     padding: 1.2em;
-    margin-right: 1em;
 }
 .inputs{
     width: 100%;

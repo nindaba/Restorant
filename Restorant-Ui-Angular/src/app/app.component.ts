@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onMenu(){
+    this.userService.onMenu();
+  }
   //We need this for our template
 
   //userService.isLoggedIn;
