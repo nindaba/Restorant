@@ -7,6 +7,12 @@
     padding: 0.5em;
     margin: .25em;
 }
+@media(max-width: 768px){
+    .card{
+        /* min-width: 270px; */
+        width: 90vw;
+    }
+}
 .skeleton{
     animation: modern-skeleton-animation 1s linear infinite alternate;
 }
@@ -21,11 +27,11 @@
 .time-status{
     font-weight: 500;
     color: #2baa75;
-    width: 100%;
+    /* width: 100%; */
 }
-.details{
+/* .details{
     width: 100%;
-}
+} */
 .details span{
     display: flex;
     align-items: center;

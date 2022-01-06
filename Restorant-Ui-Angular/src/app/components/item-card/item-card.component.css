@@ -7,11 +7,21 @@
     margin: 5px;
     overflow-y: hidden;
 }
+@media (max-width: 768px){
+    .card{
+        width: 100vw;
+    }
+}
 .card-image{
     width: 100%;
     height:170px;
     border-top-right-radius: .5em;
     border-top-left-radius: .5em;
+}
+@media (max-width: 768px){
+    .card-image{
+        height:20vw;
+    }
 }
 .card-content{
     overflow-wrap: break-word;

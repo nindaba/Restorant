@@ -14,7 +14,6 @@ import { UserService } from 'src/app/services/user.service';
         border-radius: 5px;
         margin-bottom: .25em;
         padding-left: 1em;
-
     }
     table{
         width: 100%;

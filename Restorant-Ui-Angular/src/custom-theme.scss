@@ -34,3 +34,5 @@ $restorant-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($restorant-theme);
 
+$maxWidth: 768px;
+
