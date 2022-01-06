@@ -1,20 +1,34 @@
+/* @import "../custom-theme.scss"; */
 .logo,.navigations,.user{
     display: flex;
     align-items: center;
     cursor: pointer;
 }
+a{
+    text-decoration: none;
+    color: inherit;
+}
 .logo h1{
     font-weight: 500;
-    font-size: 2em;
+    font-size: 2.5em;
+    /* margin-top: 10px; */
 }
 .logo .mat-icon{
-    font-size: 2em;
+    font-size: 2.5em;
     margin-right: .5em;
-    transform: translateY(-10px);
+    /* transform: translateY(-10px); */
 }
-.toolbar{
+.user .mat-icon{
+    margin-left: .5em;
+}
+.header{
     background-color: #252323;
     color: white;
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 2em;
 }
 .spacer{
     flex: 1 1 auto;
@@ -26,4 +40,43 @@
 .outlet{
     height: calc(100vh - 64px);
     overflow-y: auto;
+}
+.login{
+    display: none;
+}
+.logout{
+    display: none;
+}
+@media (max-width: 768px) {
+    .logo h1{
+        font-weight: 500;
+        font-size: 1.5em;
+        /* margin-top: 10px; */
+    }
+    .user{
+        display: none;
+    }
+    .burger{
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+  
+    }
+    .line{
+        height: .25em;
+        width: 1.5em;
+        background-color: rgb(255, 255, 255);
+        margin-top: .25em;
+    }
+    .logout .mat-icon, .login .mat-icon{
+        margin-left: 1em;
+        margin-top: .3em;
+        /* color: red; */
+    }
+    .login,.logout{
+        display: initial;
+    }
+    .login-words{
+        display: none;
+    }
 }

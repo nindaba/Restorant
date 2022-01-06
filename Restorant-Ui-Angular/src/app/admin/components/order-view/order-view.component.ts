@@ -16,15 +16,21 @@ import { getTitles } from '../../store/order.selector';
         [properties] = "{name:'Search',hasTitle:false,icon:'search'}"
       ></custom-input>
     </fx-header>
-    <div class="orders" fxLayout="row wrap" fxLayoutAlign="start start">
+    <div class="orders">
         <order-request  *ngFor="let title of titles|async" [title]="title"></order-request>
     </div>
   </div>
   `,
   styles:[`
   .orders{
-    height:100%;
-    overflow-y:auto;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  @media(max-width: 768px){
+    .orders{
+      margin-left: .5em;
+    }
   }
   `]
 })

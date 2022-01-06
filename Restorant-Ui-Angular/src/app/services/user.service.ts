@@ -15,12 +15,11 @@ import { InitialModels } from '../common/initial-models.data';
   providedIn: 'root'
 })
 export class UserService {
-
+  public menuActive: Boolean = false;
   public newEmployee :Array<User> = [];
 
   constructor(private http:HttpClient,private router:Router) {
   }
-
   login(credentials: {username:string,password:string}):Observable<Response>{
     let formCredentials = `username=${credentials.username}&password=${credentials.password}`
     let httpHeaders: HttpHeaders = new HttpHeaders({
@@ -104,6 +103,11 @@ export class UserService {
       retry(2),
       catchError(error => [false])
     )
+  }
+  onMenu() {
+    this.menuActive = !this.menuActive;
+    console.log(this.menuActive);
+    
   }
 }
 

@@ -1,6 +1,6 @@
 .content{
     color: rgb(24, 23, 23);
-    padding: 0 2em;
+    padding: 0 1em;
 }
 .order-status{
     display:flex;
@@ -22,4 +22,19 @@
 .status{
     flex: 0.3;
     float:right;
+}
+h2 .mat-icon{
+    margin-right: .5em;
+    display:none;
+}
+@media(max-width: 768px){
+    .order-status{
+        flex-direction:column-reverse;
+    }
+    .status{
+        margin-bottom: 1em;
+    }
+    h2 .mat-icon{
+        display: initial;
+    }
 }
