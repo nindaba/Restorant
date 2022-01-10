@@ -10,7 +10,7 @@ import { RegisterComponent } from 'src/app/user/register/register.component';
 @Component({
   selector: 'app-employees',
   template:`
-  <div class="content">
+<div class="content">
     <fx-header>
             <h2 left>Employees</h2>
             <custom-input [(ngModel)]="search"
@@ -41,7 +41,7 @@ export class EmployeesComponent implements OnInit,OnDestroy {
   _employees: User[] = this.userService.newEmployee;
   search :string =''
   subscription: Subscription = new Subscription();
-  constructor(public userService:UserService,private dialog:MatDialog,private rendere:Renderer2) { }
+  constructor(public userService:UserService,private dialog:MatDialog) { }
   ngOnDestroy(): void {
     this.userService.newEmployee =[];
     this.subscription.unsubscribe()
@@ -62,9 +62,6 @@ export class EmployeesComponent implements OnInit,OnDestroy {
   }
   remove(index:number):void{
     this._employees.splice(index,1);
-  }
-  @HostListener('window:scroll',[]) onScroll():void{
-    logger("scr")
   }
 }
 

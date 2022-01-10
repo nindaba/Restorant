@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialog } from '@angular/material/dialog'
+import { UserHintComponent } from '../user-hint/user-hint.component';
 @Component({
   selector: 'app-login-register',
   template: `
 
-  <div class="content"
-      #tooltip = "matTooltip"
-      matTooltip="
-      DEFAULT EMPLOYEE ACCOUNT ---> username: employee & password: employee, 
-      DEFAULT CLIENT ACCOUNT ---> username: client & password: client
-      ">
+  <div class="content">
           <login (register)="register($event)" *ngIf="hasAccount"></login>
           <register (login) ="login($event)" *ngIf="!hasAccount"></register>
       </div>`,
@@ -25,9 +21,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginRegisterComponent implements OnInit {
   hasAccount : Boolean = true;
-  constructor() { }
+  constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
+    this.dialog.open(UserHintComponent);
   }
 
   login(event: any){
@@ -37,3 +34,4 @@ export class LoginRegisterComponent implements OnInit {
     this.hasAccount = false;
   }
 }
+
