@@ -46,12 +46,10 @@
     .content{
         .graphs-container{
             .graph{
-                width: 100%;
-                .bar-card{
-                    width: 100%;
-                }
-                .details{
-                    width: 100vw;
+                margin: 0;
+                width: 100vw;
+                .bar-card,.details{
+                    width: calc(100% - 2em); // 2em for padding
                 }
             }
         }
